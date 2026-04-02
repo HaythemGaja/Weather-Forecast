@@ -79,26 +79,60 @@
             border: 1px solid #5f6368;
             color: white;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            z-index: 10;
         }
         .nav-btn:hover {
             background-color: #3c4043;
         }
+        
+        /* Retro Airport Terminal Clock Styles */
+        .retro-clock-digit {
+            background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 49%, #000000 50%, #1a1a1a 100%);
+            color: #fbbc04; /* Amber glow */
+            font-family: 'Courier New', Courier, monospace;
+            border-radius: 4px;
+            padding: 0.1rem 0.35rem;
+            box-shadow: inset 0 1px 4px rgba(0,0,0,0.9), 0 1px 1px rgba(255,255,255,0.1);
+            border: 1px solid #111;
+            text-align: center;
+            min-width: 2.2ch;
+            position: relative;
+        }
+        /* The horizontal split line across the digits */
+        .retro-clock-digit::after {
+            content: '';
+            position: absolute;
+            left: 0; right: 0; top: 50%;
+            height: 1px;
+            background: rgba(0,0,0,0.8);
+        }
     </style>
 </head>
-<body class="font-sans flex justify-center p-4 py-8 min-h-screen overflow-x-hidden">
+<body class="font-sans flex justify-center p-3 py-6 min-h-screen overflow-x-hidden">
 
     <div class="w-full max-w-2xl">
         
-        <!-- Top App Bar -->
-        <div class="flex justify-between items-center mb-6 w-full px-2">
+        <!-- Top App Bar & Retro Clock -->
+        <div class="flex justify-between items-center mb-5 w-full px-2">
             <div class="text-xl font-medium text-white flex items-center gap-2" tabindex="0">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8ab4f8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path></svg>
                 Weather
             </div>
             
-            <button onclick="toggleSettingsModal(true)" class="p-2.5 g-card rounded-full text-[#9aa0a6] hover:text-white hover:bg-[#3c4043] transition shadow-sm" aria-label="Settings">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-            </button>
+            <div class="flex items-center gap-4">
+                <!-- Retro Airport Clock -->
+                <div id="retro-clock" class="flex gap-1 items-center justify-center font-bold text-lg sm:text-xl tracking-widest select-none">
+                    <div id="clock-h" class="retro-clock-digit">--</div>
+                    <span class="text-[#fbbc04] animate-pulse pb-1">:</span>
+                    <div id="clock-m" class="retro-clock-digit">--</div>
+                    <div id="clock-ampm" class="retro-clock-digit text-xs ml-1 !min-w-fit">--</div>
+                </div>
+
+                <!-- Settings Button -->
+                <button onclick="toggleSettingsModal(true)" class="p-2 g-card rounded-full text-[#9aa0a6] hover:text-white hover:bg-[#3c4043] transition shadow-sm" aria-label="Settings">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                </button>
+            </div>
         </div>
 
         <!-- Error Message Container -->
@@ -121,15 +155,15 @@
         </div>
 
         <!-- Weather Results Container (Hidden by default) -->
-        <div id="weather-results" class="hidden flex flex-col gap-4">
+        <div id="weather-results" class="hidden flex flex-col gap-3">
             
             <!-- Header: City Dropdown & Favorite -->
             <div class="px-3 flex flex-col items-start relative z-20 mb-1">
                 <div class="flex items-center justify-between w-full">
                     <div class="relative w-full max-w-[85%]">
                         <button onclick="toggleCityDropdown()" class="flex items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-lg px-2 -ml-2 py-1 text-left w-full" aria-haspopup="true" aria-expanded="false">
-                            <h2 id="city-name" class="text-3xl sm:text-4xl font-normal text-white tracking-tight group-hover:text-gray-200 truncate"></h2>
-                            <svg class="w-6 h-6 text-[#9aa0a6] group-hover:text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            <h2 id="city-name" class="text-2xl sm:text-3xl font-normal text-white tracking-tight group-hover:text-gray-200 truncate"></h2>
+                            <svg class="w-5 h-5 text-[#9aa0a6] group-hover:text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </button>
                         <!-- Dropdown Menu -->
                         <div id="city-dropdown" class="hidden absolute left-0 mt-2 w-64 rounded-xl shadow-2xl bg-[#303134] ring-1 ring-black ring-opacity-5 focus:outline-none border border-[#3c4043] overflow-hidden z-50">
@@ -146,7 +180,7 @@
                     </div>
 
                     <button id="favorite-btn" onclick="toggleFavorite()" class="text-[#9aa0a6] hover:text-yellow-400 transition p-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded-full" aria-label="Save City">
-                        <svg id="star-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        <svg id="star-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
                     </button>
                 </div>
                 <div id="date-time" class="text-[#9aa0a6] text-sm px-2 font-medium tracking-wide"></div>
@@ -171,7 +205,7 @@
             <!-- THE MEGA CARD: Merged Current + Hourly + Extended Tabs -->
             <div class="g-card overflow-hidden flex flex-col shadow-lg mt-2">
                 
-                <!-- 1. Current Overview Section -->
+                <!-- 1. Current Overview Section (Compacted) -->
                 <div class="p-6 pb-2" tabindex="0">
                     <div class="flex justify-between items-start">
                         <div class="flex flex-col">
@@ -191,32 +225,63 @@
 
                 <!-- 2. Continuous Hourly Forecast Section -->
                 <div class="relative w-full border-t border-[#3c4043]/40 mt-4 group">
-                    <button onclick="scrollContainerBy('hourly-container', -101)" class="nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full flex items-center justify-center opacity-80 hover:opacity-100 transition cursor-pointer" aria-label="Scroll left">
+                    <button onclick="scrollContainerByItem('hourly-container', -1)" class="nav-btn absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full flex items-center justify-center opacity-80 hover:opacity-100 transition cursor-pointer" aria-label="Scroll left">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
                     </button>
 
-                    <div class="flex overflow-x-auto gap-4 px-12 py-5 hide-scrollbar cursor-grab active:cursor-grabbing w-full scroll-smooth" id="hourly-container" tabindex="0" onkeydown="handleContainerKeydown(event, 'hourly-container', 101)">
+                    <div class="flex overflow-x-auto gap-4 px-12 py-5 hide-scrollbar cursor-grab active:cursor-grabbing w-full scroll-smooth" id="hourly-container" tabindex="0" onkeydown="handleContainerKeydown(event, 'hourly-container')">
                         <!-- Main Hourly injected here -->
                     </div>
 
-                    <button onclick="scrollContainerBy('hourly-container', 101)" class="nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full flex items-center justify-center opacity-80 hover:opacity-100 transition cursor-pointer" aria-label="Scroll right">
+                    <button onclick="scrollContainerByItem('hourly-container', 1)" class="nav-btn absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full flex items-center justify-center opacity-80 hover:opacity-100 transition cursor-pointer" aria-label="Scroll right">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                     </button>
                 </div>
 
                 <!-- 3. Extended Forecast Tabs -->
                 <div class="bg-[#202124]/40 backdrop-blur-md border-t border-[#3c4043]/60 px-3 py-3 relative group">
-                    <button onclick="scrollContainerBy('daily-container', -103)" class="nav-btn absolute left-1 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-80 hover:opacity-100 transition cursor-pointer" aria-label="Scroll left">
+                    <button onclick="scrollContainerByItem('daily-container', -1)" class="nav-btn absolute left-1 top-1/2 -translate-y-1/2 p-1.5 rounded-full flex items-center justify-center opacity-80 hover:opacity-100 transition cursor-pointer hidden sm:flex" aria-label="Scroll left">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
                     </button>
 
-                    <div class="flex overflow-x-auto gap-2 px-8 hide-scrollbar cursor-grab active:cursor-grabbing w-full scroll-smooth" id="daily-container" tabindex="0" onkeydown="handleContainerKeydown(event, 'daily-container', 103)">
+                    <div class="flex overflow-x-auto gap-2 px-8 hide-scrollbar cursor-grab active:cursor-grabbing w-full scroll-smooth" id="daily-container" tabindex="0" onkeydown="handleContainerKeydown(event, 'daily-container')">
                         <!-- Daily Tabs injected here -->
                     </div>
 
-                    <button onclick="scrollContainerBy('daily-container', 103)" class="nav-btn absolute right-1 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-80 hover:opacity-100 transition cursor-pointer" aria-label="Scroll right">
+                    <button onclick="scrollContainerByItem('daily-container', 1)" class="nav-btn absolute right-1 top-1/2 -translate-y-1/2 p-1.5 rounded-full flex items-center justify-center opacity-80 hover:opacity-100 transition cursor-pointer hidden sm:flex" aria-label="Scroll right">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                     </button>
+                </div>
+            </div>
+
+            <!-- Compact List Cards (Precip, Wind, Humidity) -->
+            <div class="flex flex-col gap-2 mt-1">
+                <div class="g-card p-4 sm:p-5 flex justify-between items-center bg-[#303134]" tabindex="0">
+                    <div class="flex items-center gap-4">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8ab4f8" stroke-width="2" stroke-linecap="round"><path d="M22 12a10.06 10.06 1 0 0-20 0Z"></path><path d="M12 12v8a2 2 0 0 0 4 0"></path><path d="M12 2v1"></path></svg>
+                        <span class="text-white text-base">Precipitation <span class="text-[#5f6368] mx-1.5 font-normal">•</span> <span id="det-precip" class="font-medium text-sm"></span></span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div id="bar-precip" class="hidden sm:block"></div>
+                    </div>
+                </div>
+                <div class="g-card p-4 sm:p-5 flex justify-between items-center bg-[#303134]" tabindex="0">
+                    <div class="flex items-center gap-4">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e8eaed" stroke-width="2" stroke-linecap="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path></svg>
+                        <span class="text-white text-base">Wind <span class="text-[#5f6368] mx-1.5 font-normal">•</span> <span id="det-wind" class="font-medium text-sm"></span></span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div id="bar-wind" class="hidden sm:block"></div>
+                    </div>
+                </div>
+                <div class="g-card p-4 sm:p-5 flex justify-between items-center bg-[#303134]" tabindex="0">
+                    <div class="flex items-center gap-4">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="#9aa0a6"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>
+                        <span class="text-white text-base">Humidity <span class="text-[#5f6368] mx-1.5 font-normal">•</span> <span id="det-humidity" class="font-medium text-sm"></span></span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div id="bar-humidity" class="hidden sm:block"></div>
+                    </div>
                 </div>
             </div>
 
@@ -265,7 +330,6 @@
                                 <span id="det-sunset" class="text-white">--:--</span>
                             </div>
                         </div>
-                        <!-- Day / Night Percentage Tracker -->
                         <div id="sun-percentages" class="text-[10px] text-[#9aa0a6] mt-4 font-medium tracking-wide uppercase"></div>
                     </div>
                 </div>
@@ -502,7 +566,6 @@
         let currentSelectedDay = 0; 
         let currentRadarLayer = 'radar';
         let savedLocations = []; 
-        let isSyncingScroll = false;
         let dayMap = {}; 
 
         // Section Expansion Memory
@@ -533,7 +596,30 @@
                     cityDropdown.classList.add('hidden');
                 }
             });
+
+            // Start Retro Clock
+            setInterval(updateRetroClock, 1000);
+            updateRetroClock();
+            
+            setupDragScroll();
         });
+
+        // ==========================================================
+        // RETRO CLOCK
+        // ==========================================================
+        function updateRetroClock() {
+            const now = new Date();
+            let h = now.getHours();
+            let m = now.getMinutes().toString().padStart(2, '0');
+            let ampm = h >= 12 ? 'PM' : 'AM';
+            h = h % 12;
+            if (h === 0) h = 12;
+            h = h.toString().padStart(2, '0');
+            
+            document.getElementById('clock-h').textContent = h;
+            document.getElementById('clock-m').textContent = m;
+            document.getElementById('clock-ampm').textContent = ampm;
+        }
 
         // ==========================================================
         // SETTINGS & LOCAL STORAGE MANAGEMENT
@@ -711,22 +797,27 @@
             }
         }
 
-        function handleContainerKeydown(e, containerId, scrollAmt) {
+        function handleContainerKeydown(e, containerId) {
             const container = document.getElementById(containerId);
             if (!container) return;
             if (document.activeElement === container || container.contains(document.activeElement)) {
                 if (e.key === 'ArrowRight') {
-                    container.scrollBy({ left: scrollAmt, behavior: 'smooth' });
+                    scrollContainerByItem(containerId, 1);
                 } else if (e.key === 'ArrowLeft') {
-                    container.scrollBy({ left: -scrollAmt, behavior: 'smooth' });
+                    scrollContainerByItem(containerId, -1);
                 }
             }
         }
 
-        function scrollContainerBy(containerId, amount) {
+        function scrollContainerByItem(containerId, direction) {
             const container = document.getElementById(containerId);
-            if(container) {
-                container.scrollBy({ left: amount, behavior: 'smooth' });
+            if(!container) return;
+            
+            const firstItem = container.querySelector('.hourly-item, .daily-tab');
+            if (firstItem) {
+                const gap = parseFloat(window.getComputedStyle(container).gap) || 0;
+                const scrollAmount = firstItem.offsetWidth + gap;
+                container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
             }
         }
 
@@ -890,7 +981,7 @@
             return { text: "Extreme", color: "bg-purple-500" };
         }
         
-        // Mathematical Moon Phase & Orbit Engine
+        // Mathematical Moon Phase Engine
         function getMoonPhase(dateObj) {
             let year = dateObj.getFullYear();
             let month = dateObj.getMonth() + 1;
@@ -902,7 +993,7 @@
             let jd = c + e + day - 694039.09; 
             let phase = jd / 29.5305882; 
             phase = phase - Math.floor(phase);
-            return phase; // returns 0 to 1
+            return phase; 
         }
 
         function getMoonPhaseName(phase) {
@@ -1019,8 +1110,9 @@
             }
 
             const section = document.getElementById('insights-section');
+            const container = document.getElementById('insights-container');
             if (insights.length > 0) {
-                insightsContainer.innerHTML = '';
+                container.innerHTML = '';
                 insights.forEach(insight => {
                     let bgClass = 'bg-[#303134] border-[#3c4043] text-white';
                     let icon = '';
@@ -1034,7 +1126,7 @@
                         bgClass = 'bg-orange-500/10 border-orange-500/30 text-orange-100';
                         icon = `<svg class="text-orange-400 mr-3 flex-shrink-0" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>`;
                     }
-                    insightsContainer.innerHTML += `
+                    container.innerHTML += `
                         <div class="flex items-center p-3 rounded-xl border ${bgClass} text-sm">
                             ${icon}<span>${insight.text}</span>
                         </div>
@@ -1073,6 +1165,7 @@
                 const isDay = data.hourly.is_day[i];
                 const icon = getWeatherIcon(mapWmoCode(data.hourly.weather_code[i]), isDay);
                 const precipProb = data.hourly.precipitation_probability[i];
+                const precipMm = data.hourly.precipitation[i];
                 const humidity = data.hourly.relative_humidity_2m[i];
                 
                 const windRaw = data.hourly.wind_speed_10m[i];
@@ -1080,16 +1173,19 @@
                 const windDirDeg = data.hourly.wind_direction_10m[i];
                 
                 const windDirArrow = `<svg style="transform: rotate(${windDirDeg}deg);" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>`;
-                const precipDisplay = (precipProb > 0) ? `<span class="text-[#8ab4f8] font-bold">${precipProb}%</span>` : `<span class="text-[#5f6368]">0%</span>`;
+                const precipDisplay = (precipProb > 0 || precipMm > 0) ? `<span class="text-[#8ab4f8] font-bold">${precipProb}%</span>` : `<span class="text-[#5f6368]">0%</span>`;
 
                 mainHTML += `
-                    <div class="hourly-item flex flex-col items-center w-[85px] flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl py-2 px-1 transition-colors" data-day="${dayIdx}" tabindex="0">
+                    <div class="hourly-item flex flex-col items-center min-w-[75px] flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl py-2 px-1 transition-colors" data-day="${dayIdx}" tabindex="0">
                         <span class="font-medium text-white text-lg mb-1">${temp}°</span>
+                        <div class="h-4 flex items-center justify-center text-[10px] text-[#8ab4f8] font-bold">
+                            ${precipProb > 0 ? `<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" class="mr-0.5"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>${precipProb}%` : ''}
+                        </div>
                         <div class="my-1 scale-75 h-8 flex items-center justify-center">${icon}</div>
-                        <span class="text-xs text-[#9aa0a6] mb-3">${displayHour}</span>
-                        
-                        <!-- Compact Bottom Stats -->
-                        <div class="w-full flex flex-col gap-1.5 text-[9px] text-[#9aa0a6] border-t border-[#3c4043]/50 pt-2.5 px-1">
+                        <span class="text-xs text-[#9aa0a6] mb-3 font-medium">${displayHour}</span>
+
+                        <!-- Compact Data Footer -->
+                        <div class="w-full flex flex-col gap-[3px] text-[9px] text-[#9aa0a6] border-t border-[#3c4043]/50 pt-2 w-full">
                             <div class="flex justify-between items-center w-full">
                                 <span class="text-[#8ab4f8]"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg></span>
                                 ${precipDisplay}
@@ -1113,11 +1209,13 @@
             }
         }
 
+        let isProgrammaticScroll = false;
+        
         function syncHourlyScrollDetection() {
             const hourlyContainer = document.getElementById('hourly-container');
             if(!hourlyContainer) return;
             hourlyContainer.addEventListener('scroll', () => {
-                if (isSyncingScroll) return;
+                if (isProgrammaticScroll) return; // don't trigger day updates if we are animating a tab click
                 window.requestAnimationFrame(() => detectActiveDayFromScroll(hourlyContainer));
             });
         }
@@ -1155,7 +1253,6 @@
             generateInsights(data);
             buildFullHourlyForecast(data);
             syncHourlyScrollDetection();
-            setupDragScroll();
 
             // === MEGA CARD: DAILY TABS ===
             let dailyHTML = '';
@@ -1229,9 +1326,9 @@
                 const hourlyContainer = document.getElementById('hourly-container');
                 const targetItem = hourlyContainer.querySelector(`[data-day="${dayIndex}"]`);
                 if (targetItem) {
-                    isSyncingScroll = true; 
+                    isProgrammaticScroll = true; 
                     hourlyContainer.scrollTo({ left: targetItem.offsetLeft - hourlyContainer.offsetLeft - 24, behavior: 'smooth' });
-                    setTimeout(() => { isSyncingScroll = false; }, 500); 
+                    setTimeout(() => { isProgrammaticScroll = false; }, 500); 
                 }
             }
         }
@@ -1301,6 +1398,29 @@
             document.getElementById('det-uv-desc').textContent = uvVal ? uvStatus.text : 'N/A';
             document.getElementById('det-uv-desc').className = `text-xs font-bold uppercase tracking-wide text-${uvStatus.color.replace('bg-', '')}`;
             document.getElementById('det-uv-bar').innerHTML = uvVal ? getIntensityBar(uvPercent, uvStatus.color.split(' ')[0], false, true) : '';
+
+            // List Details
+            const precipVal = data.daily.precipitation_probability_max[dayIndex];
+            const windValRaw = data.daily.wind_speed_10m_max[dayIndex];
+            const windMaxBase = units.wind === 'kmh' ? 80 : 50; 
+            const windPercent = Math.min(100, (windValRaw / windMaxBase) * 100);
+            
+            let startHr = data.hourly.time.findIndex(t => t.startsWith(targetDateStr));
+            if (startHr === -1) startHr = 0;
+            let sumHum = 0; let hrCount = 0;
+            for (let i = startHr; i < startHr + 24 && i < data.hourly.time.length; i++) {
+                sumHum += data.hourly.relative_humidity_2m[i]; hrCount++;
+            }
+            const humVal = hrCount > 0 ? Math.round(sumHum / hrCount) : 0;
+
+            document.getElementById('det-precip').textContent = `${precipVal}%`;
+            document.getElementById('bar-precip').innerHTML = getIntensityBar(precipVal, 'bg-[#8ab4f8]', false);
+            
+            document.getElementById('det-wind').textContent = formatSpeed(windValRaw);
+            document.getElementById('bar-wind').innerHTML = getIntensityBar(windPercent, 'bg-[#e8eaed]', false);
+            
+            document.getElementById('det-humidity').textContent = `${humVal}%`;
+            document.getElementById('bar-humidity').innerHTML = getIntensityBar(humVal, 'bg-[#9aa0a6]', false);
 
             // --------------------------------------------------------
             // Sun Graph Calculation
