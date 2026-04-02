@@ -91,12 +91,13 @@
             color: #fbbc04; /* Amber glow */
             font-family: 'Courier New', Courier, monospace;
             border-radius: 4px;
-            padding: 0.1rem 0.35rem;
+            padding: 0.1rem 0.25rem;
             box-shadow: inset 0 1px 4px rgba(0,0,0,0.9), 0 1px 1px rgba(255,255,255,0.1);
             border: 1px solid #111;
             text-align: center;
-            min-width: 2.2ch;
+            min-width: 1.8ch;
             position: relative;
+            text-transform: uppercase;
         }
         .retro-clock-digit::after {
             content: '';
@@ -109,27 +110,24 @@
 </head>
 <body class="font-sans flex justify-center p-3 py-6 min-h-screen overflow-x-hidden">
 
-    <div class="w-full max-w-2xl">
+    <div class="w-full max-w-[850px]">
         
-        <!-- Top App Bar & Retro Clock -->
-        <div class="flex justify-between items-center mb-5 w-full px-2">
+        <!-- Top App Bar & Expanded Retro Clock -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-5 w-full px-2 gap-4">
             <div class="text-xl font-medium text-white flex items-center gap-2" tabindex="0">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8ab4f8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path></svg>
                 Weather
             </div>
             
-            <div class="flex items-center gap-4">
-                <!-- Retro Airport Clock -->
-                <div id="retro-clock" class="flex gap-1 items-center justify-center font-bold text-lg sm:text-xl tracking-widest select-none">
-                    <div id="clock-h" class="retro-clock-digit">--</div>
-                    <span class="text-[#fbbc04] animate-pulse pb-1">:</span>
-                    <div id="clock-m" class="retro-clock-digit">--</div>
-                    <div id="clock-ampm" class="retro-clock-digit text-xs ml-1 !min-w-fit">--</div>
+            <div class="flex items-center gap-4 w-full sm:w-auto overflow-hidden">
+                <!-- Expanded Retro Airport Clock -->
+                <div id="retro-clock" class="flex gap-[2px] items-center font-bold text-[10px] sm:text-xs md:text-sm tracking-wider select-none overflow-hidden shrink-0">
+                    <!-- Clock injected by JS -->
                 </div>
 
                 <!-- Settings Button -->
-                <button onclick="toggleSettingsModal(true)" class="p-2 g-card rounded-full text-[#9aa0a6] hover:text-white hover:bg-[#3c4043] transition shadow-sm" aria-label="Settings">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1 0-2.83 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                <button onclick="toggleSettingsModal(true)" class="p-2 g-card rounded-full text-[#9aa0a6] hover:text-white hover:bg-[#3c4043] transition shadow-sm ml-auto flex-shrink-0" aria-label="Settings">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                 </button>
             </div>
         </div>
@@ -161,7 +159,7 @@
                 <div class="flex items-center justify-between w-full">
                     <div class="relative w-full max-w-[85%]">
                         <button onclick="toggleCityDropdown()" class="flex items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-lg px-2 -ml-2 py-1 text-left w-full" aria-haspopup="true" aria-expanded="false">
-                            <h2 id="city-name" class="text-2xl sm:text-3xl font-normal text-white tracking-tight group-hover:text-gray-200 truncate"></h2>
+                            <h2 id="city-name" class="text-2xl sm:text-4xl font-normal text-white tracking-tight group-hover:text-gray-200 truncate"></h2>
                             <svg class="w-5 h-5 text-[#9aa0a6] group-hover:text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </button>
                         <!-- Dropdown Menu -->
@@ -205,25 +203,25 @@
             <div class="g-card overflow-hidden flex flex-col shadow-lg mt-1">
                 
                 <!-- 1. Current Overview Section (Ultra-Compact) -->
-                <div class="p-4 pb-0" tabindex="0">
+                <div class="p-4 sm:p-6 pb-0" tabindex="0">
                     <div class="flex justify-between items-center">
                         <div class="flex flex-col">
                             <span class="text-sm text-[#9aa0a6] font-medium mb-0.5 tracking-wide" id="day-label">Now</span>
                             <div class="flex items-start">
-                                <span class="text-6xl sm:text-7xl font-normal tracking-tighter text-white leading-none" id="current-temp"></span>
-                                <span class="text-2xl text-[#9aa0a6] mt-1 ml-1" id="current-unit"></span>
+                                <span class="text-6xl sm:text-8xl font-normal tracking-tighter text-white leading-none" id="current-temp"></span>
+                                <span class="text-2xl sm:text-3xl text-[#9aa0a6] mt-1 ml-1" id="current-unit"></span>
                             </div>
                         </div>
                         <div class="flex flex-col items-end">
-                            <div id="current-icon" class="h-14 w-14 mb-1 flex items-center justify-center"></div>
-                            <span class="text-lg text-white capitalize leading-tight" id="current-desc"></span>
-                            <span class="text-xs text-[#9aa0a6] mt-1" id="feels-like"></span>
+                            <div id="current-icon" class="h-16 w-16 sm:h-20 sm:w-20 mb-1 flex items-center justify-center scale-125 origin-right"></div>
+                            <span class="text-lg sm:text-xl text-white capitalize leading-tight mt-2" id="current-desc"></span>
+                            <span class="text-xs sm:text-sm text-[#9aa0a6] mt-1 font-medium" id="feels-like"></span>
                         </div>
                     </div>
                 </div>
 
                 <!-- 2. Continuous Hourly Forecast Section -->
-                <div class="relative w-full border-t border-[#3c4043]/40 mt-4 group">
+                <div class="relative w-full border-t border-[#3c4043]/40 mt-5 sm:mt-6 group">
                     <button onclick="scrollContainerByItem('hourly-container', -1)" class="nav-btn absolute left-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer" aria-label="Scroll left">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
                     </button>
@@ -254,7 +252,7 @@
                 </div>
             </div>
 
-            <!-- Detailed Hourly Lists (Precip, Wind, Humidity) -->
+            <!-- Combined Detailed Hourly Lists (Precip, Wind, Humidity) -->
             <div id="detailed-hourly-section" class="g-card bg-[#303134] flex flex-col mt-2 transition-all">
                 <div class="section-header flex justify-between items-center p-4 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl" onclick="toggleSection('detailed-hourly-section')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleSection('detailed-hourly-section');">
                     <h4 class="text-white text-sm font-medium flex items-center gap-2">
@@ -310,7 +308,7 @@
             </div>
 
             <!-- Environment & Air Quality Hourly Forecast -->
-            <div id="environment-section" class="g-card bg-[#303134] flex flex-col mt-2 transition-all">
+            <div id="environment-section" class="g-card bg-[#303134] flex flex-col mt-2 transition-all collapsed">
                 <div class="section-header flex justify-between items-center p-4 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl" onclick="toggleSection('environment-section')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleSection('environment-section');">
                     <h4 class="text-white text-sm font-medium flex items-center gap-2">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fbbc04" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
@@ -319,7 +317,7 @@
                     <svg class="chevron text-[#9aa0a6]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </div>
                 
-                <div class="content-wrapper flex-col transition-all">
+                <div class="content-wrapper hidden flex-col transition-all">
                     
                     <!-- Hourly UV -->
                     <div class="relative group border-t border-[#3c4043]/50">
@@ -407,9 +405,9 @@
                                     </g>
                                     <circle id="sun-dot" cx="50" cy="5" r="4.5" fill="#fbbc04" stroke="#202124" stroke-width="1.5" style="transition: all 1s ease-in-out;"/>
                                 </svg>
-                                <div id="sun-status-text" class="absolute text-[10px] text-white font-bold tracking-wide z-10 bg-[#303134] px-2.5 py-1 rounded-full border border-[#3c4043] shadow-md pointer-events-none"></div>
+                                <div id="sun-status-text" class="absolute text-[10px] text-white font-bold tracking-wide z-10 bg-[#303134] px-2.5 py-1 rounded-full border border-[#3c4043] shadow-md pointer-events-none whitespace-nowrap -bottom-2"></div>
                             </div>
-                            <div class="flex justify-between w-full max-w-[200px] text-xs text-[#9aa0a6] font-medium px-2">
+                            <div class="flex justify-between w-full max-w-[200px] text-xs text-[#9aa0a6] font-medium px-2 mt-4">
                                 <div class="flex flex-col items-center">
                                     <span class="text-[9px] uppercase tracking-wider mb-0.5 text-[#5f6368]">Sunrise</span>
                                     <span id="det-sunrise" class="text-white">--:--</span>
@@ -426,7 +424,7 @@
                         <div class="flex flex-col items-center sm:border-l border-[#3c4043]/50 sm:pl-6 pt-6 sm:pt-0 border-t sm:border-t-0 mt-2 sm:mt-0">
                             <h5 class="text-white text-sm font-medium mb-3">Moon Phase</h5>
                             <div class="relative w-full max-w-[150px] aspect-square flex items-center justify-center mb-2">
-                                <svg viewBox="-10 -10 120 120" class="absolute inset-0 w-full h-full overflow-visible">
+                                <svg viewBox="-10 -10 120 120" class="absolute inset-0 w-full h-full overflow-visible drop-shadow-xl">
                                     <circle cx="50" cy="50" r="45" fill="none" stroke="#3c4043" stroke-width="2" stroke-dasharray="2 4"/>
                                     <path id="moon-arc-fill" d="" fill="none" stroke="#8ab4f8" stroke-width="3" stroke-linecap="round" />
                                     
@@ -434,6 +432,10 @@
                                     <text x="50" y="-1" font-size="6" fill="#5f6368" text-anchor="middle" font-weight="600">12:00</text>
                                     <text x="-2" y="52" font-size="6" fill="#5f6368" text-anchor="end" font-weight="600">06:00</text>
                                     <text x="102" y="52" font-size="6" fill="#5f6368" text-anchor="start" font-weight="600">18:00</text>
+
+                                    <!-- Big Center Moon SVG! -->
+                                    <circle cx="50" cy="50" r="20" fill="#1a1a1a" stroke="#5f6368" stroke-width="1"></circle>
+                                    <path id="moon-phase-shape" fill="#e8eaed" d="" transform="translate(30, 30) scale(0.4)"></path>
 
                                     <g id="moonrise-marker">
                                         <circle cx="0" cy="0" r="2.5" fill="#202124" stroke="#8ab4f8" stroke-width="1.5"/>
@@ -443,9 +445,9 @@
                                     </g>
                                     <circle id="moon-dot" cx="50" cy="5" r="4.5" fill="#e8eaed" stroke="#202124" stroke-width="1.5" style="transition: all 1s ease-in-out;"/>
                                 </svg>
-                                <div id="moon-status-text" class="absolute text-[10px] text-white font-bold tracking-wide z-10 bg-[#303134] px-2.5 py-1 rounded-full border border-[#3c4043] shadow-md pointer-events-none whitespace-nowrap"></div>
+                                <div id="moon-status-text" class="absolute text-[10px] text-white font-bold tracking-wide z-10 bg-[#303134] px-2.5 py-1 rounded-full border border-[#3c4043] shadow-md pointer-events-none whitespace-nowrap -bottom-2"></div>
                             </div>
-                            <div class="flex justify-between w-full max-w-[200px] text-xs text-[#9aa0a6] font-medium px-2 mt-2">
+                            <div class="flex justify-between w-full max-w-[200px] text-xs text-[#9aa0a6] font-medium px-2 mt-4">
                                 <div class="flex flex-col items-center">
                                     <span class="text-[9px] uppercase tracking-wider mb-0.5 text-[#5f6368]">Rise</span>
                                     <span id="det-moonrise" class="text-white">--:--</span>
@@ -682,20 +684,71 @@
         }
 
         // ==========================================================
-        // RETRO CLOCK
+        // EXPANDED RETRO CLOCK (CITY + DATE + TIME)
         // ==========================================================
         function updateRetroClock() {
             const now = new Date();
+            const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+            
             let h = now.getHours();
             let m = now.getMinutes().toString().padStart(2, '0');
             let ampm = h >= 12 ? 'PM' : 'AM';
-            h = h % 12;
-            if (h === 0) h = 12;
+            h = h % 12 || 12;
             h = h.toString().padStart(2, '0');
             
-            document.getElementById('clock-h').textContent = h;
-            document.getElementById('clock-m').textContent = m;
-            document.getElementById('clock-ampm').textContent = ampm;
+            // Get city string, limit length to prevent overflow
+            const cityStr = currentCityInfo.name ? currentCityInfo.name.split(',')[0].substring(0, 9).toUpperCase() : "LOCAL";
+            const mStr = months[now.getMonth()];
+            const dStr = now.getDate().toString().padStart(2, '0');
+            
+            let html = '';
+            const makeChar = c => `<div class="retro-clock-digit">${c}</div>`;
+            
+            // 1. Render City
+            for(let c of cityStr) {
+                if(c === ' ') html += `<div class="w-1"></div>`;
+                else html += makeChar(c);
+            }
+            html += `<div class="w-1.5 sm:w-2"></div>`;
+            
+            // 2. Render Date (MON DD)
+            html += makeChar(mStr[0]) + makeChar(mStr[1]) + makeChar(mStr[2]);
+            html += `<div class="w-0.5"></div>`;
+            html += makeChar(dStr[0]) + makeChar(dStr[1]);
+            html += `<div class="w-1.5 sm:w-2"></div>`;
+
+            // 3. Render Time
+            html += makeChar(h[0]) + makeChar(h[1]);
+            html += `<span class="text-[#fbbc04] animate-pulse pb-1 mx-0.5">:</span>`;
+            html += makeChar(m[0]) + makeChar(m[1]);
+            html += `<div class="retro-clock-digit text-[8px] sm:text-[10px] ml-0.5 sm:ml-1 !min-w-fit px-1 flex items-center">${ampm}</div>`;
+            
+            const clockEl = document.getElementById('retro-clock');
+            if(clockEl) clockEl.innerHTML = html;
+        }
+
+        // ==========================================================
+        // GLOBAL HELPER FUNCTIONS
+        // ==========================================================
+        
+        function getLocalHour(timeStr) {
+            if(!timeStr) return 0;
+            const parts = timeStr.split('T')[1].split(':');
+            return parseInt(parts[0]) + parseInt(parts[1])/60;
+        }
+
+        function getCoord(hour) {
+            const angle = Math.PI / 2 + (hour / 24) * 2 * Math.PI;
+            return { x: 50 + 45 * Math.cos(angle), y: 50 + 45 * Math.sin(angle) };
+        }
+
+        function formatHour(hr) {
+            let h = Math.floor(hr);
+            let m = Math.floor((hr % 1) * 60);
+            let ampm = h >= 12 ? 'PM' : 'AM';
+            let displayH = h % 12;
+            if(displayH === 0) displayH = 12;
+            return `${displayH}:${m.toString().padStart(2, '0')} ${ampm}`;
         }
 
         // ==========================================================
@@ -1085,9 +1138,8 @@
             setLoading(true);
             try {
                 currentCityInfo = { name, country, lat: latitude, lon: longitude };
+                updateRetroClock(); // Update clock with new city immediately
                 
-                // NO Moonrise/Moonset variables requested from API to prevent "Failed to Fetch" Server errors! Mathematically calculated below.
-                // ADDED uv_index, visibility, surface_pressure to hourly
                 const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m,visibility,is_day&hourly=temperature_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_direction_10m,relative_humidity_2m,is_day,uv_index,visibility,surface_pressure&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,sunrise,sunset,uv_index_max,precipitation_probability_max,precipitation_sum,wind_speed_10m_max,wind_direction_10m_dominant&timezone=auto&forecast_days=16`;
                 const aqiUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${latitude}&longitude=${longitude}&hourly=us_aqi&daily=alder_pollen,birch_pollen,grass_pollen,mugwort_pollen,olive_pollen,ragweed_pollen&timezone=auto&forecast_days=16`;
                 
@@ -1176,6 +1228,36 @@
             if (phase < 0.72) return "🌖 Waning Gibbous";
             if (phase < 0.78) return "🌗 Last Quarter";
             return "🌘 Waning Crescent";
+        }
+        
+        // Draw the SVG Path for the center Moon 
+        function drawMoonPhaseSVG(phase) {
+            let rx = 45;
+            let d = '';
+            if (phase <= 0.5) {
+                let p2 = phase * 2; 
+                if (p2 <= 0.5) {
+                    rx = 45 - (p2 * 2 * 45); 
+                    d = `M 50,5 A 45,45 0 0,1 50,95 A ${rx},45 0 0,1 50,5 Z`;
+                } else {
+                    rx = (p2 - 0.5) * 2 * 45; 
+                    d = `M 50,5 A 45,45 0 0,1 50,95 A ${rx},45 0 0,0 50,5 Z`;
+                }
+            } else {
+                let p2 = (phase - 0.5) * 2;
+                if (p2 <= 0.5) {
+                    rx = 45 - (p2 * 2 * 45); 
+                    d = `M 50,5 A 45,45 0 0,0 50,95 A ${rx},45 0 0,1 50,5 Z`;
+                } else {
+                    rx = (p2 - 0.5) * 2 * 45; 
+                    d = `M 50,5 A 45,45 0 0,0 50,95 A ${rx},45 0 0,0 50,5 Z`;
+                }
+            }
+            if (phase === 0 || phase === 1) d = '';
+            if (phase === 0.5) d = `M 50,5 A 45,45 0 0,1 50,95 A 45,45 0 0,1 50,5 Z`;
+            
+            const el = document.getElementById('moon-phase-shape');
+            if(el) el.setAttribute('d', d);
         }
 
         function getDaytimeWeatherCode(data, dayIndex) {
@@ -1310,13 +1392,11 @@
             }
         }
 
-        // Generate full continuous hourly HTML
         function buildFullHourlyForecast(data) {
             let mainHTML = '';
             let precipHTML = '';
             let windHTML = '';
             let humidHTML = '';
-            
             let uvHTML = '';
             let aqiHTML = '';
             let visHTML = '';
@@ -1343,6 +1423,7 @@
                 const displayHour = (i === startIndex) ? 'Now' : hourDate.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true });
                 
                 const temp = convertTemp(data.hourly.temperature_2m[i]);
+                const feelsLike = convertTemp(data.hourly.apparent_temperature[i]); 
                 const isDay = data.hourly.is_day[i];
                 const icon = getWeatherIcon(mapWmoCode(data.hourly.weather_code[i]), isDay);
                 const precipProb = data.hourly.precipitation_probability[i] || 0;
@@ -1355,7 +1436,11 @@
                 const hrWindPercent = Math.min(100, (windRaw / windMaxBase) * 100);
                 
                 const windDirArrow = `<svg style="transform: rotate(${windDirDeg}deg);" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>`;
-                const precipDisplay = (precipProb > 0) ? `<span class="text-[#8ab4f8] font-bold">${precipProb}%</span>` : `<span class="text-[#5f6368]">0%</span>`;
+                
+                let precipBarHeight = Math.min(100, (precipMm / 10) * 100);
+                if(precipProb > 0 && precipBarHeight < 5) precipBarHeight = 5;
+
+                const precipDisplay = (precipProb > 0 || precipMm > 0) ? `<span class="text-[#8ab4f8] font-bold">${formatPrecip(precipMm)}</span>` : `<span class="text-[#5f6368]">0 mm</span>`;
 
                 // 1. Main Hourly Item (Inside Mega Card)
                 mainHTML += `
@@ -1365,6 +1450,7 @@
                             ${precipProb > 0 ? `<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" class="mr-0.5"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>${precipProb}%` : ''}
                         </div>
                         <div class="my-1 scale-[0.65] h-8 flex items-center justify-center">${icon}</div>
+                        <span class="text-[9px] text-[#9aa0a6] font-medium leading-none mb-1">Feels ${feelsLike}°</span>
                         <span class="text-xs text-[#9aa0a6] font-medium mb-1">${displayHour}</span>
                         <!-- Compact Inline Stats -->
                         <div class="w-full flex flex-col gap-[3px] text-[8px] text-[#9aa0a6] border-t border-[#3c4043]/50 pt-2 px-0.5 w-full">
@@ -1389,10 +1475,10 @@
                     <div class="hourly-stat-item flex flex-col items-center w-[75px] flex-shrink-0 pt-1 pb-2 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl" tabindex="0">
                         <span class="text-[10px] text-[#9aa0a6] mb-3">${displayHour}</span>
                         <div class="h-10 flex flex-col justify-end items-center w-full mb-1.5">
-                            <div class="w-3 bg-[#8ab4f8] rounded-t-sm" style="height: ${precipProb}%;"></div>
+                            <div class="w-3 bg-[#8ab4f8] rounded-t-sm" style="height: ${precipBarHeight}%;"></div>
                         </div>
-                        <span class="text-xs text-white font-bold">${precipProb}%</span>
-                        <span class="text-[9px] text-[#5f6368] mt-0.5">${formatPrecip(precipMm)}</span>
+                        <span class="text-xs text-white font-bold">${formatPrecip(precipMm)}</span>
+                        <span class="text-[9px] text-[#5f6368] mt-0.5">${precipProb}% chance</span>
                     </div>
                 `;
 
@@ -1415,7 +1501,6 @@
                     </div>
                 `;
 
-                // 5. Environment Arrays
                 const uv = data.hourly.uv_index ? (data.hourly.uv_index[i] || 0) : 0;
                 const uvStatus = getUVCategory(uv);
                 const uvPercent = Math.min(100, (uv / 11) * 100);
@@ -1519,11 +1604,14 @@
                 const icon = getWeatherIcon(mapWmoCode(dominantDayCode), 1); 
 
                 const precipProb = data.daily.precipitation_probability_max[i] || 0;
+                const precipMm = data.daily.precipitation_sum[i] || 0;
+                
                 const windRaw = data.daily.wind_speed_10m_max[i] || 0;
                 const windSpeed = formatSpeed(windRaw).replace(' km/h', 'km').replace(' mph', 'mi');
                 const windDirDeg = data.daily.wind_direction_10m_dominant[i] || 0;
                 const windDirArrow = `<svg style="transform: rotate(${windDirDeg}deg);" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>`;
-                const precipDisplay = (precipProb > 0) ? `<span class="text-[#8ab4f8] font-bold">${precipProb}%</span>` : `<span class="text-[#5f6368]">0%</span>`;
+                
+                const precipDisplay = (precipProb > 0 || precipMm > 0) ? `<span class="text-[#8ab4f8] font-bold">${formatPrecip(precipMm)}</span>` : `<span class="text-[#5f6368]">0 mm</span>`;
 
                 const targetDateStr = data.daily.time[i];
                 let startHr = data.hourly.time.findIndex(t => t.startsWith(targetDateStr));
@@ -1538,8 +1626,8 @@
                     <div class="daily-tab flex flex-col items-center min-w-[80px] p-2 flex-shrink-0 border border-transparent rounded-2xl cursor-pointer transition-colors focus:outline-none focus:ring-2 focus:ring-[#8ab4f8]" onclick="selectDay(${i}, true)" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')selectDay(${i}, true);">
                         <span class="text-[11px] font-medium text-[#9aa0a6] day-name">${dayName}</span>
                         <div class="my-1 scale-75 h-8 flex items-center justify-center">${icon}</div>
-                        <div class="text-[10px] font-medium mb-2">
-                            <span class="text-white">${maxTemp}°</span><span class="text-[#5f6368]">/${minTemp}°</span>
+                        <div class="text-[10px] font-medium mb-2 flex gap-1">
+                            <span class="text-white">${maxTemp}°</span><span class="text-[#5f6368]">${minTemp}°</span>
                         </div>
                         <!-- Compact Inline Stats -->
                         <div class="w-full flex flex-col gap-[3px] text-[8px] text-[#9aa0a6] border-t border-[#3c4043]/50 pt-2 px-1 w-full">
@@ -1610,8 +1698,13 @@
                 document.getElementById('current-temp').textContent = convertTemp(data.current.temperature_2m);
                 document.getElementById('current-unit').textContent = unitStr;
                 document.getElementById('current-icon').innerHTML = getWeatherIcon(mapWmoCode(data.current.weather_code), data.current.is_day);
-                document.getElementById('current-desc').textContent = mapWmoCode(data.current.weather_code);
-                document.getElementById('feels-like').textContent = `Feels like ${convertTemp(data.current.apparent_temperature)}°`;
+                
+                const maxTemp = convertTemp(data.daily.temperature_2m_max[dayIndex]);
+                const minTemp = convertTemp(data.daily.temperature_2m_min[dayIndex]);
+                const feelsLike = convertTemp(data.current.apparent_temperature);
+                
+                document.getElementById('current-desc').innerHTML = `${mapWmoCode(data.current.weather_code)}`;
+                document.getElementById('feels-like').innerHTML = `Feels ${feelsLike}° &nbsp;•&nbsp; H: ${maxTemp}° L: ${minTemp}°`;
             } else {
                 const dateObj = new Date(targetDateStr);
                 const adjustedDate = new Date(dateObj.getTime() + Math.abs(dateObj.getTimezoneOffset() * 60000));
@@ -1619,10 +1712,14 @@
                 document.getElementById('current-temp').textContent = convertTemp(data.daily.temperature_2m_max[dayIndex]);
                 document.getElementById('current-unit').textContent = unitStr;
                 
+                const maxTemp = convertTemp(data.daily.temperature_2m_max[dayIndex]);
+                const minTemp = convertTemp(data.daily.temperature_2m_min[dayIndex]);
                 const dominantDayCode = getDaytimeWeatherCode(data, dayIndex);
+                const feelsLike = convertTemp(data.daily.apparent_temperature_max[dayIndex]);
+                
                 document.getElementById('current-icon').innerHTML = getWeatherIcon(mapWmoCode(dominantDayCode), 1); 
-                document.getElementById('current-desc').textContent = mapWmoCode(dominantDayCode);
-                document.getElementById('feels-like').textContent = `Low ${convertTemp(data.daily.temperature_2m_min[dayIndex])}°`;
+                document.getElementById('current-desc').innerHTML = `${mapWmoCode(dominantDayCode)}`;
+                document.getElementById('feels-like').innerHTML = `Feels ${feelsLike}° &nbsp;•&nbsp; H: ${maxTemp}° L: ${minTemp}°`;
             }
 
             // --------------------------------------------------------
@@ -1637,20 +1734,9 @@
             document.getElementById('det-sunrise').textContent = sunriseTime;
             document.getElementById('det-sunset').textContent = sunsetTime;
 
-            function getLocalHour(timeStr) {
-                if(!timeStr) return 0;
-                const parts = timeStr.split('T')[1].split(':');
-                return parseInt(parts[0]) + parseInt(parts[1])/60;
-            }
-
             const riseHour = getLocalHour(riseStr);
             const setHour = getLocalHour(setStr);
             const nowHour = getLocalHour(currentStr);
-
-            function getCoord(hour) {
-                const angle = Math.PI / 2 + (hour / 24) * 2 * Math.PI;
-                return { x: 50 + 45 * Math.cos(angle), y: 50 + 45 * Math.sin(angle) };
-            }
 
             const risePt = getCoord(riseHour);
             const setPt = getCoord(setHour);
@@ -1706,17 +1792,10 @@
             const moonPhaseVal = getMoonPhase(targetDateObj);
             const phaseName = getMoonPhaseName(moonPhaseVal);
             
+            drawMoonPhaseSVG(moonPhaseVal);
+            
             let mRiseHour = (6 + (moonPhaseVal * 24)) % 24;
             let mSetHour = (18 + (moonPhaseVal * 24)) % 24;
-
-            function formatHour(hr) {
-                let h = Math.floor(hr);
-                let m = Math.floor((hr % 1) * 60);
-                let ampm = h >= 12 ? 'PM' : 'AM';
-                let displayH = h % 12;
-                if(displayH === 0) displayH = 12;
-                return `${displayH}:${m.toString().padStart(2, '0')} ${ampm}`;
-            }
 
             document.getElementById('det-moonrise').textContent = formatHour(mRiseHour);
             document.getElementById('det-moonset').textContent = formatHour(mSetHour);
@@ -1772,10 +1851,14 @@
         function mapWmoCode(code) {
             const codes = {
                 0: 'Clear', 1: 'Mostly clear', 2: 'Partly cloudy', 3: 'Cloudy',
-                45: 'Fog', 48: 'Freezing fog', 51: 'Light drizzle', 53: 'Drizzle', 
-                55: 'Heavy drizzle', 61: 'Light rain', 63: 'Rain', 65: 'Heavy rain',
-                71: 'Light snow', 73: 'Snow', 75: 'Heavy snow', 95: 'Thunderstorm',
-                96: 'Storm with hail', 99: 'Severe thunderstorm'
+                45: 'Fog', 48: 'Freezing fog', 51: 'Light drizzle', 53: 'Drizzle', 55: 'Heavy drizzle', 
+                56: 'Freezing drizzle', 57: 'Heavy freezing drizzle',
+                61: 'Light rain', 63: 'Rain', 65: 'Heavy rain',
+                66: 'Light freezing rain', 67: 'Heavy freezing rain',
+                71: 'Light snow', 73: 'Snow', 75: 'Heavy snow', 77: 'Snow grains',
+                80: 'Light rain showers', 81: 'Rain showers', 82: 'Heavy rain showers',
+                85: 'Snow showers', 86: 'Heavy snow showers',
+                95: 'Thunderstorm', 96: 'Storm with hail', 99: 'Severe thunderstorm'
             };
             return codes[code] || 'Unknown';
         }
@@ -1787,13 +1870,13 @@
                 return `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#8ab4f8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
             }
 
-            if (lowerDesc.includes('rain') || lowerDesc.includes('drizzle')) {
+            if (lowerDesc.includes('rain') || lowerDesc.includes('drizzle') || lowerDesc.includes('shower')) {
                 return `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#8ab4f8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"></path><path d="M16 20l-2-2"></path><path d="M12 22l-2-2"></path><path d="M8 20l-2-2"></path></svg>`;
             } else if (lowerDesc.includes('cloud')) {
                 return `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#9aa0a6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path></svg>`;
-            } else if (lowerDesc.includes('snow') || lowerDesc.includes('ice')) {
+            } else if (lowerDesc.includes('snow') || lowerDesc.includes('ice') || lowerDesc.includes('freezing')) {
                 return `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#e8eaed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"></path><path d="M8 15h.01"></path><path d="M8 19h.01"></path><path d="M12 17h.01"></path><path d="M12 21h.01"></path><path d="M16 15h.01"></path><path d="M16 19h.01"></path></svg>`;
-            } else if (lowerDesc.includes('storm') || lowerDesc.includes('thunder')) {
+            } else if (lowerDesc.includes('storm') || lowerDesc.includes('thunder') || lowerDesc.includes('hail')) {
                 return `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#fce8b2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"></path><path d="m13 11-4 6h6l-4 6"></path></svg>`;
             } else if (lowerDesc.includes('fog')) {
                 return `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#9aa0a6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14h16"></path><path d="M4 18h16"></path><path d="M4 10h16"></path></svg>`;
