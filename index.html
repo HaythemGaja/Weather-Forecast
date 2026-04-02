@@ -2,8 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather Forecast</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HG Weather Forecast</title>
+    
+    <!-- PWA Settings (For saving to Android / iOS Home Screen) -->
+    <meta name="theme-color" content="#202124">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Weather">
+    
+    <!-- Base64 Encoded SVG Icon (Sun with Cloud) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0iIzhhYjRmOCIvPgogIDxjaXJjbGUgY3g9IjI1NiIgY3k9IjIwMCIgcj0iODAiIGZpbGw9IiNmYmJjMDQiLz4KICA8cGF0aCBkPSJNMzUwIDM1MEgxNTBhNjAgNjAgMCAwIDEgMC0xMjAgODAgODAgMCAwIDEgMTUwLTIwIDYwIDYwIDAgMCAxIDUwIDE0MHoiIGZpbGw9IiNmZmZmZmYiLz4KPC9zdmc+">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0iIzhhYjRmOCIvPgogIDxjaXJjbGUgY3g9IjI1NiIgY3k9IjIwMCIgcj0iODAiIGZpbGw9IiNmYmJjMDQiLz4KICA8cGF0aCBkPSJNMzUwIDM1MEgxNTBhNjAgNjAgMCAwIDEgMC0xMjAgODAgODAgMCAwIDEgMTUwLTIwIDYwIDYwIDAgMCAxIDUwIDE0MHoiIGZpbGw9IiNmZmZmZmYiLz4KPC9zdmc+">
+    
+    <!-- Base64 Encoded Web App Manifest -->
+    <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiV2VhdGhlciIsInNob3J0X25hbWUiOiJXZWF0aGVyIiwic3RhcnRfdXJsIjoiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMyMDIxMjQiLCJ0aGVtZV9jb2xvciI6IiMyMDIxMjQiLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1M015NXZjbWN2TWpBd01DOXpkbWNpSUhaaGRIQmliM2c5SWpBZ01DQTFNVElnTlRFeUlqNEtJQ0E4Y21WalRDQjNhV1IwYUQwaU5URXlJaUJvWldWblhIUTlJakV4TWlJZ1puMXNiRDBpSTMxaFkwaGhOQ0l2UGdvZ0lEeGphWEpqYkdVZ2VEMGlNalUySWlCalpUMGlNakF3SWlCeTBTSTRPQ0lnWm1sc2JEMGlJMloxTWpJeFhDSXZQZ29nSUQweFlYUjBJSFE5SWsxek5UQWdNelV3U0RFMU1HRTJNQ0EyTUNBd0SURWdNQzB4TWpBZ09EQWdPREFnTUNBd0lERWdNVFV3TFRJd0lEWXdJREl3SURBZ01DQXhJRFV3SURFME1Ib2lJR1pwYkdROUlpSm1aalkzWm1ZaUx6NEtQQzl6ZG1jKyIsInNpemVzIjoiNTEyeDUxMiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIiwicHVycG9zZSI6ImFueSBtYXNrYWJsZSJ9XX0=">
+
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -131,7 +146,7 @@
                     Weather
                 </div>
                 <button onclick="toggleSettingsModal(true)" class="p-2.5 g-card rounded-full text-[#9aa0a6] hover:text-white hover:bg-[#3c4043] transition shadow-sm ml-auto sm:ml-4 flex-shrink-0" aria-label="Settings">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                 </button>
             </div>
             
