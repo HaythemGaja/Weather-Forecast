@@ -69,7 +69,7 @@
             box-shadow: 0 0 0 2px #8ab4f8;
             border-radius: 12px;
         }
-        .daily-tab:focus-visible, .hourly-item:focus-visible {
+        .daily-tab:focus-visible, .hourly-item:focus-visible, .hourly-stat-item:focus-visible {
             border-color: #8ab4f8 !important;
             background-color: rgba(138, 180, 248, 0.1) !important;
         }
@@ -98,7 +98,6 @@
             min-width: 2.2ch;
             position: relative;
         }
-        /* The horizontal split line across the digits */
         .retro-clock-digit::after {
             content: '';
             position: absolute;
@@ -130,7 +129,7 @@
 
                 <!-- Settings Button -->
                 <button onclick="toggleSettingsModal(true)" class="p-2 g-card rounded-full text-[#9aa0a6] hover:text-white hover:bg-[#3c4043] transition shadow-sm" aria-label="Settings">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1 0-2.83 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                 </button>
             </div>
         </div>
@@ -167,11 +166,11 @@
                         </button>
                         <!-- Dropdown Menu -->
                         <div id="city-dropdown" class="hidden absolute left-0 mt-2 w-64 rounded-xl shadow-2xl bg-[#303134] ring-1 ring-black ring-opacity-5 focus:outline-none border border-[#3c4043] overflow-hidden z-50">
-                            <div class="py-1 flex flex-col" id="main-dropdown-list">
+                            <div class="py-1 flex flex-col max-h-60 overflow-y-auto hide-scrollbar" id="main-dropdown-list">
                                 <!-- Populated by JS -->
                             </div>
-                            <div class="border-t border-[#3c4043] p-1">
-                                <button onclick="toggleSettingsModal(true); document.getElementById('city-dropdown').classList.add('hidden');" class="w-full text-left px-4 py-3 text-sm text-[#8ab4f8] hover:bg-[#3c4043] transition font-medium flex items-center gap-2">
+                            <div class="border-t border-[#3c4043] p-1 bg-[#202124]">
+                                <button onclick="toggleSettingsModal(true); document.getElementById('city-dropdown').classList.add('hidden');" class="w-full text-left px-4 py-3 text-sm text-[#8ab4f8] hover:bg-[#3c4043] transition font-medium flex items-center gap-2 rounded-lg">
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                                     Search New City
                                 </button>
@@ -187,7 +186,7 @@
             </div>
 
             <!-- Intelligent Insights Container -->
-            <div id="insights-section" class="g-card p-4 sm:p-5 hidden transition-all collapsed">
+            <div id="insights-section" class="g-card p-3 sm:p-4 hidden transition-all collapsed">
                 <div class="section-header flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl p-1 -m-1" onclick="toggleSection('insights-section')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleSection('insights-section');">
                     <h3 class="text-[#9aa0a6] text-xs font-bold uppercase tracking-wider flex items-center gap-2">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
@@ -195,261 +194,269 @@
                     </h3>
                     <svg class="chevron text-[#9aa0a6]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </div>
-                <div class="content-wrapper mt-3 hidden">
+                <div class="content-wrapper mt-3 hidden flex-col">
                     <div id="insights-container" class="flex flex-col gap-2 empty:hidden">
                         <!-- Insights generated via JS -->
                     </div>
                 </div>
             </div>
 
-            <!-- THE MEGA CARD: Merged Current + Hourly + Extended Tabs -->
-            <div class="g-card overflow-hidden flex flex-col shadow-lg mt-2">
+            <!-- COMPACT MEGA CARD: Merged Current + Hourly + Extended Tabs -->
+            <div class="g-card overflow-hidden flex flex-col shadow-lg mt-1">
                 
-                <!-- 1. Current Overview Section (Compacted) -->
-                <div class="p-6 pb-2" tabindex="0">
-                    <div class="flex justify-between items-start">
+                <!-- 1. Current Overview Section (Ultra-Compact) -->
+                <div class="p-4 pb-0" tabindex="0">
+                    <div class="flex justify-between items-center">
                         <div class="flex flex-col">
-                            <span class="text-lg text-white mb-2" id="day-label">Now</span>
+                            <span class="text-sm text-[#9aa0a6] font-medium mb-0.5 tracking-wide" id="day-label">Now</span>
                             <div class="flex items-start">
-                                <span class="text-8xl font-normal tracking-tighter text-white" id="current-temp"></span>
-                                <span class="text-3xl text-[#9aa0a6] mt-2" id="current-unit"></span>
+                                <span class="text-6xl sm:text-7xl font-normal tracking-tighter text-white leading-none" id="current-temp"></span>
+                                <span class="text-2xl text-[#9aa0a6] mt-1 ml-1" id="current-unit"></span>
                             </div>
                         </div>
-                        <div class="flex flex-col items-end pt-2">
-                            <div id="current-icon" class="scale-[1.3] transform origin-right mb-1"></div>
-                            <span class="text-xl text-white capitalize" id="current-desc"></span>
-                            <span class="text-sm text-[#9aa0a6] mt-1" id="feels-like"></span>
+                        <div class="flex flex-col items-end">
+                            <div id="current-icon" class="h-14 w-14 mb-1 flex items-center justify-center"></div>
+                            <span class="text-lg text-white capitalize leading-tight" id="current-desc"></span>
+                            <span class="text-xs text-[#9aa0a6] mt-1" id="feels-like"></span>
                         </div>
                     </div>
                 </div>
 
                 <!-- 2. Continuous Hourly Forecast Section -->
                 <div class="relative w-full border-t border-[#3c4043]/40 mt-4 group">
-                    <button onclick="scrollContainerByItem('hourly-container', -1)" class="nav-btn absolute left-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full flex items-center justify-center opacity-80 hover:opacity-100 transition cursor-pointer" aria-label="Scroll left">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    <button onclick="scrollContainerByItem('hourly-container', -1)" class="nav-btn absolute left-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer" aria-label="Scroll left">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
                     </button>
 
-                    <div class="flex overflow-x-auto gap-2 px-12 py-5 hide-scrollbar cursor-grab active:cursor-grabbing w-full scroll-smooth" id="hourly-container" tabindex="0" onkeydown="handleContainerKeydown(event, 'hourly-container', 1)">
+                    <!-- NO CSS scroll-smooth here to prevent JavaScript syncing glitches -->
+                    <div class="flex overflow-x-auto gap-2 px-10 py-3 hide-scrollbar cursor-grab active:cursor-grabbing w-full" id="hourly-container" tabindex="0" onkeydown="handleContainerKeydown(event, 'hourly-container', 1)">
                         <!-- Main Hourly injected here -->
                     </div>
 
-                    <button onclick="scrollContainerByItem('hourly-container', 1)" class="nav-btn absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full flex items-center justify-center opacity-80 hover:opacity-100 transition cursor-pointer" aria-label="Scroll right">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    <button onclick="scrollContainerByItem('hourly-container', 1)" class="nav-btn absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer" aria-label="Scroll right">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                     </button>
                 </div>
 
                 <!-- 3. Extended Forecast Tabs -->
-                <div class="bg-[#202124]/40 backdrop-blur-md border-t border-[#3c4043]/60 px-3 py-3 relative group">
-                    <button onclick="scrollContainerByItem('daily-container', -2)" class="nav-btn absolute left-1 top-1/2 -translate-y-1/2 p-1 rounded-full flex items-center justify-center opacity-80 hover:opacity-100 transition cursor-pointer hidden sm:flex" aria-label="Scroll left">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                <div class="bg-[#202124]/40 backdrop-blur-md border-t border-[#3c4043]/60 px-2 py-2 relative group">
+                    <button onclick="scrollContainerByItem('daily-container', -2)" class="nav-btn absolute left-1 top-1/2 -translate-y-1/2 p-1 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer hidden sm:flex" aria-label="Scroll left">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
                     </button>
 
-                    <div class="flex overflow-x-auto gap-2 px-8 hide-scrollbar cursor-grab active:cursor-grabbing w-full scroll-smooth" id="daily-container" tabindex="0" onkeydown="handleContainerKeydown(event, 'daily-container', 2)">
+                    <div class="flex overflow-x-auto gap-2 px-6 hide-scrollbar cursor-grab active:cursor-grabbing w-full scroll-smooth" id="daily-container" tabindex="0" onkeydown="handleContainerKeydown(event, 'daily-container', 2)">
                         <!-- Daily Tabs injected here -->
                     </div>
 
-                    <button onclick="scrollContainerByItem('daily-container', 2)" class="nav-btn absolute right-1 top-1/2 -translate-y-1/2 p-1 rounded-full flex items-center justify-center opacity-80 hover:opacity-100 transition cursor-pointer hidden sm:flex" aria-label="Scroll right">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                </button>
-            </div>
-        </div>
-
-        <!-- Combined Detailed Hourly Lists (Precip, Wind, Humidity) -->
-        <div class="g-card bg-[#303134] flex flex-col mt-2">
-            
-            <!-- Hourly Precipitation -->
-            <div class="relative group border-b border-[#3c4043]/50">
-                <div class="flex items-center gap-3 p-4 border-b border-[#3c4043]/50">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8ab4f8" stroke-width="2" stroke-linecap="round"><path d="M22 12a10.06 10.06 1 0 0-20 0Z"></path><path d="M12 12v8a2 2 0 0 0 4 0"></path><path d="M12 2v1"></path></svg>
-                    <span class="text-white text-sm font-medium">Hourly Precipitation</span>
-                </div>
-                <div class="relative w-full">
-                    <button onclick="scrollContainerByItem('precip-container', -1)" class="nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer" aria-label="Scroll left"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
-                    
-                    <div class="flex overflow-x-auto gap-2 px-12 py-4 hide-scrollbar cursor-grab active:cursor-grabbing w-full scroll-smooth" id="precip-container" tabindex="0" onkeydown="handleContainerKeydown(event, 'precip-container', 1)"></div>
-                    
-                    <button onclick="scrollContainerByItem('precip-container', 1)" class="nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer" aria-label="Scroll right"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+                    <button onclick="scrollContainerByItem('daily-container', 2)" class="nav-btn absolute right-1 top-1/2 -translate-y-1/2 p-1 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer hidden sm:flex" aria-label="Scroll right">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
                 </div>
             </div>
 
-            <!-- Hourly Wind -->
-            <div class="relative group border-b border-[#3c4043]/50">
-                <div class="flex items-center gap-3 p-4 border-b border-[#3c4043]/50">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e8eaed" stroke-width="2" stroke-linecap="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path></svg>
-                    <span class="text-white text-sm font-medium">Hourly Wind</span>
-                </div>
-                <div class="relative w-full">
-                    <button onclick="scrollContainerByItem('wind-container', -1)" class="nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer" aria-label="Scroll left"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
-                    
-                    <div class="flex overflow-x-auto gap-2 px-12 py-4 hide-scrollbar cursor-grab active:cursor-grabbing w-full scroll-smooth" id="wind-container" tabindex="0" onkeydown="handleContainerKeydown(event, 'wind-container', 1)"></div>
-                    
-                    <button onclick="scrollContainerByItem('wind-container', 1)" class="nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer" aria-label="Scroll right"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
-                </div>
-            </div>
-
-            <!-- Hourly Humidity -->
-            <div class="relative group">
-                <div class="flex items-center gap-3 p-4 border-b border-[#3c4043]/50">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#9aa0a6"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>
-                    <span class="text-white text-sm font-medium">Hourly Humidity</span>
-                </div>
-                <div class="relative w-full">
-                    <button onclick="scrollContainerByItem('humidity-container', -1)" class="nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer" aria-label="Scroll left"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
-                    
-                    <div class="flex overflow-x-auto gap-2 px-12 py-4 hide-scrollbar cursor-grab active:cursor-grabbing w-full scroll-smooth" id="humidity-container" tabindex="0" onkeydown="handleContainerKeydown(event, 'humidity-container', 1)"></div>
-                    
-                    <button onclick="scrollContainerByItem('humidity-container', 1)" class="nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer" aria-label="Scroll right"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Separated Detail Sections Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2 items-start">
-                
-                <!-- Sun Tracking Card -->
-                <div id="sun-section" class="g-card p-5 flex flex-col gap-4 transition-all collapsed">
-                    <div class="section-header flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl p-1 -m-1" onclick="toggleSection('sun-section')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleSection('sun-section');">
-                        <h4 class="text-[#9aa0a6] text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v6m-4.24-.76l-2.83-2.83M16.24 7.24l2.83-2.83M2 18h20M12 18a6 6 0 0 0-6-6h12a6 6 0 0 0-6 6z"/></svg>
-                            Sun Tracking
-                        </h4>
-                        <svg class="chevron text-[#9aa0a6]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
-                    <div class="content-wrapper hidden flex-1 flex flex-col items-center justify-center pt-2">
-                        <div class="relative w-full h-36 flex items-center justify-center mb-2">
-                            <svg viewBox="-10 -10 120 120" class="absolute inset-0 w-full h-full overflow-visible">
-                                <circle cx="50" cy="50" r="45" fill="none" stroke="#3c4043" stroke-width="2" stroke-dasharray="2 4"/>
-                                <path id="sun-arc-fill" d="" fill="none" stroke="#fbbc04" stroke-width="3" stroke-linecap="round" />
-                                
-                                <text x="50" y="103" font-size="6" fill="#5f6368" text-anchor="middle" font-weight="600">00:00</text>
-                                <text x="50" y="-1" font-size="6" fill="#5f6368" text-anchor="middle" font-weight="600">12:00</text>
-                                <text x="-2" y="52" font-size="6" fill="#5f6368" text-anchor="end" font-weight="600">06:00</text>
-                                <text x="102" y="52" font-size="6" fill="#5f6368" text-anchor="start" font-weight="600">18:00</text>
-
-                                <g id="sunrise-marker">
-                                    <circle cx="0" cy="0" r="2.5" fill="#202124" stroke="#fbbc04" stroke-width="1.5"/>
-                                    <text x="0" y="-5" font-size="8" fill="#fbbc04" text-anchor="middle">🌅</text>
-                                </g>
-                                <g id="sunset-marker">
-                                    <circle cx="0" cy="0" r="2.5" fill="#202124" stroke="#fbbc04" stroke-width="1.5"/>
-                                    <text x="0" y="-5" font-size="8" fill="#fbbc04" text-anchor="middle">🌇</text>
-                                </g>
-                                <circle id="sun-dot" cx="50" cy="5" r="4.5" fill="#fbbc04" stroke="#202124" stroke-width="1.5" style="transition: all 1s ease-in-out;"/>
-                            </svg>
-                            <div id="sun-status-text" class="absolute text-[10px] text-white font-bold tracking-wide z-10 bg-[#303134] px-2.5 py-1 rounded-full border border-[#3c4043] shadow-md pointer-events-none"></div>
-                        </div>
-                        <div class="flex justify-between w-full text-xs text-[#9aa0a6] font-medium px-2 mt-2">
-                            <div class="flex flex-col items-center">
-                                <span class="text-[9px] uppercase tracking-wider mb-0.5 text-[#5f6368]">Sunrise</span>
-                                <span id="det-sunrise" class="text-white">--:--</span>
-                            </div>
-                            <div class="flex flex-col items-center">
-                                <span class="text-[9px] uppercase tracking-wider mb-0.5 text-[#5f6368]">Sunset</span>
-                                <span id="det-sunset" class="text-white">--:--</span>
-                            </div>
-                        </div>
-                        <div id="sun-percentages" class="text-[10px] text-[#9aa0a6] mt-4 font-medium tracking-wide uppercase text-center w-full"></div>
-                    </div>
-                </div>
-
-                <!-- Moon Tracking Card -->
-                <div id="moon-section" class="g-card p-5 flex flex-col gap-4 transition-all collapsed">
-                    <div class="section-header flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl p-1 -m-1" onclick="toggleSection('moon-section')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleSection('moon-section');">
-                        <h4 class="text-[#9aa0a6] text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                            Moon Phase
-                        </h4>
-                        <svg class="chevron text-[#9aa0a6]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
-                    <div class="content-wrapper hidden flex-1 flex flex-col items-center justify-center pt-2">
-                        <div class="relative w-full h-36 flex items-center justify-center mb-2">
-                            <svg viewBox="-10 -10 120 120" class="absolute inset-0 w-full h-full overflow-visible">
-                                <circle cx="50" cy="50" r="45" fill="none" stroke="#3c4043" stroke-width="2" stroke-dasharray="2 4"/>
-                                <path id="moon-arc-fill" d="" fill="none" stroke="#8ab4f8" stroke-width="3" stroke-linecap="round" />
-                                
-                                <text x="50" y="103" font-size="6" fill="#5f6368" text-anchor="middle" font-weight="600">00:00</text>
-                                <text x="50" y="-1" font-size="6" fill="#5f6368" text-anchor="middle" font-weight="600">12:00</text>
-                                <text x="-2" y="52" font-size="6" fill="#5f6368" text-anchor="end" font-weight="600">06:00</text>
-                                <text x="102" y="52" font-size="6" fill="#5f6368" text-anchor="start" font-weight="600">18:00</text>
-
-                                <g id="moonrise-marker">
-                                    <circle cx="0" cy="0" r="2.5" fill="#202124" stroke="#8ab4f8" stroke-width="1.5"/>
-                                </g>
-                                <g id="moonset-marker">
-                                    <circle cx="0" cy="0" r="2.5" fill="#202124" stroke="#8ab4f8" stroke-width="1.5"/>
-                                </g>
-                                <circle id="moon-dot" cx="50" cy="5" r="4.5" fill="#e8eaed" stroke="#202124" stroke-width="1.5" style="transition: all 1s ease-in-out;"/>
-                            </svg>
-                            <div id="moon-status-text" class="absolute text-[10px] text-white font-bold tracking-wide z-10 bg-[#303134] px-2.5 py-1 rounded-full border border-[#3c4043] shadow-md pointer-events-none whitespace-nowrap"></div>
-                        </div>
-                        <div class="flex justify-between w-full text-xs text-[#9aa0a6] font-medium px-2 mt-2">
-                            <div class="flex flex-col items-center">
-                                <span class="text-[9px] uppercase tracking-wider mb-0.5 text-[#5f6368]">Rise</span>
-                                <span id="det-moonrise" class="text-white">--:--</span>
-                            </div>
-                            <div class="flex flex-col items-center">
-                                <span class="text-[9px] uppercase tracking-wider mb-0.5 text-[#5f6368]">Set</span>
-                                <span id="det-moonset" class="text-white">--:--</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- UV Index -->
-                <div id="uv-section" class="g-card p-5 flex flex-col justify-between gap-4 transition-all collapsed">
-                    <div class="section-header flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl p-1 -m-1" onclick="toggleSection('uv-section')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleSection('uv-section');">
-                        <h4 class="text-[#9aa0a6] text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-                            UV Index
-                        </h4>
-                        <svg class="chevron text-[#9aa0a6]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
-                    <div class="content-wrapper hidden flex-1 flex flex-col justify-center pt-2">
-                        <div id="det-uv-val" class="text-5xl font-light text-white mb-2"></div>
-                        <div id="det-uv-desc" class="text-sm font-bold uppercase tracking-wide"></div>
-                        <div id="det-uv-bar" class="mt-4 w-full"></div>
-                    </div>
+            <!-- Detailed Hourly Lists (Precip, Wind, Humidity) -->
+            <div id="detailed-hourly-section" class="g-card bg-[#303134] flex flex-col mt-2 transition-all">
+                <div class="section-header flex justify-between items-center p-4 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl" onclick="toggleSection('detailed-hourly-section')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleSection('detailed-hourly-section');">
+                    <h4 class="text-white text-sm font-medium flex items-center gap-2">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8ab4f8" stroke-width="2" stroke-linecap="round"><path d="M22 12a10.06 10.06 1 0 0-20 0Z"></path><path d="M12 12v8a2 2 0 0 0 4 0"></path><path d="M12 2v1"></path></svg>
+                        Detailed Hourly Forecast
+                    </h4>
+                    <svg class="chevron text-[#9aa0a6]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </div>
                 
-                <!-- Air Quality & Pollen -->
-                <div id="aqi-section" class="g-card p-5 flex flex-col gap-4 transition-all collapsed">
-                    <div class="section-header flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl p-1 -m-1" onclick="toggleSection('aqi-section')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleSection('aqi-section');">
-                        <h4 class="text-[#9aa0a6] text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 20A7 7 0 0111 6a7 7 0 017 7c0 4-3 7-7 7z"/><path d="M11 20v-7"/></svg>
-                            Air & Allergy
-                        </h4>
-                        <svg class="chevron text-[#9aa0a6]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
-                    <div class="content-wrapper hidden flex flex-col gap-5 text-sm justify-center flex-1 pt-2">
-                        <div class="flex justify-between items-center text-white">
-                            <span class="text-[#9aa0a6]">Air Quality</span>
-                            <span id="det-aqi" class="font-medium text-right flex items-center gap-2"></span>
+                <div class="content-wrapper flex-col transition-all">
+                    <!-- Hourly Precipitation -->
+                    <div class="relative group border-t border-[#3c4043]/50">
+                        <div class="flex items-center gap-3 p-3 sm:p-4 pb-0">
+                            <span class="text-[#9aa0a6] text-xs font-medium uppercase tracking-wider">Precipitation</span>
                         </div>
-                        <div class="flex justify-between items-center text-white">
-                            <span class="text-[#9aa0a6]">Pollen</span>
-                            <span id="det-pollen" class="font-medium text-right flex items-center gap-2"></span>
+                        <div class="relative w-full">
+                            <button onclick="scrollContainerByItem('precip-container', -1)" class="nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer" aria-label="Scroll left"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                            
+                            <div class="flex overflow-x-auto gap-2 px-10 py-3 hide-scrollbar cursor-grab active:cursor-grabbing w-full" id="precip-container" tabindex="0" onkeydown="handleContainerKeydown(event, 'precip-container', 1)"></div>
+                            
+                            <button onclick="scrollContainerByItem('precip-container', 1)" class="nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer" aria-label="Scroll right"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+                        </div>
+                    </div>
+
+                    <!-- Hourly Wind -->
+                    <div class="relative group border-t border-[#3c4043]/50">
+                        <div class="flex items-center gap-3 p-3 sm:p-4 pb-0">
+                            <span class="text-[#9aa0a6] text-xs font-medium uppercase tracking-wider">Wind</span>
+                        </div>
+                        <div class="relative w-full">
+                            <button onclick="scrollContainerByItem('wind-container', -1)" class="nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer" aria-label="Scroll left"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                            
+                            <div class="flex overflow-x-auto gap-2 px-10 py-3 hide-scrollbar cursor-grab active:cursor-grabbing w-full" id="wind-container" tabindex="0" onkeydown="handleContainerKeydown(event, 'wind-container', 1)"></div>
+                            
+                            <button onclick="scrollContainerByItem('wind-container', 1)" class="nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer" aria-label="Scroll right"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+                        </div>
+                    </div>
+
+                    <!-- Hourly Humidity -->
+                    <div class="relative group border-t border-[#3c4043]/50">
+                        <div class="flex items-center gap-3 p-3 sm:p-4 pb-0">
+                            <span class="text-[#9aa0a6] text-xs font-medium uppercase tracking-wider">Humidity</span>
+                        </div>
+                        <div class="relative w-full">
+                            <button onclick="scrollContainerByItem('humidity-container', -1)" class="nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer" aria-label="Scroll left"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                            
+                            <div class="flex overflow-x-auto gap-2 px-10 py-3 hide-scrollbar cursor-grab active:cursor-grabbing w-full" id="humidity-container" tabindex="0" onkeydown="handleContainerKeydown(event, 'humidity-container', 1)"></div>
+                            
+                            <button onclick="scrollContainerByItem('humidity-container', 1)" class="nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer" aria-label="Scroll right"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Environment & Air Quality Hourly Forecast -->
+            <div id="environment-section" class="g-card bg-[#303134] flex flex-col mt-2 transition-all">
+                <div class="section-header flex justify-between items-center p-4 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl" onclick="toggleSection('environment-section')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleSection('environment-section');">
+                    <h4 class="text-white text-sm font-medium flex items-center gap-2">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fbbc04" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                        Environment & Air Quality
+                    </h4>
+                    <svg class="chevron text-[#9aa0a6]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
                 
-                <!-- Atmosphere -->
-                <div id="atmosphere-section" class="g-card p-5 flex flex-col gap-4 transition-all collapsed">
-                    <div class="section-header flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl p-1 -m-1" onclick="toggleSection('atmosphere-section')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleSection('atmosphere-section');">
-                        <h4 class="text-[#9aa0a6] text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 12l4-4"/></svg>
-                            Atmosphere
-                        </h4>
-                        <svg class="chevron text-[#9aa0a6]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                <div class="content-wrapper flex-col transition-all">
+                    
+                    <!-- Hourly UV -->
+                    <div class="relative group border-t border-[#3c4043]/50">
+                        <div class="flex items-center gap-3 p-3 sm:p-4 pb-0">
+                            <span class="text-[#9aa0a6] text-xs font-medium uppercase tracking-wider">UV Index</span>
+                        </div>
+                        <div class="relative w-full">
+                            <button onclick="scrollContainerByItem('uv-container', -1)" class="nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                            <div class="flex overflow-x-auto gap-2 px-10 py-3 hide-scrollbar cursor-grab active:cursor-grabbing w-full" id="uv-container" tabindex="0" onkeydown="handleContainerKeydown(event, 'uv-container', 1)"></div>
+                            <button onclick="scrollContainerByItem('uv-container', 1)" class="nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+                        </div>
                     </div>
-                    <div class="content-wrapper hidden flex flex-col gap-5 text-sm justify-center flex-1 pt-2">
-                        <div class="flex justify-between items-center text-white">
-                            <span class="text-[#9aa0a6]">Visibility</span>
-                            <span id="det-visibility" class="font-medium text-right flex items-center gap-2"></span>
+
+                    <!-- Hourly AQI -->
+                    <div class="relative group border-t border-[#3c4043]/50">
+                        <div class="flex items-center gap-3 p-3 sm:p-4 pb-0">
+                            <span class="text-[#9aa0a6] text-xs font-medium uppercase tracking-wider">Air Quality (AQI)</span>
                         </div>
-                        <div class="flex justify-between items-center text-white">
-                            <span class="text-[#9aa0a6]">Pressure</span>
-                            <span id="det-pressure" class="font-medium text-right flex items-center gap-2"></span>
+                        <div class="relative w-full">
+                            <button onclick="scrollContainerByItem('aqi-container', -1)" class="nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                            <div class="flex overflow-x-auto gap-2 px-10 py-3 hide-scrollbar cursor-grab active:cursor-grabbing w-full" id="aqi-container" tabindex="0" onkeydown="handleContainerKeydown(event, 'aqi-container', 1)"></div>
+                            <button onclick="scrollContainerByItem('aqi-container', 1)" class="nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
                         </div>
+                    </div>
+
+                    <!-- Hourly Visibility -->
+                    <div class="relative group border-t border-[#3c4043]/50">
+                        <div class="flex items-center gap-3 p-3 sm:p-4 pb-0">
+                            <span class="text-[#9aa0a6] text-xs font-medium uppercase tracking-wider">Visibility</span>
+                        </div>
+                        <div class="relative w-full">
+                            <button onclick="scrollContainerByItem('vis-container', -1)" class="nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                            <div class="flex overflow-x-auto gap-2 px-10 py-3 hide-scrollbar cursor-grab active:cursor-grabbing w-full" id="vis-container" tabindex="0" onkeydown="handleContainerKeydown(event, 'vis-container', 1)"></div>
+                            <button onclick="scrollContainerByItem('vis-container', 1)" class="nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+                        </div>
+                    </div>
+
+                    <!-- Hourly Pressure -->
+                    <div class="relative group border-t border-[#3c4043]/50">
+                        <div class="flex items-center gap-3 p-3 sm:p-4 pb-0">
+                            <span class="text-[#9aa0a6] text-xs font-medium uppercase tracking-wider">Pressure</span>
+                        </div>
+                        <div class="relative w-full">
+                            <button onclick="scrollContainerByItem('press-container', -1)" class="nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                            <div class="flex overflow-x-auto gap-2 px-10 py-3 hide-scrollbar cursor-grab active:cursor-grabbing w-full" id="press-container" tabindex="0" onkeydown="handleContainerKeydown(event, 'press-container', 1)"></div>
+                            <button onclick="scrollContainerByItem('press-container', 1)" class="nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Unified Sun & Moon Card -->
+            <div id="celestial-section" class="g-card p-4 sm:p-5 flex flex-col gap-4 mt-2 transition-all collapsed">
+                <div class="section-header flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl p-1 -m-1" onclick="toggleSection('celestial-section')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleSection('celestial-section');">
+                    <h4 class="text-[#9aa0a6] text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2v6m-4.24-.76l-2.83-2.83M16.24 7.24l2.83-2.83M2 18h20M12 18a6 6 0 0 0-6-6h12a6 6 0 0 0-6 6z"/></svg>
+                        Sun & Moon Tracking
+                    </h4>
+                    <svg class="chevron text-[#9aa0a6]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
+                <div class="content-wrapper hidden flex-col mt-2">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        
+                        <!-- Sun Tracker -->
+                        <div class="flex flex-col items-center">
+                            <h5 class="text-white text-sm font-medium mb-3">Sun Tracker</h5>
+                            <div class="relative w-full max-w-[150px] aspect-square flex items-center justify-center mb-2">
+                                <svg viewBox="-10 -10 120 120" class="absolute inset-0 w-full h-full overflow-visible">
+                                    <circle cx="50" cy="50" r="45" fill="none" stroke="#3c4043" stroke-width="2" stroke-dasharray="2 4"/>
+                                    <path id="sun-arc-fill" d="" fill="none" stroke="#fbbc04" stroke-width="3" stroke-linecap="round" />
+                                    
+                                    <text x="50" y="103" font-size="6" fill="#5f6368" text-anchor="middle" font-weight="600">00:00</text>
+                                    <text x="50" y="-1" font-size="6" fill="#5f6368" text-anchor="middle" font-weight="600">12:00</text>
+                                    <text x="-2" y="52" font-size="6" fill="#5f6368" text-anchor="end" font-weight="600">06:00</text>
+                                    <text x="102" y="52" font-size="6" fill="#5f6368" text-anchor="start" font-weight="600">18:00</text>
+
+                                    <g id="sunrise-marker">
+                                        <circle cx="0" cy="0" r="2.5" fill="#202124" stroke="#fbbc04" stroke-width="1.5"/>
+                                        <text x="0" y="-5" font-size="8" fill="#fbbc04" text-anchor="middle">🌅</text>
+                                    </g>
+                                    <g id="sunset-marker">
+                                        <circle cx="0" cy="0" r="2.5" fill="#202124" stroke="#fbbc04" stroke-width="1.5"/>
+                                        <text x="0" y="-5" font-size="8" fill="#fbbc04" text-anchor="middle">🌇</text>
+                                    </g>
+                                    <circle id="sun-dot" cx="50" cy="5" r="4.5" fill="#fbbc04" stroke="#202124" stroke-width="1.5" style="transition: all 1s ease-in-out;"/>
+                                </svg>
+                                <div id="sun-status-text" class="absolute text-[10px] text-white font-bold tracking-wide z-10 bg-[#303134] px-2.5 py-1 rounded-full border border-[#3c4043] shadow-md pointer-events-none"></div>
+                            </div>
+                            <div class="flex justify-between w-full max-w-[200px] text-xs text-[#9aa0a6] font-medium px-2">
+                                <div class="flex flex-col items-center">
+                                    <span class="text-[9px] uppercase tracking-wider mb-0.5 text-[#5f6368]">Sunrise</span>
+                                    <span id="det-sunrise" class="text-white">--:--</span>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <span class="text-[9px] uppercase tracking-wider mb-0.5 text-[#5f6368]">Sunset</span>
+                                    <span id="det-sunset" class="text-white">--:--</span>
+                                </div>
+                            </div>
+                            <div id="sun-percentages" class="text-[10px] text-[#9aa0a6] mt-4 font-medium tracking-wide uppercase text-center w-full"></div>
+                        </div>
+
+                        <!-- Moon Tracker -->
+                        <div class="flex flex-col items-center sm:border-l border-[#3c4043]/50 sm:pl-6 pt-6 sm:pt-0 border-t sm:border-t-0 mt-2 sm:mt-0">
+                            <h5 class="text-white text-sm font-medium mb-3">Moon Phase</h5>
+                            <div class="relative w-full max-w-[150px] aspect-square flex items-center justify-center mb-2">
+                                <svg viewBox="-10 -10 120 120" class="absolute inset-0 w-full h-full overflow-visible">
+                                    <circle cx="50" cy="50" r="45" fill="none" stroke="#3c4043" stroke-width="2" stroke-dasharray="2 4"/>
+                                    <path id="moon-arc-fill" d="" fill="none" stroke="#8ab4f8" stroke-width="3" stroke-linecap="round" />
+                                    
+                                    <text x="50" y="103" font-size="6" fill="#5f6368" text-anchor="middle" font-weight="600">00:00</text>
+                                    <text x="50" y="-1" font-size="6" fill="#5f6368" text-anchor="middle" font-weight="600">12:00</text>
+                                    <text x="-2" y="52" font-size="6" fill="#5f6368" text-anchor="end" font-weight="600">06:00</text>
+                                    <text x="102" y="52" font-size="6" fill="#5f6368" text-anchor="start" font-weight="600">18:00</text>
+
+                                    <g id="moonrise-marker">
+                                        <circle cx="0" cy="0" r="2.5" fill="#202124" stroke="#8ab4f8" stroke-width="1.5"/>
+                                    </g>
+                                    <g id="moonset-marker">
+                                        <circle cx="0" cy="0" r="2.5" fill="#202124" stroke="#8ab4f8" stroke-width="1.5"/>
+                                    </g>
+                                    <circle id="moon-dot" cx="50" cy="5" r="4.5" fill="#e8eaed" stroke="#202124" stroke-width="1.5" style="transition: all 1s ease-in-out;"/>
+                                </svg>
+                                <div id="moon-status-text" class="absolute text-[10px] text-white font-bold tracking-wide z-10 bg-[#303134] px-2.5 py-1 rounded-full border border-[#3c4043] shadow-md pointer-events-none whitespace-nowrap"></div>
+                            </div>
+                            <div class="flex justify-between w-full max-w-[200px] text-xs text-[#9aa0a6] font-medium px-2 mt-2">
+                                <div class="flex flex-col items-center">
+                                    <span class="text-[9px] uppercase tracking-wider mb-0.5 text-[#5f6368]">Rise</span>
+                                    <span id="det-moonrise" class="text-white">--:--</span>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <span class="text-[9px] uppercase tracking-wider mb-0.5 text-[#5f6368]">Set</span>
+                                    <span id="det-moonset" class="text-white">--:--</span>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -487,7 +494,7 @@
             
             <div class="p-6 border-b border-[#3c4043] flex justify-between items-center">
                 <h2 class="text-xl font-medium text-white flex items-center gap-2" tabindex="0">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1 0-2.83 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                     Settings
                 </h2>
                 <button onclick="toggleSettingsModal(false)" class="text-[#9aa0a6] hover:text-white transition p-2 bg-white/5 rounded-full hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white" aria-label="Close settings">
@@ -497,16 +504,20 @@
 
             <div class="p-6 overflow-y-auto flex-1 hide-scrollbar">
                 
-                <!-- Location Search -->
+                <!-- Location Search with Autocomplete -->
                 <div class="mb-8">
                     <h3 class="text-[#9aa0a6] text-xs font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                         Search Location
                     </h3>
-                    <form id="settings-search-form" class="flex bg-[#303134] border border-[#5f6368] rounded-xl px-2 py-1 focus-within:border-[#8ab4f8]">
-                        <input type="text" id="settings-city-input" placeholder="Search a new city..." class="flex-1 bg-transparent border-none px-2 py-1.5 text-sm text-white focus:outline-none focus:ring-0" required>
-                        <button type="submit" class="text-blue-400 px-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded">Go</button>
-                    </form>
+                    <div class="relative w-full">
+                        <form id="settings-search-form" class="flex bg-[#303134] border border-[#5f6368] rounded-xl px-2 py-1 focus-within:border-[#8ab4f8]">
+                            <input type="text" id="settings-city-input" autocomplete="off" placeholder="Search a new city..." class="flex-1 bg-transparent border-none px-2 py-1.5 text-sm text-white focus:outline-none focus:ring-0" required>
+                            <button type="submit" class="text-blue-400 px-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded">Go</button>
+                        </form>
+                        <!-- Autocomplete Dropdown -->
+                        <ul id="city-autocomplete-list" class="hidden absolute top-full left-0 w-full mt-1.5 bg-[#303134] border border-[#3c4043] rounded-xl shadow-2xl overflow-y-auto max-h-60 z-[100] hide-scrollbar"></ul>
+                    </div>
                 </div>
 
                 <!-- Units Selection -->
@@ -570,6 +581,7 @@
         // DOM Elements
         const settingsForm = document.getElementById('settings-search-form');
         const settingsCityInput = document.getElementById('settings-city-input');
+        const autocompleteList = document.getElementById('city-autocomplete-list');
         const errorContainer = document.getElementById('error-container');
         const weatherResults = document.getElementById('weather-results');
         const loadingState = document.getElementById('loading-state');
@@ -585,15 +597,16 @@
         let currentRadarLayer = 'radar';
         let savedLocations = []; 
         let isSyncingScroll = false;
+        let activeSyncContainer = null;
+        let syncScrollEnabled = true;
         let dayMap = {}; 
+        let autocompleteTimeout;
 
         // Section Expansion Memory
         let sectionStates = {
-            'sun-section': false,
-            'moon-section': false,
-            'uv-section': false,
-            'aqi-section': false,
-            'atmosphere-section': false,
+            'detailed-hourly-section': false,
+            'environment-section': false,
+            'celestial-section': false,
             'radar-section': false,
             'insights-section': false
         };
@@ -614,6 +627,10 @@
                 if (cityDropdown && btn && !cityDropdown.classList.contains('hidden') && !cityDropdown.contains(e.target) && !btn.contains(e.target)) {
                     cityDropdown.classList.add('hidden');
                 }
+
+                if (autocompleteList && !autocompleteList.classList.contains('hidden') && !autocompleteList.contains(e.target) && e.target !== settingsCityInput) {
+                    autocompleteList.classList.add('hidden');
+                }
             });
 
             // Start Retro Clock
@@ -622,6 +639,47 @@
             
             setupDragScroll();
         });
+
+        // ==========================================================
+        // AUTOCOMPLETE LOGIC
+        // ==========================================================
+        settingsCityInput.addEventListener('input', (e) => {
+            clearTimeout(autocompleteTimeout);
+            const val = e.target.value.trim();
+            if (!val) {
+                autocompleteList.classList.add('hidden');
+                return;
+            }
+            autocompleteTimeout = setTimeout(async () => {
+                try {
+                    const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(val)}&count=5&language=en&format=json`);
+                    const data = await res.json();
+                    if (data.results && data.results.length > 0) {
+                        autocompleteList.innerHTML = data.results.map(city => {
+                            const locationStr = `${city.name}${city.admin1 ? ', ' + city.admin1 : ''}${city.country ? ', ' + city.country : ''}`;
+                            return `
+                                <li class="px-4 py-3 hover:bg-[#3c4043] cursor-pointer text-sm text-white border-b border-[#3c4043]/50 last:border-0 transition" 
+                                    onclick="selectAutocomplete('${city.name.replace(/'/g, "\\'")}', '${city.country ? city.country.replace(/'/g, "\\'") : ''}', ${city.latitude}, ${city.longitude})">
+                                    ${locationStr}
+                                </li>`;
+                        }).join('');
+                        autocompleteList.classList.remove('hidden');
+                    } else {
+                        autocompleteList.innerHTML = `<li class="px-4 py-3 text-sm text-[#9aa0a6] text-center">No matching cities found</li>`;
+                        autocompleteList.classList.remove('hidden');
+                    }
+                } catch (e) {
+                    autocompleteList.classList.add('hidden');
+                }
+            }, 300);
+        });
+
+        window.selectAutocomplete = function(name, country, lat, lng) {
+            settingsCityInput.value = '';
+            autocompleteList.classList.add('hidden');
+            toggleSettingsModal(false);
+            fetchWeatherByCoords(lat, lng, name, country);
+        }
 
         // ==========================================================
         // RETRO CLOCK
@@ -727,6 +785,7 @@
             } else {
                 modal.classList.add('opacity-0', 'pointer-events-none');
                 panel.classList.add('translate-x-full');
+                autocompleteList.classList.add('hidden'); // Also hide autocomplete
             }
         }
 
@@ -794,7 +853,13 @@
             const isCollapsed = section.classList.toggle('collapsed');
             const wrapper = section.querySelector('.content-wrapper');
             if (wrapper) {
-                wrapper.classList.toggle('hidden');
+                if (isCollapsed) {
+                    wrapper.classList.add('hidden');
+                    wrapper.classList.remove('flex');
+                } else {
+                    wrapper.classList.remove('hidden');
+                    wrapper.classList.add('flex');
+                }
             }
             sectionStates[sectionId] = !isCollapsed;
             saveSettings();
@@ -807,10 +872,16 @@
                     const wrapper = section.querySelector('.content-wrapper');
                     if (isExpanded) {
                         section.classList.remove('collapsed');
-                        if (wrapper) wrapper.classList.remove('hidden');
+                        if (wrapper) {
+                            wrapper.classList.remove('hidden');
+                            if(id === 'environment-section' || id === 'celestial-section' || id === 'detailed-hourly-section') wrapper.classList.add('flex');
+                        }
                     } else {
                         section.classList.add('collapsed');
-                        if (wrapper) wrapper.classList.add('hidden');
+                        if (wrapper) {
+                            wrapper.classList.add('hidden');
+                            if(id === 'environment-section' || id === 'celestial-section' || id === 'detailed-hourly-section') wrapper.classList.remove('flex');
+                        }
                     }
                 }
             }
@@ -833,7 +904,7 @@
             if(!container) return;
             
             let selector = containerId === 'daily-container' ? '.daily-tab' : '.hourly-item';
-            if (containerId.includes('precip') || containerId.includes('wind') || containerId.includes('humidity')) {
+            if (containerId !== 'daily-container' && containerId !== 'hourly-container') {
                 selector = '.hourly-stat-item';
             }
 
@@ -841,19 +912,66 @@
             if (firstItem) {
                 const gap = parseFloat(window.getComputedStyle(container).gap) || 0;
                 const scrollAmount = firstItem.offsetWidth + gap;
+                
+                // Allow sync logic to follow this programmatic trigger
+                activeSyncContainer = containerId;
                 container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
             }
         }
 
+        // ==========================================================
+        // SYNCHRONIZED SCROLLING (Glitch-Free)
+        // ==========================================================
+
         function setupDragScroll() {
-            initScroll('hourly-container');
-            initScroll('daily-container');
-            initScroll('precip-container');
-            initScroll('wind-container');
-            initScroll('humidity-container');
+            const containers = [
+                'hourly-container', 'daily-container', 
+                'precip-container', 'wind-container', 'humidity-container',
+                'uv-container', 'aqi-container', 'vis-container', 'press-container'
+            ];
+            
+            containers.forEach(id => {
+                initDrag(id);
+            });
+
+            // Sync horizontal scrolling ONLY for hourly lists
+            const hourlyContainers = [
+                'hourly-container', 'precip-container', 'wind-container', 'humidity-container',
+                'uv-container', 'aqi-container', 'vis-container', 'press-container'
+            ];
+
+            hourlyContainers.forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+
+                // Only the container actively hovered/touched becomes the "master" scroll driver
+                el.addEventListener('mouseenter', () => { activeSyncContainer = id; });
+                el.addEventListener('touchstart', () => { activeSyncContainer = id; }, {passive: true});
+                
+                el.addEventListener('scroll', () => {
+                    if (!syncScrollEnabled || activeSyncContainer !== id) return;
+                    
+                    window.requestAnimationFrame(() => {
+                        syncScrollEnabled = false; // Prevent echo loop
+                        
+                        hourlyContainers.forEach(targetId => {
+                            if (targetId !== id) {
+                                const targetEl = document.getElementById(targetId);
+                                if (targetEl) targetEl.scrollLeft = el.scrollLeft;
+                            }
+                        });
+                        
+                        if (id === 'hourly-container') {
+                            detectActiveDayFromScroll(el);
+                        }
+                        
+                        syncScrollEnabled = true;
+                    });
+                });
+            });
         }
 
-        function initScroll(containerId) {
+        function initDrag(containerId) {
             const slider = document.getElementById(containerId);
             if (!slider) return;
 
@@ -861,6 +979,7 @@
 
             slider.addEventListener('mousedown', (e) => {
                 isDown = true; 
+                activeSyncContainer = containerId;
                 slider.classList.add('active:cursor-grabbing');
                 startX = e.pageX - slider.offsetLeft; 
                 scrollLeft = slider.scrollLeft;
@@ -879,31 +998,6 @@
                 const x = e.pageX - slider.offsetLeft; 
                 const walk = (x - startX) * 2; 
                 slider.scrollLeft = scrollLeft - walk;
-            });
-        }
-
-        // ==========================================================
-        // SYNCHRONIZED SCROLLING
-        // ==========================================================
-
-        function syncScroll(sourceContainerId, targetContainerIds) {
-            const source = document.getElementById(sourceContainerId);
-            if (!source) return;
-            
-            source.addEventListener('scroll', () => {
-                if (isSyncingScroll) return;
-                window.requestAnimationFrame(() => {
-                    isSyncingScroll = true;
-                    targetContainerIds.forEach(id => {
-                        const target = document.getElementById(id);
-                        if (target) target.scrollLeft = source.scrollLeft;
-                    });
-                    
-                    if (sourceContainerId === 'hourly-container') {
-                        detectActiveDayFromScroll(source);
-                    }
-                    setTimeout(() => { isSyncingScroll = false; }, 20);
-                });
             });
         }
 
@@ -966,16 +1060,6 @@
             }
         }
 
-        settingsForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const city = settingsCityInput.value.trim();
-            if (city) {
-                fetchWeather(city);
-                settingsCityInput.value = '';
-                toggleSettingsModal(false);
-            }
-        });
-
         async function fetchWeather(city) {
             setLoading(true);
             try {
@@ -985,29 +1069,43 @@
                 
                 if (geoData.results && geoData.results.length > 0) {
                     const { latitude, longitude, name, country } = geoData.results[0];
-                    currentCityInfo = { name, country, lat: latitude, lon: longitude };
-                    
-                    const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m,visibility,is_day&hourly=temperature_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_direction_10m,relative_humidity_2m,is_day&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,sunrise,sunset,uv_index_max,precipitation_probability_max,precipitation_sum,wind_speed_10m_max,wind_direction_10m_dominant&timezone=auto&forecast_days=16`;
-                    const aqiUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${latitude}&longitude=${longitude}&hourly=us_aqi&daily=alder_pollen,birch_pollen,grass_pollen,mugwort_pollen,olive_pollen,ragweed_pollen&timezone=auto&forecast_days=16`;
-                    
-                    const [weatherRes, aqiRes] = await Promise.all([
-                        fetch(url), 
-                        fetch(aqiUrl).catch(() => null) 
-                    ]);
-                    
-                    if (!weatherRes.ok) {
-                        throw new Error(`Weather API Error: ${weatherRes.status}`);
-                    }
-                    
-                    currentWeatherData = await weatherRes.json();
-                    currentAqiData = (aqiRes && aqiRes.ok) ? await aqiRes.json() : null;
-                    
-                    updateFavoriteIcon(); 
-                    renderWeather();
-                    updateRadar(latitude, longitude, currentRadarLayer);
+                    fetchWeatherByCoords(latitude, longitude, name, country);
                 } else {
                     throw new Error("City not found.");
                 }
+            } catch (err) {
+                setLoading(false);
+                errorContainer.textContent = err.message;
+                errorContainer.classList.remove('hidden');
+                welcomeState.classList.remove('hidden');
+            }
+        }
+
+        async function fetchWeatherByCoords(latitude, longitude, name, country) {
+            setLoading(true);
+            try {
+                currentCityInfo = { name, country, lat: latitude, lon: longitude };
+                
+                // NO Moonrise/Moonset variables requested from API to prevent "Failed to Fetch" Server errors! Mathematically calculated below.
+                // ADDED uv_index, visibility, surface_pressure to hourly
+                const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m,visibility,is_day&hourly=temperature_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_direction_10m,relative_humidity_2m,is_day,uv_index,visibility,surface_pressure&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,sunrise,sunset,uv_index_max,precipitation_probability_max,precipitation_sum,wind_speed_10m_max,wind_direction_10m_dominant&timezone=auto&forecast_days=16`;
+                const aqiUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${latitude}&longitude=${longitude}&hourly=us_aqi&daily=alder_pollen,birch_pollen,grass_pollen,mugwort_pollen,olive_pollen,ragweed_pollen&timezone=auto&forecast_days=16`;
+                
+                const [weatherRes, aqiRes] = await Promise.all([
+                    fetch(url), 
+                    fetch(aqiUrl).catch(() => null) 
+                ]);
+                
+                if (!weatherRes.ok) {
+                    throw new Error(`Weather API Error: ${weatherRes.status}`);
+                }
+                
+                currentWeatherData = await weatherRes.json();
+                currentAqiData = (aqiRes && aqiRes.ok) ? await aqiRes.json() : null;
+                
+                updateFavoriteIcon(); 
+                renderWeather();
+                updateRadar(latitude, longitude, currentRadarLayer);
             } catch (err) {
                 setLoading(false);
                 errorContainer.textContent = err.message;
@@ -1041,8 +1139,9 @@
         }
 
         function formatVisibility(meters) {
-            if (units.wind === 'kmh') return `${(meters / 1000).toFixed(1)} km`; 
-            return `${(meters / 1609.34).toFixed(1)} mi`;
+            let visKm = meters / 1000;
+            if (units.wind === 'kmh') return `${visKm.toFixed(1)} km`; 
+            return `${(visKm / 1.60934).toFixed(1)} mi`;
         }
 
         function getUVCategory(uv) {
@@ -1217,6 +1316,11 @@
             let precipHTML = '';
             let windHTML = '';
             let humidHTML = '';
+            
+            let uvHTML = '';
+            let aqiHTML = '';
+            let visHTML = '';
+            let pressHTML = '';
 
             const currentIso = data.current.time;
             const currentHourIso = currentIso.substring(0, 14) + "00";
@@ -1241,32 +1345,48 @@
                 const temp = convertTemp(data.hourly.temperature_2m[i]);
                 const isDay = data.hourly.is_day[i];
                 const icon = getWeatherIcon(mapWmoCode(data.hourly.weather_code[i]), isDay);
-                const precipProb = data.hourly.precipitation_probability[i];
-                const precipMm = data.hourly.precipitation[i];
-                const humidity = data.hourly.relative_humidity_2m[i];
+                const precipProb = data.hourly.precipitation_probability[i] || 0;
+                const precipMm = data.hourly.precipitation[i] || 0;
+                const humidity = data.hourly.relative_humidity_2m[i] || 0;
                 
-                const windRaw = data.hourly.wind_speed_10m[i];
+                const windRaw = data.hourly.wind_speed_10m[i] || 0;
                 const windSpeed = formatSpeed(windRaw).replace(' km/h', 'km').replace(' mph', 'mi');
-                const windDirDeg = data.hourly.wind_direction_10m[i];
+                const windDirDeg = data.hourly.wind_direction_10m[i] || 0;
                 const hrWindPercent = Math.min(100, (windRaw / windMaxBase) * 100);
                 
                 const windDirArrow = `<svg style="transform: rotate(${windDirDeg}deg);" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>`;
-                
-                // 1. Main Hourly Item
+                const precipDisplay = (precipProb > 0) ? `<span class="text-[#8ab4f8] font-bold">${precipProb}%</span>` : `<span class="text-[#5f6368]">0%</span>`;
+
+                // 1. Main Hourly Item (Inside Mega Card)
                 mainHTML += `
-                    <div class="hourly-item flex flex-col items-center w-[75px] flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl py-2 px-1 transition-colors" data-day="${dayIdx}" tabindex="0">
-                        <span class="font-medium text-white text-lg mb-1">${temp}°</span>
+                    <div class="hourly-item flex flex-col items-center w-[65px] flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl p-1.5 transition-colors" data-day="${dayIdx}" tabindex="0">
+                        <span class="font-medium text-white text-base mb-1">${temp}°</span>
                         <div class="h-4 flex items-center justify-center text-[10px] text-[#8ab4f8] font-bold">
                             ${precipProb > 0 ? `<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" class="mr-0.5"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>${precipProb}%` : ''}
                         </div>
-                        <div class="my-1 scale-75 h-8 flex items-center justify-center">${icon}</div>
-                        <span class="text-xs text-[#9aa0a6] mb-1 font-medium">${displayHour}</span>
+                        <div class="my-1 scale-[0.65] h-8 flex items-center justify-center">${icon}</div>
+                        <span class="text-xs text-[#9aa0a6] font-medium mb-1">${displayHour}</span>
+                        <!-- Compact Inline Stats -->
+                        <div class="w-full flex flex-col gap-[3px] text-[8px] text-[#9aa0a6] border-t border-[#3c4043]/50 pt-2 px-0.5 w-full">
+                            <div class="flex justify-between items-center w-full">
+                                <span class="text-[#8ab4f8]"><svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg></span>
+                                ${precipDisplay}
+                            </div>
+                            <div class="flex justify-between items-center w-full">
+                                <span class="text-[#e8eaed]"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path></svg></span>
+                                <div class="flex items-center gap-0.5"><span>${Math.round(windRaw)}</span></div>
+                            </div>
+                            <div class="flex justify-between items-center w-full">
+                                <span class="text-[#9aa0a6]"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg></span>
+                                <span>${humidity}%</span>
+                            </div>
+                        </div>
                     </div>
                 `;
 
-                // 2. Precip Item
+                // 2. Precip Item (In Separated Detailed Graph)
                 precipHTML += `
-                    <div class="hourly-stat-item flex flex-col items-center w-[75px] flex-shrink-0 pt-1 pb-2">
+                    <div class="hourly-stat-item flex flex-col items-center w-[75px] flex-shrink-0 pt-1 pb-2 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl" tabindex="0">
                         <span class="text-[10px] text-[#9aa0a6] mb-3">${displayHour}</span>
                         <div class="h-10 flex flex-col justify-end items-center w-full mb-1.5">
                             <div class="w-3 bg-[#8ab4f8] rounded-t-sm" style="height: ${precipProb}%;"></div>
@@ -1278,7 +1398,7 @@
 
                 // 3. Wind Item
                 windHTML += `
-                    <div class="hourly-stat-item flex flex-col items-center w-[75px] flex-shrink-0 pt-1 pb-2">
+                    <div class="hourly-stat-item flex flex-col items-center w-[75px] flex-shrink-0 pt-1 pb-2 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl" tabindex="0">
                         <span class="text-[10px] text-[#9aa0a6] mb-3">${displayHour}</span>
                         <span class="text-xs text-white font-bold">${windSpeed}</span>
                         <div class="my-1.5 text-[#e8eaed]">${windDirArrow}</div>
@@ -1288,10 +1408,57 @@
 
                 // 4. Humidity Item
                 humidHTML += `
-                    <div class="hourly-stat-item flex flex-col items-center w-[75px] flex-shrink-0 pt-1 pb-2">
+                    <div class="hourly-stat-item flex flex-col items-center w-[75px] flex-shrink-0 pt-1 pb-2 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl" tabindex="0">
                         <span class="text-[10px] text-[#9aa0a6] mb-3">${displayHour}</span>
                         <span class="text-xs text-white font-bold">${humidity}%</span>
                         <div class="mt-2 w-8 flex justify-center">${getIntensityBar(humidity, 'bg-[#9aa0a6]')}</div>
+                    </div>
+                `;
+
+                // 5. Environment Arrays
+                const uv = data.hourly.uv_index ? (data.hourly.uv_index[i] || 0) : 0;
+                const uvStatus = getUVCategory(uv);
+                const uvPercent = Math.min(100, (uv / 11) * 100);
+                uvHTML += `
+                    <div class="hourly-stat-item flex flex-col items-center w-[75px] flex-shrink-0 pt-1 pb-2 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl" tabindex="0">
+                        <span class="text-[10px] text-[#9aa0a6] mb-3">${displayHour}</span>
+                        <span class="text-xs text-white font-bold">${uv.toFixed(1)}</span>
+                        <div class="mt-2 w-8 flex justify-center">${getIntensityBar(uvPercent, uvStatus.color.split(' ')[0])}</div>
+                    </div>
+                `;
+
+                let aqi = 0;
+                if (currentAqiData && currentAqiData.hourly && currentAqiData.hourly.us_aqi[i]) {
+                    aqi = currentAqiData.hourly.us_aqi[i];
+                }
+                let aqiColor = 'bg-green-400';
+                if (aqi > 300) aqiColor = 'bg-purple-600';
+                else if (aqi > 200) aqiColor = 'bg-purple-400';
+                else if (aqi > 150) aqiColor = 'bg-red-500';
+                else if (aqi > 100) aqiColor = 'bg-orange-400';
+                else if (aqi > 50) aqiColor = 'bg-yellow-400';
+                
+                aqiHTML += `
+                    <div class="hourly-stat-item flex flex-col items-center w-[75px] flex-shrink-0 pt-1 pb-2 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl" tabindex="0">
+                        <span class="text-[10px] text-[#9aa0a6] mb-3">${displayHour}</span>
+                        <span class="text-xs text-white font-bold">${aqi}</span>
+                        <div class="mt-2 w-8 flex justify-center">${getIntensityBar(Math.min(100, (aqi/300)*100), aqiColor)}</div>
+                    </div>
+                `;
+
+                const visRaw = data.hourly.visibility ? (data.hourly.visibility[i] || 0) : 0;
+                visHTML += `
+                    <div class="hourly-stat-item flex flex-col items-center w-[75px] flex-shrink-0 pt-1 pb-2 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl" tabindex="0">
+                        <span class="text-[10px] text-[#9aa0a6] mb-3">${displayHour}</span>
+                        <span class="text-[11px] text-white font-bold whitespace-nowrap">${formatVisibility(visRaw)}</span>
+                    </div>
+                `;
+
+                const pressRaw = data.hourly.surface_pressure ? (data.hourly.surface_pressure[i] || 0) : 0;
+                pressHTML += `
+                    <div class="hourly-stat-item flex flex-col items-center w-[75px] flex-shrink-0 pt-1 pb-2 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl" tabindex="0">
+                        <span class="text-[10px] text-[#9aa0a6] mb-3">${displayHour}</span>
+                        <span class="text-[11px] text-white font-bold whitespace-nowrap">${formatPressure(pressRaw)}</span>
                     </div>
                 `;
             }
@@ -1307,6 +1474,18 @@
 
             const humidityContainer = document.getElementById('humidity-container');
             if(humidityContainer) humidityContainer.innerHTML = humidHTML;
+            
+            const uvContainer = document.getElementById('uv-container');
+            if(uvContainer) uvContainer.innerHTML = uvHTML;
+
+            const aqiContainer = document.getElementById('aqi-container');
+            if(aqiContainer) aqiContainer.innerHTML = aqiHTML;
+
+            const visContainer = document.getElementById('vis-container');
+            if(visContainer) visContainer.innerHTML = visHTML;
+
+            const pressContainer = document.getElementById('press-container');
+            if(pressContainer) pressContainer.innerHTML = pressHTML;
         }
 
         function renderWeather() {
@@ -1321,12 +1500,6 @@
             
             generateInsights(data);
             buildFullHourlyForecast(data);
-
-            // Setup Sync Scrolling for all detailed horizontal bars
-            syncScroll('hourly-container', ['precip-container', 'wind-container', 'humidity-container']);
-            syncScroll('precip-container', ['hourly-container', 'wind-container', 'humidity-container']);
-            syncScroll('wind-container', ['hourly-container', 'precip-container', 'humidity-container']);
-            syncScroll('humidity-container', ['hourly-container', 'precip-container', 'wind-container']);
 
             // === MEGA CARD: DAILY TABS ===
             let dailyHTML = '';
@@ -1345,12 +1518,43 @@
                 const dominantDayCode = getDaytimeWeatherCode(data, i);
                 const icon = getWeatherIcon(mapWmoCode(dominantDayCode), 1); 
 
+                const precipProb = data.daily.precipitation_probability_max[i] || 0;
+                const windRaw = data.daily.wind_speed_10m_max[i] || 0;
+                const windSpeed = formatSpeed(windRaw).replace(' km/h', 'km').replace(' mph', 'mi');
+                const windDirDeg = data.daily.wind_direction_10m_dominant[i] || 0;
+                const windDirArrow = `<svg style="transform: rotate(${windDirDeg}deg);" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>`;
+                const precipDisplay = (precipProb > 0) ? `<span class="text-[#8ab4f8] font-bold">${precipProb}%</span>` : `<span class="text-[#5f6368]">0%</span>`;
+
+                const targetDateStr = data.daily.time[i];
+                let startHr = data.hourly.time.findIndex(t => t.startsWith(targetDateStr));
+                if (startHr === -1) startHr = 0;
+                let sumHum = 0; let hrCount = 0;
+                for (let j = startHr; j < startHr + 24 && j < data.hourly.time.length; j++) {
+                    sumHum += data.hourly.relative_humidity_2m[j]; hrCount++;
+                }
+                const humidity = hrCount > 0 ? Math.round(sumHum / hrCount) : 0;
+
                 dailyHTML += `
-                    <div class="daily-tab flex flex-col items-center min-w-[70px] p-2 flex-shrink-0 border border-transparent rounded-2xl cursor-pointer transition-colors focus:outline-none focus:ring-2 focus:ring-[#8ab4f8]" onclick="selectDay(${i}, true)" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')selectDay(${i}, true);">
-                        <span class="text-xs font-medium text-[#9aa0a6] day-name">${dayName}</span>
+                    <div class="daily-tab flex flex-col items-center min-w-[80px] p-2 flex-shrink-0 border border-transparent rounded-2xl cursor-pointer transition-colors focus:outline-none focus:ring-2 focus:ring-[#8ab4f8]" onclick="selectDay(${i}, true)" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')selectDay(${i}, true);">
+                        <span class="text-[11px] font-medium text-[#9aa0a6] day-name">${dayName}</span>
                         <div class="my-1 scale-75 h-8 flex items-center justify-center">${icon}</div>
-                        <div class="text-[11px] font-medium">
+                        <div class="text-[10px] font-medium mb-2">
                             <span class="text-white">${maxTemp}°</span><span class="text-[#5f6368]">/${minTemp}°</span>
+                        </div>
+                        <!-- Compact Inline Stats -->
+                        <div class="w-full flex flex-col gap-[3px] text-[8px] text-[#9aa0a6] border-t border-[#3c4043]/50 pt-2 px-1 w-full">
+                            <div class="flex justify-between items-center w-full">
+                                <span class="text-[#8ab4f8]"><svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg></span>
+                                ${precipDisplay}
+                            </div>
+                            <div class="flex justify-between items-center w-full">
+                                <span class="text-[#e8eaed]"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path></svg></span>
+                                <div class="flex items-center gap-0.5"><span>${Math.round(windRaw)}</span></div>
+                            </div>
+                            <div class="flex justify-between items-center w-full">
+                                <span class="text-[#9aa0a6]"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg></span>
+                                <span>${humidity}%</span>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -1369,17 +1573,8 @@
                 const hourlyContainer = document.getElementById('hourly-container');
                 const targetItem = hourlyContainer.querySelector(`[data-day="${dayIndex}"]`);
                 if (targetItem) {
-                    isSyncingScroll = true; 
+                    activeSyncContainer = 'hourly-container'; 
                     hourlyContainer.scrollTo({ left: targetItem.offsetLeft - hourlyContainer.offsetLeft - 24, behavior: 'smooth' });
-                    
-                    setTimeout(() => {
-                        const targetLeft = hourlyContainer.scrollLeft;
-                        ['precip-container', 'wind-container', 'humidity-container'].forEach(id => {
-                            const el = document.getElementById(id);
-                            if(el) el.scrollLeft = targetLeft;
-                        });
-                        isSyncingScroll = false;
-                    }, 500); 
                 }
             }
         }
@@ -1430,30 +1625,10 @@
                 document.getElementById('feels-like').textContent = `Low ${convertTemp(data.daily.temperature_2m_min[dayIndex])}°`;
             }
 
-            // Atmosphere
-            if (dayIndex === 0) {
-                const visVal = data.current.visibility;
-                const pressVal = data.current.surface_pressure;
-                document.getElementById('det-visibility').innerHTML = `<span class="flex items-center gap-2">${formatVisibility(visVal)} ${getIntensityBar((visVal / 10000) * 100, 'bg-[#e8eaed]')}</span>`;
-                document.getElementById('det-pressure').innerHTML = `<span class="flex items-center gap-2">${formatPressure(pressVal)} ${getIntensityBar(Math.max(0, Math.min(100, ((pressVal - 950) / 100) * 100)), 'bg-[#9aa0a6]')}</span>`;
-            } else {
-                document.getElementById('det-visibility').innerHTML = `<span>N/A</span>`;
-                document.getElementById('det-pressure').innerHTML = `<span>N/A</span>`;
-            }
-
-            // UV Index
-        const uvVal = data.daily.uv_index_max[dayIndex] || 0;
-        const uvStatus = getUVCategory(uvVal);
-        const uvPercent = Math.min(100, (uvVal / 11) * 100);
-        document.getElementById('det-uv-val').textContent = uvVal ? uvVal.toFixed(1) : '--';
-        document.getElementById('det-uv-desc').textContent = uvVal ? uvStatus.text : 'N/A';
-        document.getElementById('det-uv-desc').className = `text-xs font-bold uppercase tracking-wide text-${uvStatus.color.replace('bg-', '')}`;
-        document.getElementById('det-uv-bar').innerHTML = uvVal ? getIntensityBar(uvPercent, uvStatus.color.split(' ')[0], false, true) : '';
-
-        // --------------------------------------------------------
-        // Sun Graph Calculation
-        // --------------------------------------------------------
-        const riseStr = data.daily.sunrise[dayIndex];
+            // --------------------------------------------------------
+            // Sun Graph Calculation
+            // --------------------------------------------------------
+            const riseStr = data.daily.sunrise[dayIndex];
             const setStr = data.daily.sunset[dayIndex];
             const currentStr = data.current.time;
 
@@ -1588,57 +1763,6 @@
             document.getElementById('moon-dot').setAttribute('cx', mDotPt.x);
             document.getElementById('moon-dot').setAttribute('cy', mDotPt.y);
             document.getElementById('moon-status-text').textContent = `${phaseName} • ${mMoonStatusText}`;
-
-            // AQI and Pollen
-            if (currentAqiData && currentAqiData.daily) {
-                let aqiVal = 0;
-                if (dayIndex === 0) {
-                    const currentIso = data.current.time;
-                    const currentHourIso = currentIso.substring(0, 14) + "00";
-                    let idx = currentAqiData.hourly.time.indexOf(currentHourIso);
-                    if (idx === -1) idx = 0;
-                    aqiVal = currentAqiData.hourly.us_aqi[idx] || 0;
-                } else {
-                    let startHr = currentAqiData.hourly.time.findIndex(t => t.startsWith(targetDateStr));
-                    if (startHr !== -1) {
-                        let dayAqis = currentAqiData.hourly.us_aqi.slice(startHr, startHr + 24).filter(v => v !== null);
-                        if(dayAqis.length > 0) aqiVal = Math.max(...dayAqis);
-                    }
-                }
-                
-                let aqiDesc = "Good"; let aqiColor = "text-green-400";
-                if (aqiVal > 300) { aqiDesc = "Hazard"; aqiColor = "text-purple-600"; }
-                else if (aqiVal > 200) { aqiDesc = "V. Unhealthy"; aqiColor = "text-purple-400"; }
-                else if (aqiVal > 150) { aqiDesc = "Unhealthy"; aqiColor = "text-red-500"; }
-                else if (aqiVal > 100) { aqiDesc = "Unhealthy (SG)"; aqiColor = "text-orange-400"; }
-                else if (aqiVal > 50) { aqiDesc = "Moderate"; aqiColor = "text-yellow-400"; }
-
-                document.getElementById('det-aqi').innerHTML = `<span>${aqiVal}</span> <span class="text-[10px] uppercase font-bold ml-2 ${aqiColor}">${aqiDesc}</span>`;
-
-                const pollens = [
-                    {name: 'Alder', val: currentAqiData.daily.alder_pollen[dayIndex]},
-                    {name: 'Birch', val: currentAqiData.daily.birch_pollen[dayIndex]},
-                    {name: 'Grass', val: currentAqiData.daily.grass_pollen[dayIndex]},
-                    {name: 'Mugwort', val: currentAqiData.daily.mugwort_pollen[dayIndex]},
-                    {name: 'Olive', val: currentAqiData.daily.olive_pollen[dayIndex]},
-                    {name: 'Ragweed', val: currentAqiData.daily.ragweed_pollen[dayIndex]}
-                ];
-                let maxPollen = {name: 'None', val: 0};
-                for(let p of pollens) { if(p.val > maxPollen.val) maxPollen = p; }
-                
-                let pollenLevel = "Low"; let pColor = "text-green-400";
-                if (maxPollen.val > 50) { pollenLevel = "High"; pColor = "text-red-400"; }
-                else if (maxPollen.val > 10) { pollenLevel = "Moderate"; pColor = "text-yellow-400"; }
-                
-                if (maxPollen.val === 0) {
-                    document.getElementById('det-pollen').innerHTML = `<span>None</span>`;
-                } else {
-                    document.getElementById('det-pollen').innerHTML = `<span>${maxPollen.name}</span> <span class="text-[10px] uppercase font-bold ml-2 ${pColor}">${pollenLevel}</span>`;
-                }
-            } else {
-                document.getElementById('det-aqi').innerHTML = `<span>--</span>`;
-                document.getElementById('det-pollen').innerHTML = `<span>--</span>`;
-            }
         }
 
         // ==========================================================
