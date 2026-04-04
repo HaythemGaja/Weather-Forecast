@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title> HG Weather Forecast</title>
+    <title>Google Weather Forecast</title>
     
     <!-- PWA Settings (For saving to Android / iOS Home Screen) -->
     <meta name="theme-color" content="#202124">
@@ -146,7 +146,7 @@
                     Weather
                 </div>
                 <button onclick="toggleSettingsModal(true)" class="p-2.5 g-card rounded-full text-[#9aa0a6] hover:text-white hover:bg-[#3c4043] transition shadow-sm ml-auto sm:ml-4 flex-shrink-0" aria-label="Settings">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                 </button>
             </div>
             
@@ -241,7 +241,7 @@
                         <div class="flex flex-col items-end">
                             <div id="current-icon" class="h-16 w-16 sm:h-20 sm:w-20 mb-1 flex items-center justify-center scale-125 origin-right"></div>
                             <span class="text-lg sm:text-xl text-white capitalize leading-tight mt-2" id="current-desc"></span>
-                            <span class="text-xs sm:text-sm text-[#9aa0a6] mt-1 font-medium" id="feels-like"></span>
+                            <span class="text-[11px] sm:text-sm text-[#9aa0a6] mt-1.5 font-medium tracking-wide" id="feels-like"></span>
                         </div>
                     </div>
                 </div>
@@ -748,7 +748,7 @@
                 for(let i=0; i<newStr.length; i++) {
                     let c = newStr[i];
                     if (c === ' ') {
-                        html += `<div class="w-1 sm:w-2"></div>`;
+                        html += `<div class="w-2 sm:w-3"></div>`;
                     } else if (isTime && c === ':') {
                         html += `<span class="text-[#fbbc04] animate-pulse pb-1 mx-0.5 font-bold text-lg sm:text-xl">:</span>`;
                     } else {
@@ -757,7 +757,7 @@
                     }
                 }
                 if (isTime && ampm) {
-                    html += `<div class="retro-clock-digit text-[9px] sm:text-[11px] ml-1 sm:ml-2 !min-w-fit px-1 flex items-center">${ampm}</div>`;
+                    html += `<div class="retro-clock-digit text-[10px] sm:text-xs ml-1 sm:ml-2 !min-w-fit px-1.5 flex items-center">${ampm}</div>`;
                 }
                 container.innerHTML = html;
                 container.dataset.str = newStr;
@@ -881,7 +881,6 @@
             if(el) el.setAttribute('d', d);
         }
 
-
         // ==========================================================
         // SETTINGS & LOCAL STORAGE MANAGEMENT
         // ==========================================================
@@ -969,7 +968,7 @@
             } else {
                 modal.classList.add('opacity-0', 'pointer-events-none');
                 panel.classList.add('translate-x-full');
-                autocompleteList.classList.add('hidden'); // Also hide autocomplete
+                autocompleteList.classList.add('hidden');
             }
         }
 
@@ -1127,7 +1126,6 @@
                 const el = document.getElementById(id);
                 if (!el) return;
 
-                // Only the container actively hovered/touched becomes the "master" scroll driver
                 el.addEventListener('mouseenter', () => { activeSyncContainer = id; });
                 el.addEventListener('touchstart', () => { activeSyncContainer = id; }, {passive: true});
                 
@@ -1135,7 +1133,7 @@
                     if (!syncScrollEnabled || activeSyncContainer !== id) return;
                     
                     window.requestAnimationFrame(() => {
-                        syncScrollEnabled = false; // Prevent echo loop
+                        syncScrollEnabled = false; 
                         
                         hourlyContainers.forEach(targetId => {
                             if (targetId !== id) {
@@ -1242,17 +1240,6 @@
                 loadingState.classList.add('hidden');
             }
         }
-
-        settingsForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const city = settingsCityInput.value.trim();
-            if (city) {
-                fetchWeather(city);
-                settingsCityInput.value = '';
-                toggleSettingsModal(false);
-                autocompleteList.classList.add('hidden');
-            }
-        });
 
         async function fetchWeather(city) {
             setLoading(true);
@@ -1493,40 +1480,49 @@
 
                 const precipDisplay = (precipProb > 0 || precipMm > 0) ? `<span class="text-[#8ab4f8] font-bold">${formatPrecip(precipMm)}</span>` : `<span class="text-[#5f6368]">0 mm</span>`;
 
+                const bgClass = isDay ? 'bg-transparent' : 'bg-black/20';
+
                 // 1. Main Hourly Item (Inside Mega Card)
                 mainHTML += `
-                    <div class="hourly-item flex flex-col items-center w-[75px] flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl py-2 px-1 transition-colors" data-day="${dayIdx}" tabindex="0">
+                    <div class="hourly-item flex flex-col items-center w-[85px] flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl py-2 px-1 transition-colors ${bgClass}" data-day="${dayIdx}" tabindex="0">
                         <span class="font-medium text-white text-lg mb-1">${temp}°</span>
                         <div class="my-1 scale-[0.65] h-8 flex items-center justify-center">${icon}</div>
-                        <span class="text-[9px] text-[#9aa0a6] font-medium leading-none mb-1">Feels ${feelsLike}°</span>
+                        <span class="text-[11px] text-[#9aa0a6] font-medium leading-none mb-1">Feels ${feelsLike}°</span>
                         <span class="text-xs text-[#9aa0a6] font-medium mb-1">${displayHour}</span>
                         <!-- Compact Inline Stats -->
-                        <div class="w-full flex flex-col gap-[3px] text-[8px] text-[#9aa0a6] border-t border-[#3c4043]/50 pt-2 px-0.5 w-full">
-                            <div class="flex justify-between items-center w-full">
-                                <span class="text-[#8ab4f8]"><svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg></span>
-                                ${precipDisplay}
+                        <div class="w-full flex flex-col gap-1 text-[10px] text-[#9aa0a6] border-t border-[#3c4043]/50 pt-2 px-0.5">
+                            <div class="flex flex-col w-full mb-1">
+                                <div class="flex justify-between items-center w-full">
+                                    <span class="text-[#8ab4f8]"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg></span>
+                                    <span class="text-[#8ab4f8] font-bold">${precipMm > 0 ? formatPrecip(precipMm) : '0 mm'}</span>
+                                </div>
+                                ${getIntensityBar(precipBarHeight, 'bg-[#8ab4f8]')}
                             </div>
-                            <div class="flex justify-between items-center w-full">
-                                <span class="text-[#e8eaed]"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path></svg></span>
-                                <div class="flex items-center gap-0.5"><span>${Math.round(windRaw)}</span></div>
+                            <div class="flex flex-col w-full mb-1">
+                                <div class="flex justify-between items-center w-full">
+                                    <span class="text-[#e8eaed]"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path></svg></span>
+                                    <div class="flex items-center gap-0.5 text-white font-bold">${Math.round(windRaw)} <span class="text-[#9aa0a6]">${windDirArrow}</span></div>
+                                </div>
+                                ${getIntensityBar(hrWindPercent, 'bg-[#e8eaed]')}
                             </div>
-                            <div class="flex justify-between items-center w-full">
-                                <span class="text-[#9aa0a6]"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg></span>
-                                <span>${humidity}%</span>
+                            <div class="flex flex-col w-full">
+                                <div class="flex justify-between items-center w-full">
+                                    <span class="text-[#9aa0a6]"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg></span>
+                                    <span class="text-white font-bold">${humidity}%</span>
+                                </div>
+                                ${getIntensityBar(humidity, 'bg-[#9aa0a6]')}
                             </div>
                         </div>
                     </div>
                 `;
 
-                // 2. Precip Item (In Separated Detailed Graph)
+                // 2. Precip Item
                 precipHTML += `
                     <div class="hourly-stat-item flex flex-col items-center w-[75px] flex-shrink-0 pt-1 pb-2 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl" tabindex="0">
                         <span class="text-[10px] text-[#9aa0a6] mb-3">${displayHour}</span>
-                        <div class="h-10 flex flex-col justify-end items-center w-full mb-1.5">
-                            <div class="w-3 bg-[#8ab4f8] rounded-t-sm" style="height: ${precipBarHeight}%;"></div>
-                        </div>
                         <span class="text-xs text-white font-bold">${formatPrecip(precipMm)}</span>
-                        <span class="text-[9px] text-[#5f6368] mt-0.5">${precipProb}% chance</span>
+                        <span class="text-[9px] text-[#5f6368] mt-0.5 mb-1.5">${precipProb}% chance</span>
+                        ${getIntensityBar(precipBarHeight, 'bg-[#8ab4f8]')}
                     </div>
                 `;
 
@@ -1649,6 +1645,7 @@
                 const maxTemp = convertTemp(data.daily.temperature_2m_max[i]);
                 const minTemp = convertTemp(data.daily.temperature_2m_min[i]);
                 const dominantDayCode = getDaytimeWeatherCode(data, i);
+                const feelsLikeDaily = convertTemp(data.daily.apparent_temperature_max[i]);
                 const icon = getWeatherIcon(mapWmoCode(dominantDayCode), 1); 
 
                 const precipProb = data.daily.precipitation_probability_max[i] || 0;
@@ -1657,8 +1654,12 @@
                 const windRaw = data.daily.wind_speed_10m_max[i] || 0;
                 const windSpeed = formatSpeed(windRaw).replace(' km/h', 'km').replace(' mph', 'mi');
                 const windDirDeg = data.daily.wind_direction_10m_dominant[i] || 0;
+                const hrWindPercent = Math.min(100, (windRaw / (units.wind === 'kmh' ? 80 : 50)) * 100);
                 const windDirArrow = `<svg style="transform: rotate(${windDirDeg}deg);" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>`;
                 
+                let precipBarHeight = Math.min(100, (precipMm / 10) * 100);
+                if(precipProb > 0 && precipBarHeight < 5) precipBarHeight = 5;
+
                 const precipDisplay = (precipProb > 0 || precipMm > 0) ? `<span class="text-[#8ab4f8] font-bold">${formatPrecip(precipMm)}</span>` : `<span class="text-[#5f6368]">0 mm</span>`;
 
                 const targetDateStr = data.daily.time[i];
@@ -1671,25 +1672,35 @@
                 const humidity = hrCount > 0 ? Math.round(sumHum / hrCount) : 0;
 
                 dailyHTML += `
-                    <div class="daily-tab flex flex-col items-center min-w-[80px] p-2 flex-shrink-0 border border-transparent rounded-2xl cursor-pointer transition-colors focus:outline-none focus:ring-2 focus:ring-[#8ab4f8]" onclick="selectDay(${i}, true)" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')selectDay(${i}, true);">
-                        <span class="text-[11px] font-medium text-[#9aa0a6] day-name">${dayName}</span>
+                    <div class="daily-tab flex flex-col items-center min-w-[95px] p-2 flex-shrink-0 border border-transparent rounded-2xl cursor-pointer transition-colors focus:outline-none focus:ring-2 focus:ring-[#8ab4f8]" onclick="selectDay(${i}, true)" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')selectDay(${i}, true);">
+                        <span class="text-[12px] font-medium text-[#9aa0a6] day-name">${dayName}</span>
                         <div class="my-1 scale-75 h-8 flex items-center justify-center">${icon}</div>
-                        <div class="text-[10px] font-medium mb-2 flex gap-1">
+                        <span class="text-[10px] text-[#9aa0a6] font-medium leading-none mb-1">Feels ${feelsLikeDaily}°</span>
+                        <div class="text-[12px] font-bold mb-2 flex gap-1">
                             <span class="text-white">${maxTemp}°</span><span class="text-[#5f6368]">${minTemp}°</span>
                         </div>
                         <!-- Compact Inline Stats -->
-                        <div class="w-full flex flex-col gap-[3px] text-[8px] text-[#9aa0a6] border-t border-[#3c4043]/50 pt-2 px-1 w-full">
-                            <div class="flex justify-between items-center w-full">
-                                <span class="text-[#8ab4f8]"><svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg></span>
-                                ${precipDisplay}
+                        <div class="w-full flex flex-col gap-1 text-[10px] text-[#9aa0a6] border-t border-[#3c4043]/50 pt-2 px-1">
+                            <div class="flex flex-col w-full mb-1">
+                                <div class="flex justify-between items-center w-full">
+                                    <span class="text-[#8ab4f8]"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg></span>
+                                    <span class="text-[#8ab4f8] font-bold">${precipMm > 0 ? formatPrecip(precipMm) : '0 mm'}</span>
+                                </div>
+                                ${getIntensityBar(precipBarHeight, 'bg-[#8ab4f8]')}
                             </div>
-                            <div class="flex justify-between items-center w-full">
-                                <span class="text-[#e8eaed]"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path></svg></span>
-                                <div class="flex items-center gap-0.5"><span>${Math.round(windRaw)}</span></div>
+                            <div class="flex flex-col w-full mb-1">
+                                <div class="flex justify-between items-center w-full">
+                                    <span class="text-[#e8eaed]"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path></svg></span>
+                                    <div class="flex items-center gap-0.5 text-white font-bold">${Math.round(windRaw)} <span class="text-[#9aa0a6]">${windDirArrow}</span></div>
+                                </div>
+                                ${getIntensityBar(hrWindPercent, 'bg-[#e8eaed]')}
                             </div>
-                            <div class="flex justify-between items-center w-full">
-                                <span class="text-[#9aa0a6]"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg></span>
-                                <span>${humidity}%</span>
+                            <div class="flex flex-col w-full">
+                                <div class="flex justify-between items-center w-full">
+                                    <span class="text-[#9aa0a6]"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg></span>
+                                    <span class="text-white font-bold">${humidity}%</span>
+                                </div>
+                                ${getIntensityBar(humidity, 'bg-[#9aa0a6]')}
                             </div>
                         </div>
                     </div>
