@@ -151,7 +151,7 @@
                 HG Weather Forecast
             </div>
             
-            <!-- Settings Button (Fixed Complete SVG Path) -->
+            <!-- Settings Button -->
             <button onclick="toggleSettingsModal(true)" class="p-2.5 g-card rounded-full text-[#9aa0a6] hover:text-white hover:bg-[#334155] transition shadow-sm ml-auto flex-shrink-0" aria-label="Settings">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
@@ -257,6 +257,7 @@
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
                     </button>
 
+                    <!-- NO CSS scroll-smooth here to prevent JavaScript syncing glitches -->
                     <div class="flex overflow-x-auto gap-2 px-10 py-3 hide-scrollbar cursor-grab active:cursor-grabbing w-full" id="hourly-container" tabindex="0" onkeydown="handleContainerKeydown(event, 'hourly-container', 1)">
                         <!-- Main Hourly injected here -->
                     </div>
@@ -721,7 +722,7 @@
                             const locationStr = `${city.name}${city.admin1 ? ', ' + city.admin1 : ''}${city.country ? ', ' + city.country : ''}`;
                             return `
                                 <li class="px-4 py-3 hover:bg-[#334155] cursor-pointer text-sm text-white border-b border-[#334155]/50 last:border-0 transition" 
-                                    onclick="selectAutocomplete('${city.name.replace(/'/g, "\\'")}', '${city.country ? city.country.replace(/'/g, "\\'") : ''}', ${city.latitude}, ${city.longitude})">
+                                    onclick="selectAutocomplete('${city.name.replace(/'/g, "\\'")}', '${city.admin1 ? city.admin1.replace(/'/g, "\\'") : ''}', '${city.country ? city.country.replace(/'/g, "\\'") : ''}', ${city.latitude}, ${city.longitude})">
                                     ${locationStr}
                                 </li>`;
                         }).join('');
@@ -736,11 +737,12 @@
             }, 300);
         });
 
-        window.selectAutocomplete = function(name, country, lat, lng) {
+        window.selectAutocomplete = function(name, admin1, country, lat, lng) {
             settingsCityInput.value = '';
             autocompleteList.classList.add('hidden');
             toggleSettingsModal(false);
-            fetchWeatherByCoords(lat, lng, name, country);
+            const region = admin1 ? `${admin1}, ${country}` : country;
+            fetchWeatherByCoords(lat, lng, name, region);
         }
 
         // ==========================================================
@@ -779,7 +781,7 @@
             
             const desc = mapWmoCode(code).toLowerCase();
             
-            if (desc.includes('rain') || desc.includes('drizzle') || desc.includes('storm')) {
+            if (desc.includes('rain') || desc.includes('drizzle') || desc.includes('storm') || desc.includes('shower')) {
                 bgGradient = isDay ? 'linear-gradient(to bottom right, #334155, #3b82f6, #0B1121)' : 'linear-gradient(to bottom right, #0B1121, #1e293b)';
                 for (let i = 0; i < 30; i++) {
                     const drop = document.createElement('div');
@@ -1024,7 +1026,11 @@
             const dropdown = document.getElementById('city-dropdown');
             if(dropdown) dropdown.classList.add('hidden');
             toggleSettingsModal(false);
-            fetchWeather(cityStr);
+            
+            // Extract city from saved string to re-search to guarantee coords
+            const parts = cityStr.split(',');
+            const cityOnly = parts[0].trim();
+            fetchWeather(cityOnly);
         }
 
         function removeSavedCity(cityStr, event) {
@@ -1292,8 +1298,9 @@
                 const geoData = await geoRes.json();
                 
                 if (geoData.results && geoData.results.length > 0) {
-                    const { latitude, longitude, name, country } = geoData.results[0];
-                    fetchWeatherByCoords(latitude, longitude, name, country);
+                    const { latitude, longitude, name, country, admin1 } = geoData.results[0];
+                    const region = admin1 ? `${admin1}, ${country}` : country;
+                    fetchWeatherByCoords(latitude, longitude, name, region);
                 } else {
                     throw new Error("City not found.");
                 }
@@ -1311,7 +1318,7 @@
                 currentCityInfo = { name, country, lat: latitude, lon: longitude };
                 updateClock(); 
                 
-                const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m,visibility,is_day&hourly=temperature_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_direction_10m,relative_humidity_2m,is_day,uv_index,visibility,surface_pressure&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,sunrise,sunset,uv_index_max,precipitation_probability_max,precipitation_sum,wind_speed_10m_max,wind_direction_10m_dominant&timezone=auto&forecast_days=16`;
+                const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m,visibility,is_day&hourly=temperature_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_direction_10m,relative_humidity_2m,is_day,uv_index,visibility,surface_pressure&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,sunrise,sunset,uv_index_max,precipitation_probability_max,precipitation_sum,wind_speed_10m_max,wind_direction_10m_dominant&timezone=auto&forecast_days=16&models=best_match`;
                 const aqiUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${latitude}&longitude=${longitude}&hourly=us_aqi&daily=alder_pollen,birch_pollen,grass_pollen,mugwort_pollen,olive_pollen,ragweed_pollen&timezone=auto&forecast_days=16`;
                 const historyUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&past_days=7&forecast_days=1&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto`;
                 
@@ -1670,7 +1677,12 @@
             setLoading(false); 
             weatherResults.classList.remove('hidden');
             
-            document.getElementById('city-name').textContent = currentCityInfo.name;
+            // Format city name correctly from saved object
+            const locationStr = currentCityInfo.name ? currentCityInfo.name.split(',')[0] : "Location";
+            const regionStr = currentCityInfo.country ? currentCityInfo.country : "";
+            
+            document.getElementById('city-name').textContent = locationStr;
+            document.getElementById('date-time').textContent = regionStr; 
             
             // Subtly update background weather effect based on current weather code
             const currentWmo = data.current.weather_code;
