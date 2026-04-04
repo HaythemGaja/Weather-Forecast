@@ -25,18 +25,23 @@
         body {
             background-color: #0B1121; /* Dark Blue Base */
             color: #e8eaed;
-            transition: background-color 1s ease;
+            transition: background-image 1.5s ease-in-out;
+            background-attachment: fixed;
+            background-size: cover;
         }
         
-        /* Subtle Weather CSS Effects */
+        /* ==================================================== */
+        /* Dynamic Weather Background CSS Effects Engine        */
+        /* ==================================================== */
         #weather-effects-container {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
             z-index: -1;
             pointer-events: none;
             overflow: hidden;
-            transition: background 1.5s ease;
         }
+        
+        /* Rain Drops */
         .rain-drop {
             position: absolute;
             background: linear-gradient(to bottom, rgba(138, 180, 248, 0), rgba(138, 180, 248, 0.4));
@@ -44,28 +49,85 @@
             height: 30px;
             animation: rain-fall linear infinite;
         }
-        .snow-flake {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            animation: snow-fall linear infinite;
-        }
         @keyframes rain-fall {
             0% { transform: translateY(-50px); opacity: 0; }
             10% { opacity: 1; }
             90% { opacity: 1; }
             100% { transform: translateY(110vh); opacity: 0; }
         }
+        
+        /* Snowflakes */
+        .snow-flake {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: snow-fall linear infinite;
+        }
         @keyframes snow-fall {
             0% { transform: translateY(-50px) translateX(0px); opacity: 0; }
             10% { opacity: 1; }
-            100% { transform: translateY(110vh) translateX(30px); opacity: 0; }
+            100% { transform: translateY(110vh) translateX(40px); opacity: 0; }
         }
 
+        /* Twinkling Stars */
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.1; }
+            100% { opacity: 0.8; transform: scale(1.2); }
+        }
+
+        /* Moving Clouds */
+        .bg-cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 100px;
+            filter: blur(25px);
+            animation: cloud-move linear infinite;
+        }
+        @keyframes cloud-move {
+            0% { transform: translateX(-20vw); }
+            100% { transform: translateX(110vw); }
+        }
+
+        /* Fog Layers */
+        .fog-layer {
+            position: absolute;
+            width: 200vw;
+            height: 100vh;
+            background: rgba(200, 200, 200, 0.03);
+            filter: blur(60px);
+            animation: fog-move ease-in-out infinite;
+        }
+        @keyframes fog-move {
+            0% { transform: translateX(-10vw); }
+            50% { transform: translateX(10vw); }
+            100% { transform: translateX(-10vw); }
+        }
+
+        /* Lightning Flashes */
+        .lightning-flash {
+            position: absolute;
+            inset: 0;
+            background: white;
+            pointer-events: none;
+            animation: flash-anim 8s infinite;
+        }
+        @keyframes flash-anim {
+            0%, 90%, 94%, 100% { opacity: 0; }
+            92%, 96% { opacity: 0.5; }
+        }
+
+        /* UI Styling */
         .g-card {
-            background-color: rgba(30, 41, 59, 0.85); /* Slightly blueish dark gray */
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(51, 65, 85, 0.8);
+            background-color: rgba(30, 41, 59, 0.75); 
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(51, 65, 85, 0.6);
             border-radius: 28px;
         }
         .g-input {
@@ -76,14 +138,8 @@
         .g-input:focus-within {
             border-color: #8ab4f8;
         }
-        /* Custom scrollbar for horizontal lists */
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .intensity-bar {
             background: #1e293b;
             border-radius: 9999px;
@@ -106,16 +162,9 @@
             user-select: none;
             transition: opacity 0.2s;
         }
-        .section-header:hover {
-            opacity: 0.8;
-        }
-        .chevron {
-            transition: transform 0.3s ease;
-        }
-        .collapsed .chevron {
-            transform: rotate(-90deg);
-        }
-        /* Android TV / Keyboard Focus Styles */
+        .section-header:hover { opacity: 0.8; }
+        .chevron { transition: transform 0.3s ease; }
+        .collapsed .chevron { transform: rotate(-90deg); }
         *:focus-visible {
             outline: none;
             box-shadow: 0 0 0 2px #8ab4f8;
@@ -132,9 +181,7 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
             z-index: 10;
         }
-        .nav-btn:hover {
-            background-color: #334155;
-        }
+        .nav-btn:hover { background-color: #334155; }
     </style>
 </head>
 <body class="font-sans flex justify-center p-3 py-6 min-h-screen overflow-x-hidden">
@@ -179,7 +226,7 @@
             </button>
         </div>
 
-        <!-- Weather Results Container (Hidden by default) -->
+        <!-- Weather Results Container -->
         <div id="weather-results" class="hidden flex flex-col gap-3">
             
             <!-- Header: City Dropdown & Favorite -->
@@ -187,7 +234,7 @@
                 <div class="flex items-center justify-between w-full">
                     <div class="relative w-full max-w-[85%]">
                         <button onclick="toggleCityDropdown()" class="flex items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-lg px-2 -ml-2 py-1 text-left w-full" aria-haspopup="true" aria-expanded="false">
-                            <h2 id="city-name" class="text-2xl sm:text-4xl font-normal text-white tracking-tight group-hover:text-gray-200 truncate"></h2>
+                            <h2 id="city-name" class="text-2xl sm:text-4xl font-normal text-white tracking-tight group-hover:text-gray-200 truncate drop-shadow-md"></h2>
                             <svg class="w-5 h-5 text-[#9aa0a6] group-hover:text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </button>
                         <!-- Dropdown Menu -->
@@ -204,11 +251,11 @@
                         </div>
                     </div>
 
-                    <button id="favorite-btn" onclick="toggleFavorite()" class="text-[#9aa0a6] hover:text-yellow-400 transition p-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded-full" aria-label="Save City">
+                    <button id="favorite-btn" onclick="toggleFavorite()" class="text-[#9aa0a6] hover:text-yellow-400 transition p-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded-full bg-black/10 backdrop-blur-sm" aria-label="Save City">
                         <svg id="star-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
                     </button>
                 </div>
-                <div id="date-time" class="text-[#9aa0a6] text-sm px-2 font-medium tracking-wide"></div>
+                <div id="date-time" class="text-[#9aa0a6] text-sm px-2 font-medium tracking-wide drop-shadow-sm"></div>
             </div>
 
             <!-- Intelligent Insights Container -->
@@ -245,8 +292,8 @@
                         </div>
                         <div class="flex flex-col items-end">
                             <div id="current-icon" class="h-16 w-16 sm:h-20 sm:w-20 mb-1 flex items-center justify-center scale-125 origin-right"></div>
-                            <span class="text-lg sm:text-xl text-white capitalize leading-tight mt-2" id="current-desc"></span>
-                            <span class="text-[11px] sm:text-sm text-[#9aa0a6] mt-1.5 font-medium tracking-wide" id="feels-like"></span>
+                            <span class="text-lg sm:text-xl text-white capitalize leading-tight mt-2 drop-shadow-md" id="current-desc"></span>
+                            <span class="text-[11px] sm:text-sm text-[#9aa0a6] mt-1.5 font-medium tracking-wide drop-shadow-sm" id="feels-like"></span>
                         </div>
                     </div>
                 </div>
@@ -537,7 +584,7 @@
                         <button onclick="changeRadarLayer('clouds')" id="layer-clouds" class="radar-btn text-[#9aa0a6] hover:text-white px-3 py-1.5 rounded-md transition focus:outline-none focus:ring-2 focus:ring-white">Clouds</button>
                     </div>
 
-                    <div id="radar-container" class="w-full h-[350px] sm:h-[450px] rounded-xl overflow-hidden bg-[#0f172a] block border border-[#334155]" tabindex="0">
+                    <div id="radar-container" class="w-full h-[400px] sm:h-[550px] rounded-xl overflow-hidden bg-[#0f172a] block border border-[#334155]" tabindex="0">
                         <!-- Iframe injected here -->
                     </div>
                 </div>
@@ -791,6 +838,11 @@
                     drop.style.animationDelay = `${Math.random() * 2}s`;
                     container.appendChild(drop);
                 }
+                if (desc.includes('storm') || desc.includes('thunder')) {
+                    const lightning = document.createElement('div');
+                    lightning.className = 'lightning-flash';
+                    container.appendChild(lightning);
+                }
             } else if (desc.includes('snow') || desc.includes('ice') || desc.includes('freezing')) {
                 bgGradient = isDay ? 'linear-gradient(to bottom right, #94a3b8, #e2e8f0, #0B1121)' : 'linear-gradient(to bottom right, #1e293b, #334155)';
                 for (let i = 0; i < 30; i++) {
@@ -803,8 +855,55 @@
                     flake.style.animationDelay = `${Math.random() * 5}s`;
                     container.appendChild(flake);
                 }
-            } else if (desc.includes('cloud') || desc.includes('overcast') || desc.includes('fog')) {
+            } else if (desc.includes('fog')) {
+                bgGradient = isDay ? 'linear-gradient(to bottom right, #94a3b8, #cbd5e1, #0B1121)' : 'linear-gradient(to bottom right, #1e293b, #334155)';
+                for (let i = 0; i < 3; i++) {
+                    const fog = document.createElement('div');
+                    fog.className = 'fog-layer';
+                    fog.style.top = `${i * 20}%`;
+                    fog.style.animationDelay = `${i * 2}s`;
+                    container.appendChild(fog);
+                }
+            } else if (desc.includes('cloud') || desc.includes('overcast')) {
                 bgGradient = isDay ? 'linear-gradient(to bottom right, #475569, #64748b, #0B1121)' : 'linear-gradient(to bottom right, #0B1121, #1e293b)';
+                for (let i = 0; i < 6; i++) {
+                    const cloud = document.createElement('div');
+                    cloud.className = 'bg-cloud';
+                    cloud.style.width = `${Math.random() * 200 + 100}px`;
+                    cloud.style.height = `${Math.random() * 50 + 50}px`;
+                    cloud.style.top = `${Math.random() * 40}%`;
+                    cloud.style.left = `-${Math.random() * 20 + 20}%`;
+                    cloud.style.animationDuration = `${Math.random() * 20 + 20}s`;
+                    cloud.style.animationDelay = `${Math.random() * 10}s`;
+                    container.appendChild(cloud);
+                }
+            } else {
+                if (isDay) {
+                    bgGradient = 'linear-gradient(to bottom right, #3b82f6, #1d4ed8, #0B1121)';
+                    const sunGlow = document.createElement('div');
+                    sunGlow.style.position = 'absolute';
+                    sunGlow.style.top = '-10%';
+                    sunGlow.style.right = '-10%';
+                    sunGlow.style.width = '40vw';
+                    sunGlow.style.height = '40vw';
+                    sunGlow.style.background = 'radial-gradient(circle, rgba(253,224,71,0.15) 0%, rgba(253,224,71,0) 70%)';
+                    sunGlow.style.borderRadius = '50%';
+                    sunGlow.style.pointerEvents = 'none';
+                    container.appendChild(sunGlow);
+                } else {
+                    bgGradient = 'linear-gradient(to bottom right, #020617, #0B1121, #0f172a)';
+                    for (let i = 0; i < 50; i++) {
+                        const star = document.createElement('div');
+                        star.className = 'star';
+                        star.style.left = `${Math.random() * 100}%`;
+                        star.style.top = `${Math.random() * 100}%`;
+                        star.style.width = `${Math.random() * 2 + 1}px`;
+                        star.style.height = star.style.width;
+                        star.style.animationDuration = `${Math.random() * 2 + 1}s`;
+                        star.style.animationDelay = `${Math.random() * 2}s`;
+                        container.appendChild(star);
+                    }
+                }
             }
             
             document.body.style.backgroundImage = bgGradient;
@@ -1398,7 +1497,8 @@
             const unitTemp = units.temp === 'C' ? '%C2%B0C' : '%C2%B0F';
             const unitWind = units.wind === 'kmh' ? 'km/h' : 'mph';
             const unitRain = units.precip === 'mm' ? 'mm' : 'in';
-            const url = `https://embed.windy.com/embed2.html?lat=${lat}&lon=${lon}&zoom=6&level=surface&overlay=${layer}&product=radar&menu=&message=true&marker=true&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=${unitWind}&metricTemp=${unitTemp}&radarRange=-1`;
+            // Force detail position to bottom and trigger detail forecast
+            const url = `https://embed.windy.com/embed2.html?lat=${lat}&lon=${lon}&zoom=6&level=surface&overlay=${layer}&product=radar&menu=&message=true&marker=true&calendar=now&pressure=&type=map&location=coordinates&detailLat=${lat}&detailLon=${lon}&detailPosition=bottom&metricWind=${unitWind}&metricTemp=${unitTemp}&radarRange=-1`;
             if(radarContainer) {
                 radarContainer.innerHTML = `<iframe width="100%" height="100%" src="${url}" frameborder="0" style="border:none;" class="rounded-xl w-full h-full" tabindex="-1"></iframe>`;
             }
