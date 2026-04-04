@@ -198,7 +198,7 @@
                 HG Weather Forecast
             </div>
             
-            <!-- Settings Button -->
+            <!-- Settings Button (Fixed Complete SVG Path) -->
             <button onclick="toggleSettingsModal(true)" class="p-2.5 g-card rounded-full text-[#9aa0a6] hover:text-white hover:bg-[#334155] transition shadow-sm ml-auto flex-shrink-0" aria-label="Settings">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
@@ -234,7 +234,7 @@
                 <div class="flex items-center justify-between w-full">
                     <div class="relative w-full max-w-[85%]">
                         <button onclick="toggleCityDropdown()" class="flex items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-lg px-2 -ml-2 py-1 text-left w-full" aria-haspopup="true" aria-expanded="false">
-                            <h2 id="city-name" class="text-2xl sm:text-4xl font-normal text-white tracking-tight group-hover:text-gray-200 truncate drop-shadow-md"></h2>
+                            <h2 id="city-name" class="text-2xl sm:text-4xl font-normal text-white tracking-tight group-hover:text-gray-200 truncate drop-shadow-md" dir="auto"></h2>
                             <svg class="w-5 h-5 text-[#9aa0a6] group-hover:text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </button>
                         <!-- Dropdown Menu -->
@@ -255,7 +255,7 @@
                         <svg id="star-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
                     </button>
                 </div>
-                <div id="date-time" class="text-[#9aa0a6] text-sm px-2 font-medium tracking-wide drop-shadow-sm"></div>
+                <div id="date-time" class="text-[#9aa0a6] text-sm px-2 font-medium tracking-wide drop-shadow-sm" dir="auto"></div>
             </div>
 
             <!-- Intelligent Insights Container -->
@@ -612,13 +612,13 @@
 
             <div class="p-6 overflow-y-auto flex-1 hide-scrollbar">
                 
-                <!-- Location Search with Autocomplete -->
+                <!-- Location Search -->
                 <div class="mb-8">
                     <h3 class="text-[#9aa0a6] text-xs font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                         Search Location
                     </h3>
-                    <div class="relative w-full">
+                    <div class="relative w-full" dir="auto">
                         <form id="settings-search-form" class="flex bg-[#0f172a] border border-[#334155] rounded-xl px-2 py-1 focus-within:border-[#8ab4f8]">
                             <input type="text" id="settings-city-input" autocomplete="off" placeholder="Search a new city..." class="flex-1 bg-transparent border-none px-2 py-1.5 text-sm text-white focus:outline-none focus:ring-0" required>
                             <button type="submit" class="text-blue-400 px-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded">Go</button>
@@ -760,15 +760,20 @@
                 autocompleteList.classList.add('hidden');
                 return;
             }
+            
+            // Dynamically detect Arabic text for native language search
+            const isArabic = /[\u0600-\u06FF]/.test(val);
+            const langParam = isArabic ? 'ar' : 'en';
+
             autocompleteTimeout = setTimeout(async () => {
                 try {
-                    const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(val)}&count=5&language=en&format=json`);
+                    const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(val)}&count=5&language=${langParam}&format=json`);
                     const data = await res.json();
                     if (data.results && data.results.length > 0) {
                         autocompleteList.innerHTML = data.results.map(city => {
                             const locationStr = `${city.name}${city.admin1 ? ', ' + city.admin1 : ''}${city.country ? ', ' + city.country : ''}`;
                             return `
-                                <li class="px-4 py-3 hover:bg-[#334155] cursor-pointer text-sm text-white border-b border-[#334155]/50 last:border-0 transition" 
+                                <li class="px-4 py-3 hover:bg-[#334155] cursor-pointer text-sm text-white border-b border-[#334155]/50 last:border-0 transition text-left" 
                                     onclick="selectAutocomplete('${city.name.replace(/'/g, "\\'")}', '${city.admin1 ? city.admin1.replace(/'/g, "\\'") : ''}', '${city.country ? city.country.replace(/'/g, "\\'") : ''}', ${city.latitude}, ${city.longitude})">
                                     ${locationStr}
                                 </li>`;
@@ -1392,7 +1397,11 @@
         async function fetchWeather(city) {
             setLoading(true);
             try {
-                const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=en&format=json`);
+                // Dynamically detect Arabic text for native language search
+                const isArabic = /[\u0600-\u06FF]/.test(city);
+                const langParam = isArabic ? 'ar' : 'en';
+                
+                const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=${langParam}&format=json`);
                 if (!geoRes.ok) throw new Error("Failed to connect to the geocoding service.");
                 const geoData = await geoRes.json();
                 
@@ -1417,6 +1426,7 @@
                 currentCityInfo = { name, country, lat: latitude, lon: longitude };
                 updateClock(); 
                 
+                // Using models=best_match to ensure closest matching prediction
                 const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m,visibility,is_day&hourly=temperature_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,wind_speed_10m,wind_direction_10m,relative_humidity_2m,is_day,uv_index,visibility,surface_pressure&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,sunrise,sunset,uv_index_max,precipitation_probability_max,precipitation_sum,wind_speed_10m_max,wind_direction_10m_dominant&timezone=auto&forecast_days=16&models=best_match`;
                 const aqiUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${latitude}&longitude=${longitude}&hourly=us_aqi&daily=alder_pollen,birch_pollen,grass_pollen,mugwort_pollen,olive_pollen,ragweed_pollen&timezone=auto&forecast_days=16`;
                 const historyUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&past_days=7&forecast_days=1&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto`;
@@ -1497,8 +1507,8 @@
             const unitTemp = units.temp === 'C' ? '%C2%B0C' : '%C2%B0F';
             const unitWind = units.wind === 'kmh' ? 'km/h' : 'mph';
             const unitRain = units.precip === 'mm' ? 'mm' : 'in';
-            // Force detail position to bottom and trigger detail forecast
-            const url = `https://embed.windy.com/embed2.html?lat=${lat}&lon=${lon}&zoom=6&level=surface&overlay=${layer}&product=radar&menu=&message=true&marker=true&calendar=now&pressure=&type=map&location=coordinates&detailLat=${lat}&detailLon=${lon}&detailPosition=bottom&metricWind=${unitWind}&metricTemp=${unitTemp}&radarRange=-1`;
+            // Using embed2.html but strictly defining detailPosition=top to avoid sidebar glitching
+            const url = `https://embed.windy.com/embed2.html?lat=${lat}&lon=${lon}&zoom=6&level=surface&overlay=${layer}&product=radar&menu=&message=true&marker=true&calendar=now&pressure=&type=map&location=coordinates&detailLat=${lat}&detailLon=${lon}&detailPosition=top&metricWind=${unitWind}&metricTemp=${unitTemp}&radarRange=-1`;
             if(radarContainer) {
                 radarContainer.innerHTML = `<iframe width="100%" height="100%" src="${url}" frameborder="0" style="border:none;" class="rounded-xl w-full h-full" tabindex="-1"></iframe>`;
             }
