@@ -151,9 +151,6 @@
         .landscape-tree {
             transform-origin: bottom center;
         }
-        .landscape-grass {
-            transform-origin: bottom center;
-        }
         @keyframes sway {
             0% { transform: rotate(calc(-1 * var(--sway-deg, 5deg))); }
             100% { transform: rotate(var(--sway-deg, 5deg)); }
@@ -209,6 +206,13 @@
         .collapsed .chevron { transform: rotate(-90deg); }
         
         *:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--c-accent); border-radius: 12px; }
+        
+        /* Interactive Highlight for Hourly Items */
+        .active-hour {
+            background-color: rgba(138, 180, 248, 0.25) !important;
+            border-color: rgba(138, 180, 248, 0.5) !important;
+        }
+
         .daily-tab:focus-visible, .hourly-item:focus-visible, .hourly-stat-item:focus-visible {
             border-color: var(--c-accent) !important; 
             background-color: rgba(138, 180, 248, 0.1) !important;
@@ -241,7 +245,7 @@
             </div>
             
             <!-- Settings Button -->
-            <button onclick="toggleSettingsModal(true)" class="p-2.5 g-card rounded-full text-[var(--c-text-muted)] hover:text-white transition shadow-sm ml-auto flex-shrink-0" aria-label="Settings">
+            <button onclick="toggleSettingsModal(true)" class="p-2.5 g-card rounded-full text-[var(--c-text-muted)] hover:text-white hover:bg-[#334155] transition shadow-sm ml-auto flex-shrink-0" aria-label="Settings">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
                     <circle cx="12" cy="12" r="3"></circle>
@@ -340,7 +344,7 @@
                     </div>
                 </div>
 
-                <!-- NEW: Dynamic Landscape Weather Scene Box -->
+                <!-- Dynamic Landscape Weather Scene Box -->
                 <div class="mx-4 sm:mx-6 mt-4 relative h-32 sm:h-40 rounded-2xl overflow-hidden shadow-inner border border-white/10 landscape-container" id="dynamic-scene-container">
                     
                     <!-- Celestial Body (Sun/Moon) tracking mathematically based on time -->
@@ -525,7 +529,7 @@
                 <div class="section-header flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)] rounded-xl p-1 -m-1" onclick="toggleSection('celestial-section')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleSection('celestial-section');">
                     <h4 class="text-[#9aa0a6] text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2v6m-4.24-.76l-2.83-2.83M16.24 7.24l2.83-2.83M2 18h20M12 18a6 6 0 0 0-6-6h12a6 6 0 0 0-6 6z"/></svg>
-                        Sun & Moon Tracking
+                        Sun & Moon Details
                     </h4>
                     <svg class="chevron text-[var(--c-text-muted)]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </div>
@@ -583,7 +587,7 @@
                                     <text x="-2" y="52" font-size="6" fill="#5f6368" text-anchor="end" font-weight="600">06:00</text>
                                     <text x="102" y="52" font-size="6" fill="#5f6368" text-anchor="start" font-weight="600">18:00</text>
 
-                                    <!-- Big Center Moon SVG! -->
+                                    <!-- Big Center Moon SVG -->
                                     <circle cx="50" cy="50" r="20" fill="var(--c-input)" stroke="#5f6368" stroke-width="1"></circle>
                                     <path id="moon-phase-shape" fill="#e8eaed" d="" transform="translate(30, 30) scale(0.4)"></path>
 
@@ -659,7 +663,7 @@
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path></svg>
                         Live Radar
                     </h3>
-                    <svg class="chevron text-[var(--c-text-muted)]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    <svg class="chevron text-[#9aa0a6]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </div>
 
                 <div class="content-wrapper hidden w-full pt-4">
@@ -804,6 +808,7 @@
         let currentAqiData = null; 
         let currentCityInfo = { name: '', country: '', lat: 0, lon: 0 };
         let currentSelectedDay = 0; 
+        let currentSelectedHourIndex = null;
         let currentRadarLayer = 'radar';
         let savedLocations = []; 
         let isSyncingScroll = false;
@@ -912,8 +917,8 @@
             const timeEl = document.getElementById('mega-time');
             if (timeEl) timeEl.textContent = timeStr;
             
-            // Only force "Today" label logic if viewing today
-            if (currentSelectedDay === 0) {
+            // Only force "Today" label logic if viewing today and NO specific hour is selected
+            if (currentSelectedDay === 0 && currentSelectedHourIndex === null) {
                 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
                 const dayStr = `${months[now.getMonth()]} ${now.getDate()}`;
                 const dayEl = document.getElementById('day-label');
@@ -1018,6 +1023,37 @@
         // ==========================================================
         // DYNAMIC LANDSCAPE SCENE ENGINE (MEGA CARD)
         // ==========================================================
+        
+        function calculateCelestialArc(targetHourNum, riseHour, setHour, mRiseHour, mSetHour, isDayCode) {
+            if (isDayCode) {
+                let duration = setHour - riseHour;
+                if (duration < 0) duration += 24;
+                let elapsed = targetHourNum - riseHour;
+                if (elapsed < 0) elapsed += 24;
+                let progress = elapsed / duration;
+                progress = Math.max(0, Math.min(1, progress));
+                
+                let x = 10 + (progress * 80);
+                let y = 80 - (Math.sin(progress * Math.PI) * 70);
+                return { x, y, isSun: true };
+            } else {
+                let duration = mSetHour - mRiseHour;
+                if (duration < 0) duration += 24;
+                let elapsed = targetHourNum - mRiseHour;
+                if (elapsed < 0) elapsed += 24;
+                
+                if (elapsed <= duration) {
+                    let progress = elapsed / duration;
+                    progress = Math.max(0, Math.min(1, progress));
+                    let x = 10 + (progress * 80);
+                    let y = 80 - (Math.sin(progress * Math.PI) * 70);
+                    return { x, y, isSun: false };
+                } else {
+                    return { x: 50, y: 150, isSun: false }; 
+                }
+            }
+        }
+
         function updateDynamicScene(wmoCode, isDay, windSpeedRaw, precipProb, humidity, celestialPt) {
             const container = document.getElementById('dynamic-scene-container');
             const celestial = document.getElementById('scene-celestial');
@@ -1041,26 +1077,24 @@
                 } else {
                     container.style.background = 'linear-gradient(to bottom, #3b82f6, #60a5fa)';
                 }
-                celestial.style.background = 'radial-gradient(circle, #fef08a 20%, #facc15 60%)';
-                celestial.style.boxShadow = '0 0 50px 20px rgba(250, 204, 21, 0.4)';
-                celestial.style.opacity = (desc.includes('cloud') || desc.includes('overcast') || desc.includes('rain')) ? '0.2' : '1';
+                if (celestialPt && celestialPt.isSun) {
+                    celestial.style.background = 'radial-gradient(circle, #fef08a 20%, #facc15 60%)';
+                    celestial.style.boxShadow = '0 0 50px 20px rgba(250, 204, 21, 0.4)';
+                    celestial.style.opacity = (desc.includes('cloud') || desc.includes('overcast') || desc.includes('rain')) ? '0.2' : '1';
+                }
             } else {
                 container.style.background = 'linear-gradient(to bottom, #0f172a, #1e293b)';
-                celestial.style.background = 'radial-gradient(circle, #f8fafc 40%, #e2e8f0 80%)';
-                celestial.style.boxShadow = '0 0 30px 10px rgba(226, 232, 240, 0.2)';
-                celestial.style.opacity = (desc.includes('cloud') || desc.includes('overcast') || desc.includes('rain')) ? '0.1' : '0.9';
+                if (celestialPt && !celestialPt.isSun) {
+                    celestial.style.background = 'radial-gradient(circle, #f8fafc 40%, #e2e8f0 80%)';
+                    celestial.style.boxShadow = '0 0 30px 10px rgba(226, 232, 240, 0.2)';
+                    celestial.style.opacity = (desc.includes('cloud') || desc.includes('overcast') || desc.includes('rain')) ? '0.1' : '0.9';
+                }
             }
             
-            // Map celestial coordinate (5-95) to landscape box (left %, top %)
+            // Map celestial coordinate (10-90 x, 10-80 y) to landscape box
             if (celestialPt) {
-                const cx = celestialPt.x;
-                const cy = celestialPt.y;
-                celestial.style.left = `${cx}%`;
-                
-                // SVG y=5 is top, y=50 is horizon. We map this to 10% to 80% top in the CSS box.
-                let topPercent = 10 + ((cy - 5) * (70 / 45));
-                topPercent = Math.min(100, Math.max(10, topPercent));
-                celestial.style.top = `${topPercent}%`;
+                celestial.style.left = `${celestialPt.x}%`;
+                celestial.style.top = `${celestialPt.y}%`;
             }
             
             // Extreme Tornado/Severe Warning check (> 100km/h wind + storm)
@@ -1503,6 +1537,16 @@
             }
         }
 
+        function highlightHourlyItem(index) {
+            document.querySelectorAll('.hourly-item').forEach(el => el.classList.remove('active-hour', 'border-[var(--c-accent)]'));
+            if (index !== null) {
+                const el = document.getElementById('hourly-item-' + index);
+                if (el) {
+                    el.classList.add('active-hour', 'border-[var(--c-accent)]');
+                }
+            }
+        }
+
         // ==========================================================
         // SYNCHRONIZED SCROLLING (Glitch-Free)
         // ==========================================================
@@ -1599,7 +1643,7 @@
             }
             
             const activeDay = parseInt(activeItem.getAttribute('data-day'));
-            if (activeDay !== currentSelectedDay && !isNaN(activeDay)) {
+            if (activeDay !== currentSelectedDay && !isNaN(activeDay) && currentSelectedHourIndex === null) {
                 updateDashboardForDay(activeDay);
             }
         }
@@ -1673,6 +1717,7 @@
             setLoading(true);
             try {
                 currentCityInfo = { name, country, lat: latitude, lon: longitude };
+                currentSelectedHourIndex = null; // Reset
                 updateClock(); 
                 
                 // Using models=best_match to ensure closest matching prediction
@@ -1976,13 +2021,13 @@
 
                 // 1. Main Hourly Item (Inside Mega Card)
                 mainHTML += `
-                    <div class="hourly-item flex flex-col items-center w-[85px] flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)] rounded-xl py-2 px-1 transition-colors ${bgClass}" data-day="${dayIdx}" tabindex="0">
+                    <div id="hourly-item-${i}" class="hourly-item flex flex-col items-center w-[85px] flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)] rounded-xl py-2 px-1 transition-colors ${bgClass} cursor-pointer" data-day="${dayIdx}" onclick="selectHour(${i})" tabindex="0">
                         <span class="font-medium text-white text-lg mb-1">${temp}°</span>
-                        <div class="my-1 scale-[0.65] h-8 flex items-center justify-center">${icon}</div>
-                        <span class="text-[11px] text-[var(--c-text-muted)] font-medium leading-none mb-1">Feels ${feelsLike}°</span>
-                        <span class="text-xs text-[var(--c-text-muted)] font-medium mb-1">${displayHour}</span>
+                        <div class="my-1 scale-[0.65] h-8 flex items-center justify-center pointer-events-none">${icon}</div>
+                        <span class="text-[11px] text-[var(--c-text-muted)] font-medium leading-none mb-1 pointer-events-none">Feels ${feelsLike}°</span>
+                        <span class="text-xs text-[var(--c-text-muted)] font-medium mb-1 pointer-events-none">${displayHour}</span>
                         <!-- Compact Inline Stats -->
-                        <div class="w-full flex flex-col gap-1 text-[10px] text-[var(--c-text-muted)] border-t border-[var(--c-border)] pt-2 px-0.5">
+                        <div class="w-full flex flex-col gap-1 text-[10px] text-[var(--c-text-muted)] border-t border-[var(--c-border)] pt-2 px-0.5 pointer-events-none">
                             <div class="flex flex-col w-full mb-1">
                                 <div class="flex justify-between items-center w-full">
                                     <span class="text-[var(--c-accent)]"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg></span>
@@ -2107,6 +2152,106 @@
 
             const pressContainer = document.getElementById('press-container');
             if(pressContainer) pressContainer.innerHTML = pressHTML;
+        }
+
+        function updateAstronomicalText(dayIndex, targetHourNum) {
+            const data = currentWeatherData;
+            if (!data) return;
+
+            const riseStr = data.daily.sunrise[dayIndex];
+            const setStr = data.daily.sunset[dayIndex];
+            
+            const sunriseTime = new Date(riseStr).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+            const sunsetTime = new Date(setStr).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+            document.getElementById('det-sunrise').textContent = sunriseTime;
+            document.getElementById('det-sunset').textContent = sunsetTime;
+
+            const riseHour = getLocalHour(riseStr);
+            const setHour = getLocalHour(setStr);
+            
+            let duration = setHour - riseHour;
+            if (duration < 0) duration += 24; 
+            
+            const dayPct = (duration / 24) * 100;
+            const nightPct = 100 - dayPct;
+            document.getElementById('sun-percentages').textContent = `Daylight: ${Math.round(dayPct)}% • Night: ${Math.round(nightPct)}%`;
+
+            let isNight = false; 
+            let sunStatusText = '';
+
+            if (targetHourNum !== null) {
+                // Determine status relative to target hour
+                const isUp = (targetHourNum >= riseHour && targetHourNum < setHour) || (riseHour > setHour && (targetHourNum >= riseHour || targetHourNum < setHour));
+                if (!isUp) {
+                    isNight = true;
+                    let diff = riseHour - targetHourNum;
+                    if (diff < 0) diff += 24;
+                    sunStatusText = `Rise in ${Math.floor(diff)}h ${Math.round((diff%1)*60)}m`;
+                } else {
+                    isNight = false;
+                    let diff = setHour - targetHourNum;
+                    if (diff < 0) diff += 24;
+                    sunStatusText = `Set in ${Math.floor(diff)}h ${Math.round((diff%1)*60)}m`;
+                }
+            } else {
+                sunStatusText = `${Math.floor(duration)}h ${Math.round((duration%1)*60)}m total`;
+            }
+
+            document.getElementById('sun-status-text').textContent = sunStatusText;
+
+            // --- Moon Processing ---
+            const targetDateObj = new Date(data.daily.time[dayIndex]);
+            const moonPhaseVal = getMoonPhase(targetDateObj);
+            const phaseName = getMoonPhaseName(moonPhaseVal);
+            
+            drawMoonPhaseSVG(moonPhaseVal);
+
+            const illumination = Math.round((0.5 * (1 - Math.cos(moonPhaseVal * 2 * Math.PI))) * 100);
+            let lunarDateStr = "";
+            try {
+                const dateAdjusted = new Date(targetDateObj.getTime() + Math.abs(targetDateObj.getTimezoneOffset() * 60000));
+                lunarDateStr = new Intl.DateTimeFormat('en-US-u-ca-islamic', {day: 'numeric', month: 'long'}).format(dateAdjusted);
+            } catch(e) {
+                lunarDateStr = `Day ${(moonPhaseVal * 29.5305).toFixed(1)}`;
+            }
+            
+            const moonDetailsEl = document.getElementById('moon-details');
+            if(moonDetailsEl) {
+                moonDetailsEl.innerHTML = `Lunar Date: <span class="text-white font-bold">${lunarDateStr}</span> &nbsp;•&nbsp; Illum: <span class="text-white font-bold">${illumination}%</span>`;
+            }
+            
+            let mRiseHour = (6 + (moonPhaseVal * 24)) % 24;
+            let mSetHour = (18 + (moonPhaseVal * 24)) % 24;
+
+            document.getElementById('det-moonrise').textContent = formatHour(mRiseHour);
+            document.getElementById('det-moonset').textContent = formatHour(mSetHour);
+
+            let mMoonStatusText = '';
+
+            if (targetHourNum !== null) {
+                let isUp = false;
+                if (mRiseHour < mSetHour) {
+                    isUp = targetHourNum >= mRiseHour && targetHourNum < mSetHour;
+                } else {
+                    isUp = targetHourNum >= mRiseHour || targetHourNum < mSetHour;
+                }
+
+                if (isUp) {
+                    let diff = mSetHour - targetHourNum;
+                    if(diff < 0) diff += 24;
+                    mMoonStatusText = `Set in ${Math.floor(diff)}h ${Math.round((diff%1)*60)}m`;
+                } else {
+                    let diff = mRiseHour - targetHourNum;
+                    if(diff < 0) diff += 24;
+                    mMoonStatusText = `Rise in ${Math.floor(diff)}h ${Math.round((diff%1)*60)}m`;
+                }
+            } else {
+                let mDuration = mSetHour - mRiseHour;
+                if (mDuration < 0) mDuration += 24; 
+                mMoonStatusText = `${Math.floor(mDuration)}h ${Math.round((mDuration%1)*60)}m up`;
+            }
+
+            document.getElementById('moon-status-text').textContent = `${phaseName} • ${mMoonStatusText}`;
         }
 
         function renderWeather() {
@@ -2247,9 +2392,89 @@
             selectDay(currentSelectedDay, false); 
         }
 
+        window.selectHour = function(index) {
+            const data = currentWeatherData;
+            if (!data) return;
+            currentSelectedHourIndex = index;
+            
+            highlightHourlyItem(index);
+            
+            // Find which day this hour belongs to
+            const timeStr = data.hourly.time[index];
+            const dateStr = timeStr.split('T')[0];
+            const dayIndex = dayMap[dateStr] !== undefined ? dayMap[dateStr] : 0;
+            currentSelectedDay = dayIndex;
+
+            // Highlight daily tab
+            document.querySelectorAll('.daily-tab').forEach((tab, idx) => {
+                const dayName = tab.querySelector('.day-name');
+                if (idx === dayIndex) {
+                    tab.classList.add('bg-[var(--c-accent)]/20', 'border-[var(--c-accent)]/50');
+                    if(dayName) dayName.classList.replace('text-[var(--c-text-muted)]', 'text-[var(--c-accent)]');
+                } else {
+                    tab.classList.remove('bg-[var(--c-accent)]/20', 'border-[var(--c-accent)]/50');
+                    if(dayName) dayName.classList.replace('text-[var(--c-accent)]', 'text-[var(--c-text-muted)]');
+                }
+            });
+
+            const targetDateObj = new Date(timeStr);
+            const adjustedDate = new Date(targetDateObj.getTime() + Math.abs(targetDateObj.getTimezoneOffset() * 60000));
+            
+            // Update Mega Card Text
+            const isToday = (dayIndex === 0);
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            let dayLabelStr = isToday ? "Today" : adjustedDate.toLocaleDateString('en-US', { weekday: 'long' });
+            dayLabelStr += `, ${months[adjustedDate.getMonth()]} ${adjustedDate.getDate()}`;
+            document.getElementById('day-label').textContent = dayLabelStr;
+            
+            const timeLabelStr = targetDateObj.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+            const megaTimeEl = document.getElementById('mega-time');
+            if (megaTimeEl) {
+                megaTimeEl.style.display = 'inline';
+                megaTimeEl.textContent = timeLabelStr;
+            }
+
+            const unitStr = units.temp === 'C' ? '°C' : '°F';
+            const temp = convertTemp(data.hourly.temperature_2m[index]);
+            const feelsLike = convertTemp(data.hourly.apparent_temperature[index]);
+            const wmoCode = data.hourly.weather_code[index];
+            const isDayCode = data.hourly.is_day[index];
+            const windSpeed = formatSpeed(data.hourly.wind_speed_10m[index]);
+            const precipProb = data.hourly.precipitation_probability[index] || 0;
+            const precipMm = data.hourly.precipitation[index] || 0;
+            const humVal = data.hourly.relative_humidity_2m[index];
+            const windValRaw = data.hourly.wind_speed_10m[index];
+
+            document.getElementById('current-temp').textContent = temp;
+            document.getElementById('current-unit').textContent = unitStr;
+            document.getElementById('current-icon').innerHTML = getWeatherIcon(mapWmoCode(wmoCode), isDayCode);
+            document.getElementById('current-desc').innerHTML = `${mapWmoCode(wmoCode)}`;
+            document.getElementById('feels-like').innerHTML = `Feels ${feelsLike}° &nbsp;•&nbsp; Wind: ${windSpeed}`;
+
+            // Calculate precise celestial arc for the landscape
+            const targetHourNum = targetDateObj.getHours() + (targetDateObj.getMinutes() / 60);
+            
+            const riseStr = data.daily.sunrise[dayIndex];
+            const setStr = data.daily.sunset[dayIndex];
+            const riseHour = getLocalHour(riseStr);
+            const setHour = getLocalHour(setStr);
+            
+            const moonPhaseVal = getMoonPhase(targetDateObj);
+            let mRiseHour = (6 + (moonPhaseVal * 24)) % 24;
+            let mSetHour = (18 + (moonPhaseVal * 24)) % 24;
+
+            const activeCelestialPt = calculateCelestialArc(targetHourNum, riseHour, setHour, mRiseHour, mSetHour, isDayCode);
+            updateDynamicScene(wmoCode, isDayCode, windValRaw, precipProb, humVal, activeCelestialPt);
+            updateAstronomicalText(dayIndex, targetHourNum);
+        }
+
         window.selectDay = function(dayIndex, doScroll = false) {
             const data = currentWeatherData;
             if (!data) return;
+            
+            currentSelectedHourIndex = null;
+            highlightHourlyItem(null);
+            
             updateDashboardForDay(dayIndex);
 
             if (doScroll) {
@@ -2270,7 +2495,7 @@
             const targetDateStr = data.daily.time[dayIndex];
             
             // --- Determine Base values for Day ---
-            let maxTemp, minTemp, dominantDayCode, feelsLike, isDayCode;
+            let maxTemp, minTemp, dominantDayCode, feelsLike, isDayCode, targetHourNumForAstro;
             
             if (dayIndex === 0) {
                 dominantDayCode = data.current.weather_code;
@@ -2278,12 +2503,14 @@
                 maxTemp = convertTemp(data.daily.temperature_2m_max[dayIndex]);
                 minTemp = convertTemp(data.daily.temperature_2m_min[dayIndex]);
                 feelsLike = convertTemp(data.current.apparent_temperature);
+                targetHourNumForAstro = getLocalHour(data.current.time);
             } else {
                 dominantDayCode = getDaytimeWeatherCode(data, dayIndex);
                 isDayCode = 1; // Default to day for future summary
                 maxTemp = convertTemp(data.daily.temperature_2m_max[dayIndex]);
                 minTemp = convertTemp(data.daily.temperature_2m_min[dayIndex]);
                 feelsLike = convertTemp(data.daily.apparent_temperature_max[dayIndex]);
+                targetHourNumForAstro = null; // No specific hour selected
             }
             
             // Average humidity for day
@@ -2348,156 +2575,35 @@
                 document.getElementById('feels-like').innerHTML = `Feels ${feelsLike}° &nbsp;•&nbsp; H: ${maxTemp}° L: ${minTemp}°`;
             }
 
-            // --------------------------------------------------------
-            // Sun Graph Calculation
-            // --------------------------------------------------------
+            // Update Astronomical Sub-Cards (Circular Dials)
+            updateAstronomicalText(dayIndex, targetHourNumForAstro);
+
+            // --- Update Dynamic Scene (Landscape) for this day ---
+            let activeCelestialPt;
             const riseStr = data.daily.sunrise[dayIndex];
             const setStr = data.daily.sunset[dayIndex];
-            const currentStr = data.current.time;
-
-            const sunriseTime = new Date(riseStr).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-            const sunsetTime = new Date(setStr).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-            document.getElementById('det-sunrise').textContent = sunriseTime;
-            document.getElementById('det-sunset').textContent = sunsetTime;
-
             const riseHour = getLocalHour(riseStr);
             const setHour = getLocalHour(setStr);
-            const nowHour = getLocalHour(currentStr);
-
-            const risePt = getCoord(riseHour);
-            const setPt = getCoord(setHour);
-
-            let duration = setHour - riseHour;
-            if (duration < 0) duration += 24; 
-            
-            const dayPct = (duration / 24) * 100;
-            const nightPct = 100 - dayPct;
-            document.getElementById('sun-percentages').textContent = `Daylight: ${Math.round(dayPct)}% • Night: ${Math.round(nightPct)}%`;
-
-            const largeArc = duration > 12 ? 1 : 0;
-            const arcPath = `M ${risePt.x} ${risePt.y} A 45 45 0 ${largeArc} 1 ${setPt.x} ${setPt.y}`;
-            
-            document.getElementById('sun-arc-fill').setAttribute('d', arcPath);
-            document.getElementById('sunrise-marker').setAttribute('transform', `translate(${risePt.x}, ${risePt.y})`);
-            document.getElementById('sunset-marker').setAttribute('transform', `translate(${setPt.x}, ${setPt.y})`);
-
-            let dotHour; let isNight = false; let sunStatusText = '';
-            let isActuallyDay = false; // Precise boolean for daytime
             
             if (dayIndex === 0) {
-                dotHour = nowHour;
-                isActuallyDay = (nowHour >= riseHour && nowHour < setHour) || (riseHour > setHour && (nowHour >= riseHour || nowHour < setHour));
+                // Determine if sun is up right now
+                let isActuallyDay = false;
+                if (riseHour < setHour) {
+                    isActuallyDay = targetHourNumForAstro >= riseHour && targetHourNumForAstro < setHour;
+                } else {
+                    isActuallyDay = targetHourNumForAstro >= riseHour || targetHourNumForAstro < setHour;
+                }
                 
-                if (!isActuallyDay) {
-                    isNight = true;
-                    // Simple calculation for diff
-                    let diff = riseHour - nowHour;
-                    if (diff < 0) diff += 24;
-                    sunStatusText = `Rise in ${Math.floor(diff)}h ${Math.round((diff%1)*60)}m`;
-                } else {
-                    isNight = false;
-                    let diff = setHour - nowHour;
-                    if (diff < 0) diff += 24;
-                    sunStatusText = `Set in ${Math.floor(diff)}h ${Math.round((diff%1)*60)}m`;
-                }
-            } else {
-                isActuallyDay = true; 
-                dotHour = riseHour + duration / 2;
-                if (dotHour >= 24) dotHour -= 24;
-                isNight = false;
-                sunStatusText = `${Math.floor(duration)}h ${Math.round((duration%1)*60)}m total`;
-            }
-
-            const dotPt = getCoord(dotHour);
-            document.getElementById('sun-dot').setAttribute('cx', dotPt.x);
-            document.getElementById('sun-dot').setAttribute('cy', dotPt.y);
-            document.getElementById('sun-dot').setAttribute('fill', isNight ? 'var(--c-accent)' : '#fbbc04');
-
-            document.getElementById('sun-status-text').textContent = sunStatusText;
-
-            // --------------------------------------------------------
-            // Moon Graph Calculation (Distinct Mathematical Logic)
-            // --------------------------------------------------------
-            const targetDateObj = new Date(data.daily.time[dayIndex]);
-            const moonPhaseVal = getMoonPhase(targetDateObj);
-            const phaseName = getMoonPhaseName(moonPhaseVal);
-            
-            drawMoonPhaseSVG(moonPhaseVal);
-
-            // Lunar Month & Illumination Logic
-            const illumination = Math.round((0.5 * (1 - Math.cos(moonPhaseVal * 2 * Math.PI))) * 100);
-            let lunarDateStr = "";
-            try {
-                // Use built-in JS internationalization to map the date to the Islamic/Lunar calendar
-                const dateAdjusted = new Date(targetDateObj.getTime() + Math.abs(targetDateObj.getTimezoneOffset() * 60000));
-                lunarDateStr = new Intl.DateTimeFormat('en-US-u-ca-islamic', {day: 'numeric', month: 'long'}).format(dateAdjusted);
-            } catch(e) {
-                // Fallback if calendar mapping fails
-                lunarDateStr = `Day ${(moonPhaseVal * 29.5305).toFixed(1)}`;
-            }
-            
-            const moonDetailsEl = document.getElementById('moon-details');
-            if(moonDetailsEl) {
-                moonDetailsEl.innerHTML = `Lunar Date: <span class="text-white font-bold">${lunarDateStr}</span> &nbsp;•&nbsp; Illum: <span class="text-white font-bold">${illumination}%</span>`;
-            }
-            
-            let mRiseHour = (6 + (moonPhaseVal * 24)) % 24;
-            let mSetHour = (18 + (moonPhaseVal * 24)) % 24;
-
-            document.getElementById('det-moonrise').textContent = formatHour(mRiseHour);
-            document.getElementById('det-moonset').textContent = formatHour(mSetHour);
-
-            const mRisePt = getCoord(mRiseHour);
-            const mSetPt = getCoord(mSetHour);
-
-            let mDuration = mSetHour - mRiseHour;
-            if (mDuration < 0) mDuration += 24; 
-            const mLargeArc = mDuration > 12 ? 1 : 0;
-            
-            document.getElementById('moon-arc-fill').setAttribute('d', `M ${mRisePt.x} ${mRisePt.y} A 45 45 0 ${mLargeArc} 1 ${mSetPt.x} ${mSetPt.y}`);
-            document.getElementById('moonrise-marker').setAttribute('transform', `translate(${mRisePt.x}, ${mRisePt.y})`);
-            document.getElementById('moonset-marker').setAttribute('transform', `translate(${mSetPt.x}, ${mSetPt.y})`);
-
-            let mDotHour; 
-            let mMoonStatusText = '';
-
-            if (dayIndex === 0) {
-                mDotHour = nowHour;
-                let isUp = false;
-                if (mRiseHour < mSetHour) {
-                    isUp = nowHour >= mRiseHour && nowHour < mSetHour;
-                } else {
-                    isUp = nowHour >= mRiseHour || nowHour < mSetHour;
-                }
-
-                if (isUp) {
-                    let diff = mSetHour - nowHour;
-                    if(diff < 0) diff += 24;
-                    mMoonStatusText = `Set in ${Math.floor(diff)}h ${Math.round((diff%1)*60)}m`;
-                } else {
-                    let diff = mRiseHour - nowHour;
-                    if(diff < 0) diff += 24;
-                    mMoonStatusText = `Rise in ${Math.floor(diff)}h ${Math.round((diff%1)*60)}m`;
-                }
-            } else {
-                mDotHour = mRiseHour + mDuration / 2;
-                if (mDotHour >= 24) mDotHour -= 24;
-                mMoonStatusText = `${Math.floor(mDuration)}h ${Math.round((mDuration%1)*60)}m up`;
-            }
-
-            const mDotPt = getCoord(mDotHour);
-            document.getElementById('moon-dot').setAttribute('cx', mDotPt.x);
-            document.getElementById('moon-dot').setAttribute('cy', mDotPt.y);
-            document.getElementById('moon-status-text').textContent = `${phaseName} • ${mMoonStatusText}`;
-            
-            // --- Update Dynamic Scene for this day ---
-            let activeCelestialPt;
-            if (dayIndex === 0) {
-                activeCelestialPt = isActuallyDay ? dotPt : mDotPt;
+                const targetDateObj = new Date(targetDateStr);
+                const moonPhaseVal = getMoonPhase(targetDateObj);
+                let mRiseHour = (6 + (moonPhaseVal * 24)) % 24;
+                let mSetHour = (18 + (moonPhaseVal * 24)) % 24;
+                
+                activeCelestialPt = calculateCelestialArc(targetHourNumForAstro, riseHour, setHour, mRiseHour, mSetHour, isActuallyDay ? 1 : 0);
                 updateDynamicScene(dominantDayCode, isActuallyDay ? 1 : 0, windValRaw, precipVal, humVal, activeCelestialPt);
             } else {
-                // For future days, simulate noon for layout
-                updateDynamicScene(dominantDayCode, 1, windValRaw, precipVal, humVal, {x: 50, y: 5});
+                // For future days, simulate high noon
+                updateDynamicScene(dominantDayCode, 1, windValRaw, precipVal, humVal, {x: 50, y: 10, isSun: true});
             }
         }
 
