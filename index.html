@@ -22,10 +22,55 @@
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* ==================================================== */
+        /* Dynamic Theme System                                 */
+        /* ==================================================== */
+        :root {
+            /* Default 'Ocean' Theme */
+            --c-bg: #0B1121;
+            --c-card: #1e293b;
+            --c-card-alpha: rgba(30, 41, 59, 0.75);
+            --c-input: #0f172a;
+            --c-border: #334155;
+            --c-border-alpha: rgba(51, 65, 85, 0.6);
+            --c-accent: #8ab4f8;
+            --c-text-muted: #9aa0a6;
+        }
+        [data-theme="dark"] {
+            --c-bg: #121212;
+            --c-card: #202124;
+            --c-card-alpha: rgba(32, 33, 36, 0.85);
+            --c-input: #171717;
+            --c-border: #3c4043;
+            --c-border-alpha: rgba(60, 64, 67, 0.8);
+            --c-accent: #8ab4f8;
+            --c-text-muted: #9aa0a6;
+        }
+        [data-theme="midnight"] {
+            --c-bg: #1e1b4b;
+            --c-card: #312e81;
+            --c-card-alpha: rgba(49, 46, 129, 0.75);
+            --c-input: #23215e;
+            --c-border: #4338ca;
+            --c-border-alpha: rgba(67, 56, 202, 0.6);
+            --c-accent: #a5b4fc;
+            --c-text-muted: #c7d2fe;
+        }
+        [data-theme="forest"] {
+            --c-bg: #064e3b;
+            --c-card: #065f46;
+            --c-card-alpha: rgba(6, 95, 70, 0.75);
+            --c-input: #022c22;
+            --c-border: #047857;
+            --c-border-alpha: rgba(4, 120, 87, 0.6);
+            --c-accent: #6ee7b7;
+            --c-text-muted: #a7f3d0;
+        }
+
         body {
-            background-color: #0B1121; /* Dark Blue Base */
+            background-color: var(--c-bg); 
             color: #e8eaed;
-            transition: background-image 1.5s ease-in-out;
+            transition: background-image 1.5s ease-in-out, background-color 0.5s ease;
             background-attachment: fixed;
             background-size: cover;
         }
@@ -124,44 +169,61 @@
             animation: drift var(--drift-dur, 40s) linear infinite;
         }
 
-        /* UI Styling */
+        /* ==================================================== */
+        /* Custom Themed UI Components                          */
+        /* ==================================================== */
         .g-card {
-            background-color: rgba(30, 41, 59, 0.75); 
+            background-color: var(--c-card-alpha); 
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(51, 65, 85, 0.6);
+            border: 1px solid var(--c-border-alpha);
             border-radius: 28px;
+            transition: background-color 0.5s ease, border-color 0.5s ease;
         }
         .g-input {
-            background-color: #0f172a;
-            border: 1px solid #334155;
+            background-color: var(--c-input);
+            border: 1px solid var(--c-border);
             border-radius: 12px;
+            transition: border-color 0.3s ease, background-color 0.5s ease;
         }
-        .g-input:focus-within { border-color: #8ab4f8; }
+        .g-input:focus-within { border-color: var(--c-accent); }
+        
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
         .intensity-bar {
-            background: #1e293b;
+            background-color: var(--c-card);
             border-radius: 9999px;
             overflow: hidden;
             display: inline-block;
             vertical-align: middle;
         }
         .intensity-fill { height: 100%; border-radius: 9999px; transition: width 0.3s ease; }
-        .radar-btn.active { background-color: #8ab4f8; color: #0B1121; font-weight: 500; }
+        
+        .radar-btn.active { background-color: var(--c-accent); color: var(--c-bg); font-weight: 500; }
+        
         .section-header { cursor: pointer; user-select: none; transition: opacity 0.2s; }
         .section-header:hover { opacity: 0.8; }
+        
         .chevron { transition: transform 0.3s ease; }
         .collapsed .chevron { transform: rotate(-90deg); }
-        *:focus-visible { outline: none; box-shadow: 0 0 0 2px #8ab4f8; border-radius: 12px; }
+        
+        *:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--c-accent); border-radius: 12px; }
         .daily-tab:focus-visible, .hourly-item:focus-visible, .hourly-stat-item:focus-visible {
-            border-color: #8ab4f8 !important; background-color: rgba(138, 180, 248, 0.1) !important;
+            border-color: var(--c-accent) !important; 
+            background-color: rgba(138, 180, 248, 0.1) !important;
         }
+        
         .nav-btn {
-            background-color: #1e293b; border: 1px solid #334155; color: white;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3); z-index: 10;
+            background-color: var(--c-card); 
+            border: 1px solid var(--c-border); 
+            color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3); 
+            z-index: 10;
         }
-        .nav-btn:hover { background-color: #334155; }
+        .nav-btn:hover { background-color: var(--c-border); }
+        
+        .theme-btn.active { border-color: var(--c-accent); box-shadow: 0 0 0 2px var(--c-accent); }
     </style>
 </head>
 <body class="font-sans flex justify-center p-3 py-6 min-h-screen overflow-x-hidden">
@@ -174,12 +236,12 @@
         <!-- Top App Bar -->
         <div class="flex flex-row justify-between items-center mb-8 w-full px-2 gap-6">
             <div class="text-2xl font-medium text-white flex items-center gap-2" tabindex="0">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8ab4f8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path></svg>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--c-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path></svg>
                 HG Weather Forecast
             </div>
             
             <!-- Settings Button -->
-            <button onclick="toggleSettingsModal(true)" class="p-2.5 g-card rounded-full text-[#9aa0a6] hover:text-white hover:bg-[#334155] transition shadow-sm ml-auto flex-shrink-0" aria-label="Settings">
+            <button onclick="toggleSettingsModal(true)" class="p-2.5 g-card rounded-full text-[var(--c-text-muted)] hover:text-white transition shadow-sm ml-auto flex-shrink-0" aria-label="Settings">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
                     <circle cx="12" cy="12" r="3"></circle>
@@ -191,17 +253,17 @@
         <div id="error-container" class="hidden mb-6 p-4 bg-red-900/50 border border-red-500 rounded-2xl text-red-200 text-sm"></div>
         
         <!-- Loading State -->
-        <div id="loading-state" class="hidden flex flex-col items-center justify-center py-20 text-[#8ab4f8]" tabindex="-1">
+        <div id="loading-state" class="hidden flex flex-col items-center justify-center py-20 text-[var(--c-accent)]" tabindex="-1">
             <svg class="animate-spin h-10 w-10 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
             <span class="text-sm font-medium uppercase tracking-widest">Fetching Weather...</span>
         </div>
 
         <!-- Welcome/Empty State -->
         <div id="welcome-state" class="hidden flex flex-col items-center justify-center py-24 text-center px-4">
-            <svg class="w-20 h-20 text-[#5f6368] mb-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
+            <svg class="w-20 h-20 text-[var(--c-text-muted)] mb-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
             <h2 class="text-2xl text-white font-medium mb-3">Welcome to HG Weather</h2>
-            <p class="text-[#9aa0a6] text-base max-w-md mb-6">We couldn't automatically detect your location. Please open the settings menu to search for a city.</p>
-            <button onclick="toggleSettingsModal(true)" class="bg-[#8ab4f8] text-[#0B1121] px-6 py-2.5 rounded-full font-medium hover:bg-blue-300 transition">
+            <p class="text-[var(--c-text-muted)] text-base max-w-md mb-6">We couldn't automatically detect your location. Please open the settings menu to search for a city.</p>
+            <button onclick="toggleSettingsModal(true)" class="bg-[var(--c-accent)] text-[var(--c-bg)] px-6 py-2.5 rounded-full font-medium hover:opacity-80 transition">
                 Open Settings
             </button>
         </div>
@@ -213,17 +275,17 @@
             <div class="px-3 flex flex-col items-start relative z-20 mb-1">
                 <div class="flex items-center justify-between w-full">
                     <div class="relative w-full max-w-[85%]">
-                        <button onclick="toggleCityDropdown()" class="flex items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-lg px-2 -ml-2 py-1 text-left w-full" aria-haspopup="true" aria-expanded="false">
+                        <button onclick="toggleCityDropdown()" class="flex items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)] rounded-lg px-2 -ml-2 py-1 text-left w-full" aria-haspopup="true" aria-expanded="false">
                             <h2 id="city-name" class="text-2xl sm:text-4xl font-normal text-white tracking-tight group-hover:text-gray-200 truncate drop-shadow-md" dir="auto"></h2>
-                            <svg class="w-5 h-5 text-[#9aa0a6] group-hover:text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            <svg class="w-5 h-5 text-[var(--c-text-muted)] group-hover:text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </button>
                         <!-- Dropdown Menu -->
-                        <div id="city-dropdown" class="hidden absolute left-0 mt-2 w-64 rounded-xl shadow-2xl bg-[#1e293b] ring-1 ring-black ring-opacity-5 focus:outline-none border border-[#334155] overflow-hidden z-50">
+                        <div id="city-dropdown" class="hidden absolute left-0 mt-2 w-64 rounded-xl shadow-2xl bg-[var(--c-card)] ring-1 ring-black ring-opacity-5 focus:outline-none border border-[var(--c-border)] overflow-hidden z-50">
                             <div class="py-1 flex flex-col max-h-60 overflow-y-auto hide-scrollbar" id="main-dropdown-list">
                                 <!-- Populated by JS -->
                             </div>
-                            <div class="border-t border-[#334155] p-1 bg-[#0f172a]">
-                                <button onclick="toggleSettingsModal(true); document.getElementById('city-dropdown').classList.add('hidden');" class="w-full text-left px-4 py-3 text-sm text-[#8ab4f8] hover:bg-[#334155] transition font-medium flex items-center gap-2 rounded-lg">
+                            <div class="border-t border-[var(--c-border)] p-1 bg-[var(--c-input)]">
+                                <button onclick="toggleSettingsModal(true); document.getElementById('city-dropdown').classList.add('hidden');" class="w-full text-left px-4 py-3 text-sm text-[var(--c-accent)] hover:bg-[var(--c-border)] transition font-medium flex items-center gap-2 rounded-lg">
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                                     Search New City
                                 </button>
@@ -231,21 +293,21 @@
                         </div>
                     </div>
 
-                    <button id="favorite-btn" onclick="toggleFavorite()" class="text-[#9aa0a6] hover:text-yellow-400 transition p-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded-full bg-black/10 backdrop-blur-sm" aria-label="Save City">
+                    <button id="favorite-btn" onclick="toggleFavorite()" class="text-[var(--c-text-muted)] hover:text-yellow-400 transition p-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded-full bg-black/10 backdrop-blur-sm" aria-label="Save City">
                         <svg id="star-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
                     </button>
                 </div>
-                <div id="date-time" class="text-[#9aa0a6] text-sm px-2 font-medium tracking-wide drop-shadow-sm" dir="auto"></div>
+                <div id="date-time" class="text-[var(--c-text-muted)] text-sm px-2 font-medium tracking-wide drop-shadow-sm" dir="auto"></div>
             </div>
 
             <!-- Intelligent Insights Container -->
             <div id="insights-section" class="g-card p-3 sm:p-4 hidden transition-all collapsed">
-                <div class="section-header flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl p-1 -m-1" onclick="toggleSection('insights-section')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleSection('insights-section');">
-                    <h3 class="text-[#9aa0a6] text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+                <div class="section-header flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)] rounded-xl p-1 -m-1" onclick="toggleSection('insights-section')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleSection('insights-section');">
+                    <h3 class="text-[var(--c-text-muted)] text-xs font-bold uppercase tracking-wider flex items-center gap-2">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
                         Weather Insights
                     </h3>
-                    <svg class="chevron text-[#9aa0a6]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    <svg class="chevron text-[var(--c-text-muted)]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </div>
                 <div class="content-wrapper mt-3 hidden flex-col">
                     <div id="insights-container" class="flex flex-col gap-2 empty:hidden">
@@ -257,17 +319,17 @@
             <!-- COMPACT MEGA CARD: Merged Current + Hourly + Extended Tabs -->
             <div class="g-card overflow-hidden flex flex-col shadow-lg mt-1 relative z-10">
                 
-                <!-- 1. Current Overview Section (Ultra-Compact) -->
+                <!-- 1. Current Overview Section -->
                 <div class="p-4 sm:p-6 pb-0 relative z-20" tabindex="0">
                     <div class="flex justify-between items-center">
                         <div class="flex flex-col">
                             <div class="flex items-center gap-2 mb-0.5">
-                                <span class="text-sm text-[#9aa0a6] font-medium tracking-wide drop-shadow-md" id="day-label">Now</span>
-                                <span class="text-sm text-[#8ab4f8] font-bold tracking-wide drop-shadow-md" id="mega-time"></span>
+                                <span class="text-sm text-[var(--c-text-muted)] font-medium tracking-wide drop-shadow-md" id="day-label">Now</span>
+                                <span class="text-sm text-[var(--c-accent)] font-bold tracking-wide drop-shadow-md" id="mega-time"></span>
                             </div>
                             <div class="flex items-start">
                                 <span class="text-6xl sm:text-8xl font-normal tracking-tighter text-white leading-none drop-shadow-lg" id="current-temp"></span>
-                                <span class="text-2xl sm:text-3xl text-[#9aa0a6] mt-1 ml-1 drop-shadow-md" id="current-unit"></span>
+                                <span class="text-2xl sm:text-3xl text-[var(--c-text-muted)] mt-1 ml-1 drop-shadow-md" id="current-unit"></span>
                             </div>
                         </div>
                         <div class="flex flex-col items-end">
@@ -281,8 +343,8 @@
                 <!-- NEW: Dynamic Landscape Weather Scene Box -->
                 <div class="mx-4 sm:mx-6 mt-4 relative h-32 sm:h-40 rounded-2xl overflow-hidden shadow-inner border border-white/10 landscape-container" id="dynamic-scene-container">
                     
-                    <!-- Celestial Body (Sun/Moon) -->
-                    <div id="scene-celestial" class="absolute w-12 h-12 rounded-full shadow-[0_0_40px_rgba(253,224,71,0.8)] top-4 right-8 transition-all duration-1000 ease-in-out"></div>
+                    <!-- Celestial Body (Sun/Moon) tracking mathematically based on time -->
+                    <div id="scene-celestial" class="absolute w-12 h-12 rounded-full shadow-[0_0_40px_rgba(253,224,71,0.8)] transition-all duration-1000 ease-in-out" style="left: 50%; top: 50%; transform: translate(-50%, -50%);"></div>
                     
                     <!-- Clouds Container -->
                     <div id="scene-clouds" class="absolute inset-0 opacity-0 transition-opacity duration-1000"></div>
@@ -310,7 +372,7 @@
                 </div>
 
                 <!-- 2. Continuous Hourly Forecast Section -->
-                <div class="relative w-full border-t border-[#334155] mt-5 sm:mt-6 group">
+                <div class="relative w-full border-t border-[var(--c-border)] mt-5 sm:mt-6 group">
                     <button onclick="scrollContainerByItem('hourly-container', -1)" class="nav-btn absolute left-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer" aria-label="Scroll left">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
                     </button>
@@ -325,7 +387,7 @@
                 </div>
 
                 <!-- 3. Extended Forecast Tabs -->
-                <div class="bg-[#0f172a]/40 backdrop-blur-md border-t border-[#334155] px-2 py-2 relative group">
+                <div class="bg-[var(--c-input)]/40 backdrop-blur-md border-t border-[var(--c-border)] px-2 py-2 relative group">
                     <button onclick="scrollContainerByItem('daily-container', -2)" class="nav-btn absolute left-1 top-1/2 -translate-y-1/2 p-1 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer hidden sm:flex" aria-label="Scroll left">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
                     </button>
@@ -341,20 +403,20 @@
             </div>
 
             <!-- Combined Detailed Hourly Lists (Precip, Wind, Humidity) -->
-            <div id="detailed-hourly-section" class="g-card bg-[#1e293b] flex flex-col mt-2 transition-all">
-                <div class="section-header flex justify-between items-center p-4 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl" onclick="toggleSection('detailed-hourly-section')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleSection('detailed-hourly-section');">
+            <div id="detailed-hourly-section" class="g-card bg-[var(--c-card)] flex flex-col mt-2 transition-all">
+                <div class="section-header flex justify-between items-center p-4 focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)] rounded-xl" onclick="toggleSection('detailed-hourly-section')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleSection('detailed-hourly-section');">
                     <h4 class="text-white text-sm font-medium flex items-center gap-2">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8ab4f8" stroke-width="2" stroke-linecap="round"><path d="M22 12a10.06 10.06 1 0 0-20 0Z"></path><path d="M12 12v8a2 2 0 0 0 4 0"></path><path d="M12 2v1"></path></svg>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--c-accent)" stroke-width="2" stroke-linecap="round"><path d="M22 12a10.06 10.06 1 0 0-20 0Z"></path><path d="M12 12v8a2 2 0 0 0 4 0"></path><path d="M12 2v1"></path></svg>
                         Detailed Hourly Forecast
                     </h4>
-                    <svg class="chevron text-[#9aa0a6]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    <svg class="chevron text-[var(--c-text-muted)]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </div>
                 
                 <div class="content-wrapper flex-col transition-all">
                     <!-- Hourly Precipitation -->
-                    <div class="relative group border-t border-[#334155]">
+                    <div class="relative group border-t border-[var(--c-border)]">
                         <div class="flex items-center gap-3 p-3 sm:p-4 pb-0">
-                            <span class="text-[#9aa0a6] text-xs font-medium uppercase tracking-wider">Precipitation</span>
+                            <span class="text-[var(--c-text-muted)] text-xs font-medium uppercase tracking-wider">Precipitation</span>
                         </div>
                         <div class="relative w-full">
                             <button onclick="scrollContainerByItem('precip-container', -1)" class="nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer" aria-label="Scroll left"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
@@ -366,9 +428,9 @@
                     </div>
 
                     <!-- Hourly Wind -->
-                    <div class="relative group border-t border-[#334155]">
+                    <div class="relative group border-t border-[var(--c-border)]">
                         <div class="flex items-center gap-3 p-3 sm:p-4 pb-0">
-                            <span class="text-[#9aa0a6] text-xs font-medium uppercase tracking-wider">Wind</span>
+                            <span class="text-[var(--c-text-muted)] text-xs font-medium uppercase tracking-wider">Wind</span>
                         </div>
                         <div class="relative w-full">
                             <button onclick="scrollContainerByItem('wind-container', -1)" class="nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer" aria-label="Scroll left"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
@@ -380,9 +442,9 @@
                     </div>
 
                     <!-- Hourly Humidity -->
-                    <div class="relative group border-t border-[#334155]">
+                    <div class="relative group border-t border-[var(--c-border)]">
                         <div class="flex items-center gap-3 p-3 sm:p-4 pb-0">
-                            <span class="text-[#9aa0a6] text-xs font-medium uppercase tracking-wider">Humidity</span>
+                            <span class="text-[var(--c-text-muted)] text-xs font-medium uppercase tracking-wider">Humidity</span>
                         </div>
                         <div class="relative w-full">
                             <button onclick="scrollContainerByItem('humidity-container', -1)" class="nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer" aria-label="Scroll left"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
@@ -396,21 +458,21 @@
             </div>
 
             <!-- Environment & Air Quality Hourly Forecast -->
-            <div id="environment-section" class="g-card bg-[#1e293b] flex flex-col mt-2 transition-all collapsed">
-                <div class="section-header flex justify-between items-center p-4 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl" onclick="toggleSection('environment-section')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleSection('environment-section');">
+            <div id="environment-section" class="g-card bg-[var(--c-card)] flex flex-col mt-2 transition-all collapsed">
+                <div class="section-header flex justify-between items-center p-4 focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)] rounded-xl" onclick="toggleSection('environment-section')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleSection('environment-section');">
                     <h4 class="text-white text-sm font-medium flex items-center gap-2">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fbbc04" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
                         Environment & Air Quality
                     </h4>
-                    <svg class="chevron text-[#9aa0a6]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    <svg class="chevron text-[var(--c-text-muted)]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </div>
                 
                 <div class="content-wrapper hidden flex-col transition-all">
                     
                     <!-- Hourly UV -->
-                    <div class="relative group border-t border-[#334155]">
+                    <div class="relative group border-t border-[var(--c-border)]">
                         <div class="flex items-center gap-3 p-3 sm:p-4 pb-0">
-                            <span class="text-[#9aa0a6] text-xs font-medium uppercase tracking-wider">UV Index</span>
+                            <span class="text-[var(--c-text-muted)] text-xs font-medium uppercase tracking-wider">UV Index</span>
                         </div>
                         <div class="relative w-full">
                             <button onclick="scrollContainerByItem('uv-container', -1)" class="nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
@@ -420,9 +482,9 @@
                     </div>
 
                     <!-- Hourly AQI -->
-                    <div class="relative group border-t border-[#334155]">
+                    <div class="relative group border-t border-[var(--c-border)]">
                         <div class="flex items-center gap-3 p-3 sm:p-4 pb-0">
-                            <span class="text-[#9aa0a6] text-xs font-medium uppercase tracking-wider">Air Quality (AQI)</span>
+                            <span class="text-[var(--c-text-muted)] text-xs font-medium uppercase tracking-wider">Air Quality (AQI)</span>
                         </div>
                         <div class="relative w-full">
                             <button onclick="scrollContainerByItem('aqi-container', -1)" class="nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
@@ -432,9 +494,9 @@
                     </div>
 
                     <!-- Hourly Visibility -->
-                    <div class="relative group border-t border-[#334155]">
+                    <div class="relative group border-t border-[var(--c-border)]">
                         <div class="flex items-center gap-3 p-3 sm:p-4 pb-0">
-                            <span class="text-[#9aa0a6] text-xs font-medium uppercase tracking-wider">Visibility</span>
+                            <span class="text-[var(--c-text-muted)] text-xs font-medium uppercase tracking-wider">Visibility</span>
                         </div>
                         <div class="relative w-full">
                             <button onclick="scrollContainerByItem('vis-container', -1)" class="nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
@@ -444,9 +506,9 @@
                     </div>
 
                     <!-- Hourly Pressure -->
-                    <div class="relative group border-t border-[#334155]">
+                    <div class="relative group border-t border-[var(--c-border)]">
                         <div class="flex items-center gap-3 p-3 sm:p-4 pb-0">
-                            <span class="text-[#9aa0a6] text-xs font-medium uppercase tracking-wider">Pressure</span>
+                            <span class="text-[var(--c-text-muted)] text-xs font-medium uppercase tracking-wider">Pressure</span>
                         </div>
                         <div class="relative w-full">
                             <button onclick="scrollContainerByItem('press-container', -1)" class="nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-80 hover:!opacity-100 transition cursor-pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
@@ -460,12 +522,12 @@
 
             <!-- Unified Sun & Moon Card -->
             <div id="celestial-section" class="g-card p-4 sm:p-5 flex flex-col gap-4 mt-2 transition-all collapsed">
-                <div class="section-header flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl p-1 -m-1" onclick="toggleSection('celestial-section')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleSection('celestial-section');">
+                <div class="section-header flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)] rounded-xl p-1 -m-1" onclick="toggleSection('celestial-section')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleSection('celestial-section');">
                     <h4 class="text-[#9aa0a6] text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2v6m-4.24-.76l-2.83-2.83M16.24 7.24l2.83-2.83M2 18h20M12 18a6 6 0 0 0-6-6h12a6 6 0 0 0-6 6z"/></svg>
                         Sun & Moon Tracking
                     </h4>
-                    <svg class="chevron text-[#9aa0a6]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    <svg class="chevron text-[var(--c-text-muted)]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </div>
                 <div class="content-wrapper hidden flex-col mt-2">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -475,7 +537,7 @@
                             <h5 class="text-white text-sm font-medium mb-3">Sun Tracker</h5>
                             <div class="relative w-full max-w-[150px] aspect-square flex items-center justify-center mb-2">
                                 <svg viewBox="-10 -10 120 120" class="absolute inset-0 w-full h-full overflow-visible">
-                                    <circle cx="50" cy="50" r="45" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="2 4"/>
+                                    <circle cx="50" cy="50" r="45" fill="none" stroke="var(--c-border)" stroke-width="2" stroke-dasharray="2 4"/>
                                     <path id="sun-arc-fill" d="" fill="none" stroke="#fbbc04" stroke-width="3" stroke-linecap="round" />
                                     
                                     <text x="50" y="103" font-size="6" fill="#5f6368" text-anchor="middle" font-weight="600">00:00</text>
@@ -484,18 +546,18 @@
                                     <text x="102" y="52" font-size="6" fill="#5f6368" text-anchor="start" font-weight="600">18:00</text>
 
                                     <g id="sunrise-marker">
-                                        <circle cx="0" cy="0" r="2.5" fill="#0B1121" stroke="#fbbc04" stroke-width="1.5"/>
+                                        <circle cx="0" cy="0" r="2.5" fill="var(--c-bg)" stroke="#fbbc04" stroke-width="1.5"/>
                                         <text x="0" y="-5" font-size="8" fill="#fbbc04" text-anchor="middle">🌅</text>
                                     </g>
                                     <g id="sunset-marker">
-                                        <circle cx="0" cy="0" r="2.5" fill="#0B1121" stroke="#fbbc04" stroke-width="1.5"/>
+                                        <circle cx="0" cy="0" r="2.5" fill="var(--c-bg)" stroke="#fbbc04" stroke-width="1.5"/>
                                         <text x="0" y="-5" font-size="8" fill="#fbbc04" text-anchor="middle">🌇</text>
                                     </g>
-                                    <circle id="sun-dot" cx="50" cy="5" r="4.5" fill="#fbbc04" stroke="#0B1121" stroke-width="1.5" style="transition: all 1s ease-in-out;"/>
+                                    <circle id="sun-dot" cx="50" cy="5" r="4.5" fill="#fbbc04" stroke="var(--c-bg)" stroke-width="1.5" style="transition: all 1s ease-in-out;"/>
                                 </svg>
-                                <div id="sun-status-text" class="absolute text-[10px] text-white font-bold tracking-wide z-10 bg-[#1e293b] px-2.5 py-1 rounded-full border border-[#334155] shadow-md pointer-events-none whitespace-nowrap -bottom-2"></div>
+                                <div id="sun-status-text" class="absolute text-[10px] text-white font-bold tracking-wide z-10 bg-[var(--c-card)] px-2.5 py-1 rounded-full border border-[var(--c-border)] shadow-md pointer-events-none whitespace-nowrap -bottom-2"></div>
                             </div>
-                            <div class="flex justify-between w-full max-w-[200px] text-xs text-[#9aa0a6] font-medium px-2 mt-4">
+                            <div class="flex justify-between w-full max-w-[200px] text-xs text-[var(--c-text-muted)] font-medium px-2 mt-4">
                                 <div class="flex flex-col items-center">
                                     <span class="text-[9px] uppercase tracking-wider mb-0.5 text-[#5f6368]">Sunrise</span>
                                     <span id="det-sunrise" class="text-white">--:--</span>
@@ -505,16 +567,16 @@
                                     <span id="det-sunset" class="text-white">--:--</span>
                                 </div>
                             </div>
-                            <div id="sun-percentages" class="text-[10px] text-[#9aa0a6] mt-4 font-medium tracking-wide uppercase text-center w-full"></div>
+                            <div id="sun-percentages" class="text-[10px] text-[var(--c-text-muted)] mt-4 font-medium tracking-wide uppercase text-center w-full"></div>
                         </div>
 
                         <!-- Moon Tracker -->
-                        <div class="flex flex-col items-center sm:border-l border-[#334155] sm:pl-6 pt-6 sm:pt-0 border-t sm:border-t-0 mt-2 sm:mt-0">
+                        <div class="flex flex-col items-center sm:border-l border-[var(--c-border)] sm:pl-6 pt-6 sm:pt-0 border-t sm:border-t-0 mt-2 sm:mt-0">
                             <h5 class="text-white text-sm font-medium mb-3">Moon Phase</h5>
                             <div class="relative w-full max-w-[150px] aspect-square flex items-center justify-center mb-2">
                                 <svg viewBox="-10 -10 120 120" class="absolute inset-0 w-full h-full overflow-visible drop-shadow-xl">
-                                    <circle cx="50" cy="50" r="45" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="2 4"/>
-                                    <path id="moon-arc-fill" d="" fill="none" stroke="#8ab4f8" stroke-width="3" stroke-linecap="round" />
+                                    <circle cx="50" cy="50" r="45" fill="none" stroke="var(--c-border)" stroke-width="2" stroke-dasharray="2 4"/>
+                                    <path id="moon-arc-fill" d="" fill="none" stroke="var(--c-accent)" stroke-width="3" stroke-linecap="round" />
                                     
                                     <text x="50" y="103" font-size="6" fill="#5f6368" text-anchor="middle" font-weight="600">00:00</text>
                                     <text x="50" y="-1" font-size="6" fill="#5f6368" text-anchor="middle" font-weight="600">12:00</text>
@@ -522,20 +584,20 @@
                                     <text x="102" y="52" font-size="6" fill="#5f6368" text-anchor="start" font-weight="600">18:00</text>
 
                                     <!-- Big Center Moon SVG! -->
-                                    <circle cx="50" cy="50" r="20" fill="#0f172a" stroke="#5f6368" stroke-width="1"></circle>
+                                    <circle cx="50" cy="50" r="20" fill="var(--c-input)" stroke="#5f6368" stroke-width="1"></circle>
                                     <path id="moon-phase-shape" fill="#e8eaed" d="" transform="translate(30, 30) scale(0.4)"></path>
 
                                     <g id="moonrise-marker">
-                                        <circle cx="0" cy="0" r="2.5" fill="#0B1121" stroke="#8ab4f8" stroke-width="1.5"/>
+                                        <circle cx="0" cy="0" r="2.5" fill="var(--c-bg)" stroke="var(--c-accent)" stroke-width="1.5"/>
                                     </g>
                                     <g id="moonset-marker">
-                                        <circle cx="0" cy="0" r="2.5" fill="#0B1121" stroke="#8ab4f8" stroke-width="1.5"/>
+                                        <circle cx="0" cy="0" r="2.5" fill="var(--c-bg)" stroke="var(--c-accent)" stroke-width="1.5"/>
                                     </g>
-                                    <circle id="moon-dot" cx="50" cy="5" r="4.5" fill="#e8eaed" stroke="#0B1121" stroke-width="1.5" style="transition: all 1s ease-in-out;"/>
+                                    <circle id="moon-dot" cx="50" cy="5" r="4.5" fill="#e8eaed" stroke="var(--c-bg)" stroke-width="1.5" style="transition: all 1s ease-in-out;"/>
                                 </svg>
-                                <div id="moon-status-text" class="absolute text-[10px] text-white font-bold tracking-wide z-10 bg-[#1e293b] px-2.5 py-1 rounded-full border border-[#334155] shadow-md pointer-events-none whitespace-nowrap -bottom-2"></div>
+                                <div id="moon-status-text" class="absolute text-[10px] text-white font-bold tracking-wide z-10 bg-[var(--c-card)] px-2.5 py-1 rounded-full border border-[var(--c-border)] shadow-md pointer-events-none whitespace-nowrap -bottom-2"></div>
                             </div>
-                            <div class="flex justify-between w-full max-w-[200px] text-xs text-[#9aa0a6] font-medium px-2 mt-4">
+                            <div class="flex justify-between w-full max-w-[200px] text-xs text-[var(--c-text-muted)] font-medium px-2 mt-4">
                                 <div class="flex flex-col items-center">
                                     <span class="text-[9px] uppercase tracking-wider mb-0.5 text-[#5f6368]">Rise</span>
                                     <span id="det-moonrise" class="text-white">--:--</span>
@@ -545,28 +607,28 @@
                                     <span id="det-moonset" class="text-white">--:--</span>
                                 </div>
                             </div>
-                            <div id="moon-details" class="text-[10px] text-[#9aa0a6] mt-4 font-medium tracking-wide uppercase text-center w-full"></div>
+                            <div id="moon-details" class="text-[10px] text-[var(--c-text-muted)] mt-4 font-medium tracking-wide uppercase text-center w-full"></div>
                         </div>
 
                     </div>
                 </div>
             </div>
 
-            <!-- Weather History -->
+            <!-- 7-Day Weather History -->
             <div id="history-section" class="g-card p-4 sm:p-5 flex flex-col gap-4 mt-2 transition-all collapsed">
-                <div class="section-header flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl p-1 -m-1" onclick="toggleSection('history-section')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleSection('history-section');">
+                <div class="section-header flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)] rounded-xl p-1 -m-1" onclick="toggleSection('history-section')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleSection('history-section');">
                     <h4 class="text-[#9aa0a6] text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         Weather History
                     </h4>
-                    <svg class="chevron text-[#9aa0a6]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    <svg class="chevron text-[var(--c-text-muted)]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </div>
                 <div class="content-wrapper hidden flex-col mt-2 relative group w-full">
                     
                     <!-- Flexible Historical Search Input -->
                     <div class="flex flex-col sm:flex-row items-center gap-3 w-full mb-4 px-1">
                         <input type="text" id="history-date-input" placeholder="Search past date (e.g. Yesterday, 12/25/2022)" class="g-input flex-1 w-full px-4 py-2.5 text-sm text-white" onkeypress="if(event.key==='Enter') searchHistory()">
-                        <button onclick="searchHistory()" class="w-full sm:w-auto bg-[#8ab4f8] hover:bg-blue-300 text-[#0B1121] px-5 py-2.5 rounded-xl text-sm font-bold transition whitespace-nowrap">Look Up Date</button>
+                        <button onclick="searchHistory()" class="w-full sm:w-auto bg-[var(--c-accent)] hover:opacity-80 text-[var(--c-bg)] px-5 py-2.5 rounded-xl text-sm font-bold transition whitespace-nowrap">Look Up Date</button>
                     </div>
 
                     <!-- Single Search Result Container -->
@@ -592,23 +654,23 @@
 
             <!-- Live Radar Forecast -->
             <div id="radar-section" class="g-card p-4 sm:p-6 mt-2 relative group transition-all collapsed">
-                <div class="section-header flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl p-1 -m-1" onclick="toggleSection('radar-section')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleSection('radar-section');">
+                <div class="section-header flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)] rounded-xl p-1 -m-1" onclick="toggleSection('radar-section')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleSection('radar-section');">
                     <h3 class="text-[#9aa0a6] text-xs font-bold uppercase tracking-wider flex items-center gap-2">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path></svg>
                         Live Radar
                     </h3>
-                    <svg class="chevron text-[#9aa0a6]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    <svg class="chevron text-[var(--c-text-muted)]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </div>
 
                 <div class="content-wrapper hidden w-full pt-4">
-                    <div class="flex items-center bg-[#0f172a] rounded-lg p-1 text-xs border border-[#334155] w-max mb-4">
+                    <div class="flex items-center bg-[var(--c-input)] rounded-lg p-1 text-xs border border-[var(--c-border)] w-max mb-4">
                         <button onclick="changeRadarLayer('radar')" id="layer-radar" class="radar-btn active px-3 py-1.5 rounded-md transition focus:outline-none focus:ring-2 focus:ring-white">Rain</button>
-                        <button onclick="changeRadarLayer('wind')" id="layer-wind" class="radar-btn text-[#9aa0a6] hover:text-white px-3 py-1.5 rounded-md transition focus:outline-none focus:ring-2 focus:ring-white">Wind</button>
-                        <button onclick="changeRadarLayer('temp')" id="layer-temp" class="radar-btn text-[#9aa0a6] hover:text-white px-3 py-1.5 rounded-md transition focus:outline-none focus:ring-2 focus:ring-white">Temp</button>
-                        <button onclick="changeRadarLayer('clouds')" id="layer-clouds" class="radar-btn text-[#9aa0a6] hover:text-white px-3 py-1.5 rounded-md transition focus:outline-none focus:ring-2 focus:ring-white">Clouds</button>
+                        <button onclick="changeRadarLayer('wind')" id="layer-wind" class="radar-btn text-[var(--c-text-muted)] hover:text-white px-3 py-1.5 rounded-md transition focus:outline-none focus:ring-2 focus:ring-white">Wind</button>
+                        <button onclick="changeRadarLayer('temp')" id="layer-temp" class="radar-btn text-[var(--c-text-muted)] hover:text-white px-3 py-1.5 rounded-md transition focus:outline-none focus:ring-2 focus:ring-white">Temp</button>
+                        <button onclick="changeRadarLayer('clouds')" id="layer-clouds" class="radar-btn text-[var(--c-text-muted)] hover:text-white px-3 py-1.5 rounded-md transition focus:outline-none focus:ring-2 focus:ring-white">Clouds</button>
                     </div>
 
-                    <div id="radar-container" class="w-full h-[400px] sm:h-[550px] rounded-xl overflow-hidden bg-[#0f172a] block border border-[#334155]" tabindex="0">
+                    <div id="radar-container" class="w-full h-[400px] sm:h-[550px] rounded-xl overflow-hidden bg-[var(--c-input)] block border border-[var(--c-border)]" tabindex="0">
                         <!-- Iframe injected here -->
                     </div>
                 </div>
@@ -619,9 +681,9 @@
 
     <!-- Settings Overlay Modal -->
     <div id="settings-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex justify-end transition-opacity duration-300 opacity-0 pointer-events-none">
-        <div id="settings-panel" class="w-full max-w-sm bg-[#1e293b] h-full border-l border-[#334155] shadow-2xl flex flex-col transform transition-transform duration-300 translate-x-full">
+        <div id="settings-panel" class="w-full max-w-sm bg-[var(--c-card)] h-full border-l border-[var(--c-border)] shadow-2xl flex flex-col transform transition-transform duration-300 translate-x-full">
             
-            <div class="p-6 border-b border-[#334155] flex justify-between items-center">
+            <div class="p-6 border-b border-[var(--c-border)] flex justify-between items-center">
                 <h2 class="text-xl font-medium text-white flex items-center gap-2" tabindex="0">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
@@ -629,7 +691,7 @@
                     </svg>
                     Settings
                 </h2>
-                <button onclick="toggleSettingsModal(false)" class="text-[#9aa0a6] hover:text-white transition p-2 bg-white/5 rounded-full hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white" aria-label="Close settings">
+                <button onclick="toggleSettingsModal(false)" class="text-[var(--c-text-muted)] hover:text-white transition p-2 bg-white/5 rounded-full hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white" aria-label="Close settings">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </button>
             </div>
@@ -638,23 +700,37 @@
                 
                 <!-- Location Search -->
                 <div class="mb-8">
-                    <h3 class="text-[#9aa0a6] text-xs font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
+                    <h3 class="text-[var(--c-text-muted)] text-xs font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                         Search Location
                     </h3>
                     <div class="relative w-full" dir="auto">
-                        <form id="settings-search-form" class="flex bg-[#0f172a] border border-[#334155] rounded-xl px-2 py-1 focus-within:border-[#8ab4f8]">
+                        <form id="settings-search-form" class="flex bg-[var(--c-input)] border border-[var(--c-border)] rounded-xl px-2 py-1 focus-within:border-[var(--c-accent)]">
                             <input type="text" id="settings-city-input" autocomplete="off" placeholder="Search a new city..." class="flex-1 bg-transparent border-none px-2 py-1.5 text-sm text-white focus:outline-none focus:ring-0" required>
-                            <button type="submit" class="text-blue-400 px-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded">Go</button>
+                            <button type="submit" class="text-[var(--c-accent)] px-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)] rounded">Go</button>
                         </form>
                         <!-- Autocomplete Dropdown -->
-                        <ul id="city-autocomplete-list" class="hidden absolute top-full left-0 w-full mt-1.5 bg-[#1e293b] border border-[#334155] rounded-xl shadow-2xl overflow-y-auto max-h-60 z-[100] hide-scrollbar"></ul>
+                        <ul id="city-autocomplete-list" class="hidden absolute top-full left-0 w-full mt-1.5 bg-[var(--c-card)] border border-[var(--c-border)] rounded-xl shadow-2xl overflow-y-auto max-h-60 z-[100] hide-scrollbar"></ul>
+                    </div>
+                </div>
+
+                <!-- Theme Selection -->
+                <div class="mb-8">
+                    <h3 class="text-[var(--c-text-muted)] text-xs font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+                        App Theme
+                    </h3>
+                    <div class="flex gap-4">
+                        <button onclick="changeTheme('ocean')" id="theme-btn-ocean" class="theme-btn w-8 h-8 rounded-full bg-[#0B1121] border-2 border-white/50 focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)]" aria-label="Ocean Blue Theme"></button>
+                        <button onclick="changeTheme('dark')" id="theme-btn-dark" class="theme-btn w-8 h-8 rounded-full bg-[#121212] border-2 border-white/50 focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)]" aria-label="Pitch Dark Theme"></button>
+                        <button onclick="changeTheme('midnight')" id="theme-btn-midnight" class="theme-btn w-8 h-8 rounded-full bg-[#1e1b4b] border-2 border-white/50 focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)]" aria-label="Midnight Purple Theme"></button>
+                        <button onclick="changeTheme('forest')" id="theme-btn-forest" class="theme-btn w-8 h-8 rounded-full bg-[#064e3b] border-2 border-white/50 focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)]" aria-label="Deep Forest Theme"></button>
                     </div>
                 </div>
 
                 <!-- Units Selection -->
                 <div class="mb-8">
-                    <h3 class="text-[#9aa0a6] text-xs font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
+                    <h3 class="text-[var(--c-text-muted)] text-xs font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
                         Measurement Units
                     </h3>
@@ -662,28 +738,28 @@
                     <div class="flex flex-col gap-4 text-sm text-white">
                         <div class="flex justify-between items-center">
                             <span>Temperature</span>
-                            <div class="flex items-center bg-[#0f172a] border border-[#334155] rounded-lg p-1 text-xs">
+                            <div class="flex items-center bg-[var(--c-input)] border border-[var(--c-border)] rounded-lg p-1 text-xs">
                                 <button id="btn-temp-C" onclick="changeUnit('temp', 'C')" class="px-3 py-1 rounded transition focus:outline-none focus:ring-2 focus:ring-white">°C</button>
                                 <button id="btn-temp-F" onclick="changeUnit('temp', 'F')" class="px-3 py-1 rounded transition focus:outline-none focus:ring-2 focus:ring-white">°F</button>
                             </div>
                         </div>
                         <div class="flex justify-between items-center">
                             <span>Wind Speed</span>
-                            <div class="flex items-center bg-[#0f172a] border border-[#334155] rounded-lg p-1 text-xs">
+                            <div class="flex items-center bg-[var(--c-input)] border border-[var(--c-border)] rounded-lg p-1 text-xs">
                                 <button id="btn-wind-kmh" onclick="changeUnit('wind', 'kmh')" class="px-3 py-1 rounded transition focus:outline-none focus:ring-2 focus:ring-white">km/h</button>
                                 <button id="btn-wind-mph" onclick="changeUnit('wind', 'mph')" class="px-3 py-1 rounded transition focus:outline-none focus:ring-2 focus:ring-white">mph</button>
                             </div>
                         </div>
                         <div class="flex justify-between items-center">
                             <span>Atm. Pressure</span>
-                            <div class="flex items-center bg-[#0f172a] border border-[#334155] rounded-lg p-1 text-xs">
+                            <div class="flex items-center bg-[var(--c-input)] border border-[var(--c-border)] rounded-lg p-1 text-xs">
                                 <button id="btn-press-hpa" onclick="changeUnit('pressure', 'hpa')" class="px-3 py-1 rounded transition focus:outline-none focus:ring-2 focus:ring-white">hPa</button>
                                 <button id="btn-press-inhg" onclick="changeUnit('pressure', 'inhg')" class="px-3 py-1 rounded transition focus:outline-none focus:ring-2 focus:ring-white">inHg</button>
                             </div>
                         </div>
                         <div class="flex justify-between items-center">
                             <span>Precipitation</span>
-                            <div class="flex items-center bg-[#0f172a] border border-[#334155] rounded-lg p-1 text-xs">
+                            <div class="flex items-center bg-[var(--c-input)] border border-[var(--c-border)] rounded-lg p-1 text-xs">
                                 <button id="btn-precip-mm" onclick="changeUnit('precip', 'mm')" class="px-3 py-1 rounded transition focus:outline-none focus:ring-2 focus:ring-white">mm</button>
                                 <button id="btn-precip-in" onclick="changeUnit('precip', 'in')" class="px-3 py-1 rounded transition focus:outline-none focus:ring-2 focus:ring-white">in</button>
                             </div>
@@ -693,7 +769,7 @@
 
                 <!-- Saved Cities Management -->
                 <div class="mb-4">
-                    <h3 class="text-[#9aa0a6] text-xs font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
+                    <h3 class="text-[var(--c-text-muted)] text-xs font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
                         Saved Locations
                     </h3>
@@ -703,7 +779,7 @@
                 </div>
             </div>
             
-            <div class="p-6 border-t border-[#334155] text-xs text-[#5f6368] text-center">
+            <div class="p-6 border-t border-[var(--c-border)] text-xs text-[#5f6368] text-center">
                 Data provided by Open-Meteo & GeoJS.<br>Radar by Windy.com
             </div>
         </div>
@@ -722,6 +798,7 @@
 
         // App State
         let units = { temp: 'C', wind: 'kmh', pressure: 'hpa', precip: 'mm' };
+        let appTheme = 'ocean';
         let currentWeatherData = null;
         let currentHistoryData = null;
         let currentAqiData = null; 
@@ -797,14 +874,14 @@
                         autocompleteList.innerHTML = data.results.map(city => {
                             const locationStr = `${city.name}${city.admin1 ? ', ' + city.admin1 : ''}${city.country ? ', ' + city.country : ''}`;
                             return `
-                                <li class="px-4 py-3 hover:bg-[#334155] cursor-pointer text-sm text-white border-b border-[#334155]/50 last:border-0 transition text-left" 
+                                <li class="px-4 py-3 hover:bg-[var(--c-border)] cursor-pointer text-sm text-white border-b border-[var(--c-border)]/50 last:border-0 transition text-left" 
                                     onclick="selectAutocomplete('${city.name.replace(/'/g, "\\'")}', '${city.admin1 ? city.admin1.replace(/'/g, "\\'") : ''}', '${city.country ? city.country.replace(/'/g, "\\'") : ''}', ${city.latitude}, ${city.longitude})">
                                     ${locationStr}
                                 </li>`;
                         }).join('');
                         autocompleteList.classList.remove('hidden');
                     } else {
-                        autocompleteList.innerHTML = `<li class="px-4 py-3 text-sm text-[#9aa0a6] text-center">No matching cities found</li>`;
+                        autocompleteList.innerHTML = `<li class="px-4 py-3 text-sm text-[var(--c-text-muted)] text-center">No matching cities found</li>`;
                         autocompleteList.classList.remove('hidden');
                     }
                 } catch (e) {
@@ -853,12 +930,12 @@
             const container = document.getElementById('weather-effects-container');
             container.innerHTML = ''; 
             
-            let bgGradient = isDay ? 'linear-gradient(to bottom right, #1e3a8a, #1e40af, #0B1121)' : 'linear-gradient(to bottom right, #020617, #0B1121, #1e293b)';
+            let bgGradient = isDay ? 'linear-gradient(to bottom right, #1e3a8a, #1e40af, var(--c-bg))' : 'linear-gradient(to bottom right, #020617, var(--c-bg), #1e293b)';
             
             const desc = mapWmoCode(code).toLowerCase();
             
             if (desc.includes('rain') || desc.includes('drizzle') || desc.includes('storm') || desc.includes('shower')) {
-                bgGradient = isDay ? 'linear-gradient(to bottom right, #334155, #3b82f6, #0B1121)' : 'linear-gradient(to bottom right, #0B1121, #1e293b)';
+                bgGradient = isDay ? 'linear-gradient(to bottom right, #334155, #3b82f6, var(--c-bg))' : 'linear-gradient(to bottom right, var(--c-bg), #1e293b)';
                 for (let i = 0; i < 30; i++) {
                     const drop = document.createElement('div');
                     drop.className = 'rain-drop';
@@ -873,7 +950,7 @@
                     container.appendChild(lightning);
                 }
             } else if (desc.includes('snow') || desc.includes('ice') || desc.includes('freezing')) {
-                bgGradient = isDay ? 'linear-gradient(to bottom right, #94a3b8, #e2e8f0, #0B1121)' : 'linear-gradient(to bottom right, #1e293b, #334155)';
+                bgGradient = isDay ? 'linear-gradient(to bottom right, #94a3b8, #e2e8f0, var(--c-bg))' : 'linear-gradient(to bottom right, #1e293b, #334155)';
                 for (let i = 0; i < 30; i++) {
                     const flake = document.createElement('div');
                     flake.className = 'snow-flake';
@@ -885,7 +962,7 @@
                     container.appendChild(flake);
                 }
             } else if (desc.includes('fog')) {
-                bgGradient = isDay ? 'linear-gradient(to bottom right, #94a3b8, #cbd5e1, #0B1121)' : 'linear-gradient(to bottom right, #1e293b, #334155)';
+                bgGradient = isDay ? 'linear-gradient(to bottom right, #94a3b8, #cbd5e1, var(--c-bg))' : 'linear-gradient(to bottom right, #1e293b, #334155)';
                 for (let i = 0; i < 3; i++) {
                     const fog = document.createElement('div');
                     fog.className = 'fog-layer';
@@ -894,7 +971,7 @@
                     container.appendChild(fog);
                 }
             } else if (desc.includes('cloud') || desc.includes('overcast')) {
-                bgGradient = isDay ? 'linear-gradient(to bottom right, #475569, #64748b, #0B1121)' : 'linear-gradient(to bottom right, #0B1121, #1e293b)';
+                bgGradient = isDay ? 'linear-gradient(to bottom right, #475569, #64748b, var(--c-bg))' : 'linear-gradient(to bottom right, var(--c-bg), #1e293b)';
                 for (let i = 0; i < 6; i++) {
                     const cloud = document.createElement('div');
                     cloud.className = 'bg-cloud';
@@ -908,7 +985,7 @@
                 }
             } else {
                 if (isDay) {
-                    bgGradient = 'linear-gradient(to bottom right, #3b82f6, #1d4ed8, #0B1121)';
+                    bgGradient = 'linear-gradient(to bottom right, #3b82f6, #1d4ed8, var(--c-bg))';
                     const sunGlow = document.createElement('div');
                     sunGlow.style.position = 'absolute';
                     sunGlow.style.top = '-10%';
@@ -920,7 +997,7 @@
                     sunGlow.style.pointerEvents = 'none';
                     container.appendChild(sunGlow);
                 } else {
-                    bgGradient = 'linear-gradient(to bottom right, #020617, #0B1121, #0f172a)';
+                    bgGradient = 'linear-gradient(to bottom right, #020617, var(--c-bg), #0f172a)';
                     for (let i = 0; i < 50; i++) {
                         const star = document.createElement('div');
                         star.className = 'star';
@@ -941,7 +1018,7 @@
         // ==========================================================
         // DYNAMIC LANDSCAPE SCENE ENGINE (MEGA CARD)
         // ==========================================================
-        function updateDynamicScene(wmoCode, isDay, windSpeedRaw, precipProb, humidity) {
+        function updateDynamicScene(wmoCode, isDay, windSpeedRaw, precipProb, humidity, celestialPt) {
             const container = document.getElementById('dynamic-scene-container');
             const celestial = document.getElementById('scene-celestial');
             const clouds = document.getElementById('scene-clouds');
@@ -955,7 +1032,7 @@
 
             const desc = mapWmoCode(wmoCode).toLowerCase();
 
-            // 1. Sky Background & Celestial Body
+            // 1. Sky Background & Celestial Body Position
             if (isDay) {
                 if (desc.includes('cloud') || desc.includes('overcast') || desc.includes('fog')) {
                     container.style.background = 'linear-gradient(to bottom, #94a3b8, #cbd5e1)';
@@ -974,20 +1051,29 @@
                 celestial.style.opacity = (desc.includes('cloud') || desc.includes('overcast') || desc.includes('rain')) ? '0.1' : '0.9';
             }
             
+            // Map celestial coordinate (5-95) to landscape box (left %, top %)
+            if (celestialPt) {
+                const cx = celestialPt.x;
+                const cy = celestialPt.y;
+                celestial.style.left = `${cx}%`;
+                
+                // SVG y=5 is top, y=50 is horizon. We map this to 10% to 80% top in the CSS box.
+                let topPercent = 10 + ((cy - 5) * (70 / 45));
+                topPercent = Math.min(100, Math.max(10, topPercent));
+                celestial.style.top = `${topPercent}%`;
+            }
+            
             // Extreme Tornado/Severe Warning check (> 100km/h wind + storm)
             if (windSpeedRaw > 100) {
-                container.style.background = 'linear-gradient(to bottom, #1a2e05, #020617)'; // Erie green/black storm sky
+                container.style.background = 'linear-gradient(to bottom, #1a2e05, #020617)'; 
                 celestial.style.opacity = '0';
             }
 
             // 2. Wind (Swaying Trees & Grass)
-            // Calculate sway physics: 0 km/h = 1deg, 100 km/h = 45deg
             const swayDeg = Math.min(45, Math.max(1, (windSpeedRaw / 100) * 45));
-            // Sway speed: faster wind = shorter duration (min 0.3s, max 3s)
             const swayDur = Math.max(0.3, 3 - (windSpeedRaw / 30));
             
             let treesHTML = '';
-            // Draw 3 basic SVG trees
             for(let i=0; i<3; i++) {
                 const h = 60 + Math.random()*20;
                 treesHTML += `
@@ -1009,7 +1095,7 @@
                 let cloudHTML = '';
                 for(let i=0; i<cloudCount; i++) {
                     const top = Math.random() * 40;
-                    const dur = 20 + Math.random() * 40 - (windSpeedRaw/2); // Wind speeds up clouds
+                    const dur = 20 + Math.random() * 40 - (windSpeedRaw/2);
                     const op = isDay ? 0.8 : 0.3;
                     cloudHTML += `
                         <svg class="absolute animate-drift text-white" style="top: ${top}%; left: -20%; opacity: ${op}; --drift-dur: ${Math.max(5, dur)}s; animation-delay: -${Math.random()*20}s;" width="80" height="40" viewBox="0 0 24 24" fill="currentColor">
@@ -1027,7 +1113,6 @@
             lightning.classList.add('hidden');
             if (desc.includes('rain') || desc.includes('drizzle') || desc.includes('shower') || desc.includes('storm')) {
                 let pHTML = '';
-                // Skew rain based on wind
                 const skew = Math.min(45, windSpeedRaw / 2);
                 for(let i=0; i<30; i++) {
                     pHTML += `<div class="absolute bg-blue-300/60" style="width: 2px; height: 15px; left: ${Math.random()*120 - 10}%; top: -20px; transform: rotate(${skew}deg); animation: rain-fall ${0.3 + Math.random()*0.2}s linear infinite -${Math.random()}s;"></div>`;
@@ -1193,6 +1278,10 @@
             const savedStates = localStorage.getItem('weatherSectionStates');
             if (savedStates) sectionStates = { ...sectionStates, ...JSON.parse(savedStates) };
             
+            const savedTheme = localStorage.getItem('weatherTheme');
+            if (savedTheme) changeTheme(savedTheme);
+            else changeTheme('ocean');
+
             updateUnitToggleUI();
             renderSettingsCities();
             applySectionStates();
@@ -1202,6 +1291,17 @@
             localStorage.setItem('weatherSettingsExt', JSON.stringify(units));
             localStorage.setItem('weatherCities', JSON.stringify(savedLocations));
             localStorage.setItem('weatherSectionStates', JSON.stringify(sectionStates));
+        }
+
+        function changeTheme(themeName) {
+            appTheme = themeName;
+            document.documentElement.setAttribute('data-theme', themeName);
+            localStorage.setItem('weatherTheme', themeName);
+            
+            // Update active state in UI
+            document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById(`theme-btn-${themeName}`);
+            if (activeBtn) activeBtn.classList.add('active');
         }
 
         function changeUnit(category, value) {
@@ -1215,8 +1315,8 @@
         }
 
         function updateUnitToggleUI() {
-            const activeClass = "px-3 py-1 rounded bg-[#8ab4f8] text-[#0f172a] shadow-sm focus:outline-none focus:ring-2 focus:ring-white";
-            const inactiveClass = "px-3 py-1 rounded text-[#9aa0a6] hover:text-white focus:outline-none focus:ring-2 focus:ring-white";
+            const activeClass = "px-3 py-1 rounded bg-[var(--c-accent)] text-[var(--c-bg)] shadow-sm focus:outline-none focus:ring-2 focus:ring-white";
+            const inactiveClass = "px-3 py-1 rounded text-[var(--c-text-muted)] hover:text-white focus:outline-none focus:ring-2 focus:ring-white";
 
             document.getElementById('btn-temp-C').className = units.temp === 'C' ? activeClass : inactiveClass;
             document.getElementById('btn-temp-F').className = units.temp === 'F' ? activeClass : inactiveClass;
@@ -1249,10 +1349,10 @@
             if (savedLocations.includes(cityStr)) {
                 icon.setAttribute('fill', 'currentColor');
                 btn.classList.add('text-yellow-400');
-                btn.classList.remove('text-[#9aa0a6]');
+                btn.classList.remove('text-[var(--c-text-muted)]');
             } else {
                 icon.setAttribute('fill', 'none');
-                btn.classList.add('text-[#9aa0a6]');
+                btn.classList.add('text-[var(--c-text-muted)]');
                 btn.classList.remove('text-yellow-400');
             }
         }
@@ -1304,7 +1404,7 @@
                     listManage.innerHTML = `<div class="text-[#5f6368] text-sm italic py-4 text-center">No saved locations yet.<br>Click the star icon next to a city's name to save it.</div>`;
                 } else {
                     listManage.innerHTML = savedLocations.map(city => `
-                        <div class="flex items-center justify-between bg-[#0f172a] border border-[#334155] rounded-xl p-3 hover:bg-[#1e293b] transition cursor-pointer group focus:outline-none focus:ring-2 focus:ring-[#8ab4f8]" onclick="loadSavedCity('${city.replace(/'/g, "\\'")}')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')loadSavedCity('${city.replace(/'/g, "\\'")}')">
+                        <div class="flex items-center justify-between bg-[var(--c-input)] border border-[var(--c-border)] rounded-xl p-3 hover:bg-[var(--c-card)] transition cursor-pointer group focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)]" onclick="loadSavedCity('${city.replace(/'/g, "\\'")}')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')loadSavedCity('${city.replace(/'/g, "\\'")}')">
                             <span class="text-white text-sm font-medium truncate pr-2">${city}</span>
                             <button onclick="removeSavedCity('${city.replace(/'/g, "\\'")}', event)" class="text-[#5f6368] hover:text-red-400 p-1 opacity-0 group-hover:opacity-100 transition focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-red-400 rounded" aria-label="Remove">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path></svg>
@@ -1317,10 +1417,10 @@
             const listMain = document.getElementById('main-dropdown-list');
             if (listMain) {
                 if (savedLocations.length === 0) {
-                    listMain.innerHTML = `<div class="text-[#9aa0a6] text-sm py-3 px-4 italic">No favorites saved</div>`;
+                    listMain.innerHTML = `<div class="text-[var(--c-text-muted)] text-sm py-3 px-4 italic">No favorites saved</div>`;
                 } else {
                     listMain.innerHTML = savedLocations.map(city => `
-                        <button onclick="loadSavedCity('${city.replace(/'/g, "\\'")}')" class="w-full text-left px-4 py-3 text-sm text-white hover:bg-[#334155] transition font-medium focus:outline-none focus:bg-[#3c4043]">
+                        <button onclick="loadSavedCity('${city.replace(/'/g, "\\'")}')" class="w-full text-left px-4 py-3 text-sm text-white hover:bg-[var(--c-border)] transition font-medium focus:outline-none focus:bg-[var(--c-border)]">
                             ${city}
                         </button>
                     `).join('');
@@ -1645,7 +1745,7 @@
             const url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${dateStr}&end_date=${dateStr}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max&timezone=auto`;
 
             try {
-                resultBox.innerHTML = `<span class="text-[#8ab4f8]">Searching records for ${dateStr}...</span>`;
+                resultBox.innerHTML = `<span class="text-[var(--c-accent)]">Searching records for ${dateStr}...</span>`;
                 resultBox.classList.remove('hidden');
                 resultBox.classList.add('flex');
 
@@ -1663,9 +1763,9 @@
                     const prettyDate = targetDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
                     resultBox.innerHTML = `
-                        <div class="flex justify-between items-center w-full">
+                        <div class="flex justify-between items-center w-full bg-[var(--c-input)] p-3 rounded-xl border border-[var(--c-border)]">
                             <div class="flex flex-col">
-                                <span class="text-[10px] text-[#8ab4f8] uppercase tracking-wider mb-1">${prettyDate}</span>
+                                <span class="text-[10px] text-[var(--c-accent)] uppercase tracking-wider mb-1">${prettyDate}</span>
                                 <span class="text-white font-medium text-sm leading-tight">${mapWmoCode(wmo)}</span>
                                 <span class="text-[11px] text-[#9aa0a6] mt-1">H: <span class="text-white">${maxT}°</span> L: <span class="text-white">${minT}°</span></span>
                             </div>
@@ -1717,12 +1817,12 @@
             currentRadarLayer = layer;
             const buttons = document.querySelectorAll('.radar-btn');
             buttons.forEach(btn => {
-                btn.classList.remove('active', 'text-[#0B1121]', 'bg-[#8ab4f8]', 'font-medium');
-                btn.classList.add('text-[#9aa0a6]');
+                btn.classList.remove('active', 'text-[var(--c-bg)]', 'bg-[var(--c-accent)]', 'font-medium');
+                btn.classList.add('text-[var(--c-text-muted)]');
             });
             const activeBtn = document.getElementById(`layer-${layer}`);
             if(activeBtn) {
-                activeBtn.classList.remove('text-[#9aa0a6]');
+                activeBtn.classList.remove('text-[var(--c-text-muted)]');
                 activeBtn.classList.add('active');
             }
             
@@ -1797,14 +1897,14 @@
             if (insights.length > 0) {
                 container.innerHTML = '';
                 insights.forEach(insight => {
-                    let bgClass = 'bg-[#1e293b] border-[#334155] text-white';
+                    let bgClass = 'bg-[var(--c-input)] border-[var(--c-border)] text-white';
                     let icon = '';
                     if (insight.type === 'alert') {
                         bgClass = 'bg-red-900/40 border-red-500/50 text-red-100';
                         icon = `<svg class="text-red-400 mr-3 flex-shrink-0" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>`;
                     } else if (insight.type === 'info') {
-                        bgClass = 'bg-[#8ab4f8]/10 border-[#8ab4f8]/30 text-blue-100';
-                        icon = `<svg class="text-[#8ab4f8] mr-3 flex-shrink-0" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>`;
+                        bgClass = 'bg-[var(--c-accent)]/10 border-[var(--c-accent)]/30 text-blue-100';
+                        icon = `<svg class="text-[var(--c-accent)] mr-3 flex-shrink-0" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>`;
                     } else if (insight.type === 'trend') {
                         bgClass = 'bg-orange-500/10 border-orange-500/30 text-orange-100';
                         icon = `<svg class="text-orange-400 mr-3 flex-shrink-0" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>`;
@@ -1870,39 +1970,39 @@
                 let precipBarHeight = Math.min(100, (precipMm / 10) * 100);
                 if(precipProb > 0 && precipBarHeight < 5) precipBarHeight = 5;
 
-                const precipDisplay = (precipProb > 0 || precipMm > 0) ? `<span class="text-[#8ab4f8] font-bold">${formatPrecip(precipMm)}</span>` : `<span class="text-[#5f6368]">0 mm</span>`;
+                const precipDisplay = (precipProb > 0 || precipMm > 0) ? `<span class="text-[var(--c-accent)] font-bold">${formatPrecip(precipMm)}</span>` : `<span class="text-[#5f6368]">0 mm</span>`;
 
                 const bgClass = isDay ? 'bg-transparent' : 'bg-black/20';
 
                 // 1. Main Hourly Item (Inside Mega Card)
                 mainHTML += `
-                    <div class="hourly-item flex flex-col items-center w-[85px] flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl py-2 px-1 transition-colors ${bgClass}" data-day="${dayIdx}" tabindex="0">
+                    <div class="hourly-item flex flex-col items-center w-[85px] flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)] rounded-xl py-2 px-1 transition-colors ${bgClass}" data-day="${dayIdx}" tabindex="0">
                         <span class="font-medium text-white text-lg mb-1">${temp}°</span>
                         <div class="my-1 scale-[0.65] h-8 flex items-center justify-center">${icon}</div>
-                        <span class="text-[11px] text-[#9aa0a6] font-medium leading-none mb-1">Feels ${feelsLike}°</span>
-                        <span class="text-xs text-[#9aa0a6] font-medium mb-1">${displayHour}</span>
+                        <span class="text-[11px] text-[var(--c-text-muted)] font-medium leading-none mb-1">Feels ${feelsLike}°</span>
+                        <span class="text-xs text-[var(--c-text-muted)] font-medium mb-1">${displayHour}</span>
                         <!-- Compact Inline Stats -->
-                        <div class="w-full flex flex-col gap-1 text-[10px] text-[#9aa0a6] border-t border-[#334155] pt-2 px-0.5">
+                        <div class="w-full flex flex-col gap-1 text-[10px] text-[var(--c-text-muted)] border-t border-[var(--c-border)] pt-2 px-0.5">
                             <div class="flex flex-col w-full mb-1">
                                 <div class="flex justify-between items-center w-full">
-                                    <span class="text-[#8ab4f8]"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg></span>
-                                    <span class="text-[#8ab4f8] font-bold">${precipMm > 0 ? formatPrecip(precipMm) : '0 mm'}</span>
+                                    <span class="text-[var(--c-accent)]"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg></span>
+                                    <span class="text-[var(--c-accent)] font-bold">${precipMm > 0 ? formatPrecip(precipMm) : '0 mm'}</span>
                                 </div>
-                                ${getIntensityBar(precipBarHeight, 'bg-[#8ab4f8]')}
+                                ${getIntensityBar(precipBarHeight, 'bg-[var(--c-accent)]')}
                             </div>
                             <div class="flex flex-col w-full mb-1">
                                 <div class="flex justify-between items-center w-full">
                                     <span class="text-[#e8eaed]"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path></svg></span>
-                                    <div class="flex items-center gap-0.5 text-white font-bold">${Math.round(windRaw)} <span class="text-[#9aa0a6]">${windDirArrow}</span></div>
+                                    <div class="flex items-center gap-0.5 text-white font-bold">${Math.round(windRaw)} <span class="text-[var(--c-text-muted)]">${windDirArrow}</span></div>
                                 </div>
                                 ${getIntensityBar(hrWindPercent, 'bg-[#e8eaed]')}
                             </div>
                             <div class="flex flex-col w-full">
                                 <div class="flex justify-between items-center w-full">
-                                    <span class="text-[#9aa0a6]"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg></span>
+                                    <span class="text-[var(--c-text-muted)]"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg></span>
                                     <span class="text-white font-bold">${humidity}%</span>
                                 </div>
-                                ${getIntensityBar(humidity, 'bg-[#9aa0a6]')}
+                                ${getIntensityBar(humidity, 'bg-[var(--c-text-muted)]')}
                             </div>
                         </div>
                     </div>
@@ -1910,18 +2010,18 @@
 
                 // 2. Precip Item
                 precipHTML += `
-                    <div class="hourly-stat-item flex flex-col items-center w-[75px] flex-shrink-0 pt-1 pb-2 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl" tabindex="0">
-                        <span class="text-[10px] text-[#9aa0a6] mb-3">${displayHour}</span>
+                    <div class="hourly-stat-item flex flex-col items-center w-[75px] flex-shrink-0 pt-1 pb-2 focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)] rounded-xl" tabindex="0">
+                        <span class="text-[10px] text-[var(--c-text-muted)] mb-3">${displayHour}</span>
                         <span class="text-xs text-white font-bold">${formatPrecip(precipMm)}</span>
                         <span class="text-[9px] text-[#5f6368] mt-0.5 mb-1.5">${precipProb}% chance</span>
-                        ${getIntensityBar(precipBarHeight, 'bg-[#8ab4f8]')}
+                        ${getIntensityBar(precipBarHeight, 'bg-[var(--c-accent)]')}
                     </div>
                 `;
 
                 // 3. Wind Item
                 windHTML += `
-                    <div class="hourly-stat-item flex flex-col items-center w-[75px] flex-shrink-0 pt-1 pb-2 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl" tabindex="0">
-                        <span class="text-[10px] text-[#9aa0a6] mb-3">${displayHour}</span>
+                    <div class="hourly-stat-item flex flex-col items-center w-[75px] flex-shrink-0 pt-1 pb-2 focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)] rounded-xl" tabindex="0">
+                        <span class="text-[10px] text-[var(--c-text-muted)] mb-3">${displayHour}</span>
                         <span class="text-xs text-white font-bold">${windSpeed}</span>
                         <div class="my-1.5 text-[#e8eaed]">${windDirArrow}</div>
                         ${getIntensityBar(hrWindPercent, 'bg-[#e8eaed]')}
@@ -1930,10 +2030,10 @@
 
                 // 4. Humidity Item
                 humidHTML += `
-                    <div class="hourly-stat-item flex flex-col items-center w-[75px] flex-shrink-0 pt-1 pb-2 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl" tabindex="0">
-                        <span class="text-[10px] text-[#9aa0a6] mb-3">${displayHour}</span>
+                    <div class="hourly-stat-item flex flex-col items-center w-[75px] flex-shrink-0 pt-1 pb-2 focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)] rounded-xl" tabindex="0">
+                        <span class="text-[10px] text-[var(--c-text-muted)] mb-3">${displayHour}</span>
                         <span class="text-xs text-white font-bold">${humidity}%</span>
-                        <div class="mt-2 w-8 flex justify-center">${getIntensityBar(humidity, 'bg-[#9aa0a6]')}</div>
+                        <div class="mt-2 w-8 flex justify-center">${getIntensityBar(humidity, 'bg-[var(--c-text-muted)]')}</div>
                     </div>
                 `;
 
@@ -1941,8 +2041,8 @@
                 const uvStatus = getUVCategory(uv);
                 const uvPercent = Math.min(100, (uv / 11) * 100);
                 uvHTML += `
-                    <div class="hourly-stat-item flex flex-col items-center w-[75px] flex-shrink-0 pt-1 pb-2 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl" tabindex="0">
-                        <span class="text-[10px] text-[#9aa0a6] mb-3">${displayHour}</span>
+                    <div class="hourly-stat-item flex flex-col items-center w-[75px] flex-shrink-0 pt-1 pb-2 focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)] rounded-xl" tabindex="0">
+                        <span class="text-[10px] text-[var(--c-text-muted)] mb-3">${displayHour}</span>
                         <span class="text-xs text-white font-bold">${uv.toFixed(1)}</span>
                         <div class="mt-2 w-8 flex justify-center">${getIntensityBar(uvPercent, uvStatus.color.split(' ')[0])}</div>
                     </div>
@@ -1960,8 +2060,8 @@
                 else if (aqi > 50) aqiColor = 'bg-yellow-400';
                 
                 aqiHTML += `
-                    <div class="hourly-stat-item flex flex-col items-center w-[75px] flex-shrink-0 pt-1 pb-2 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl" tabindex="0">
-                        <span class="text-[10px] text-[#9aa0a6] mb-3">${displayHour}</span>
+                    <div class="hourly-stat-item flex flex-col items-center w-[75px] flex-shrink-0 pt-1 pb-2 focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)] rounded-xl" tabindex="0">
+                        <span class="text-[10px] text-[var(--c-text-muted)] mb-3">${displayHour}</span>
                         <span class="text-xs text-white font-bold">${aqi}</span>
                         <div class="mt-2 w-8 flex justify-center">${getIntensityBar(Math.min(100, (aqi/300)*100), aqiColor)}</div>
                     </div>
@@ -1969,16 +2069,16 @@
 
                 const visRaw = data.hourly.visibility ? (data.hourly.visibility[i] || 0) : 0;
                 visHTML += `
-                    <div class="hourly-stat-item flex flex-col items-center w-[75px] flex-shrink-0 pt-1 pb-2 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl" tabindex="0">
-                        <span class="text-[10px] text-[#9aa0a6] mb-3">${displayHour}</span>
+                    <div class="hourly-stat-item flex flex-col items-center w-[75px] flex-shrink-0 pt-1 pb-2 focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)] rounded-xl" tabindex="0">
+                        <span class="text-[10px] text-[var(--c-text-muted)] mb-3">${displayHour}</span>
                         <span class="text-[11px] text-white font-bold whitespace-nowrap">${formatVisibility(visRaw)}</span>
                     </div>
                 `;
 
                 const pressRaw = data.hourly.surface_pressure ? (data.hourly.surface_pressure[i] || 0) : 0;
                 pressHTML += `
-                    <div class="hourly-stat-item flex flex-col items-center w-[75px] flex-shrink-0 pt-1 pb-2 focus:outline-none focus:ring-2 focus:ring-[#8ab4f8] rounded-xl" tabindex="0">
-                        <span class="text-[10px] text-[#9aa0a6] mb-3">${displayHour}</span>
+                    <div class="hourly-stat-item flex flex-col items-center w-[75px] flex-shrink-0 pt-1 pb-2 focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)] rounded-xl" tabindex="0">
+                        <span class="text-[10px] text-[var(--c-text-muted)] mb-3">${displayHour}</span>
                         <span class="text-[11px] text-white font-bold whitespace-nowrap">${formatPressure(pressRaw)}</span>
                     </div>
                 `;
@@ -2059,7 +2159,7 @@
                 let precipBarHeight = Math.min(100, (precipMm / 10) * 100);
                 if(precipProb > 0 && precipBarHeight < 5) precipBarHeight = 5;
 
-                const precipDisplay = (precipProb > 0 || precipMm > 0) ? `<span class="text-[#8ab4f8] font-bold">${formatPrecip(precipMm)}</span>` : `<span class="text-[#5f6368]">0 mm</span>`;
+                const precipDisplay = (precipProb > 0 || precipMm > 0) ? `<span class="text-[var(--c-accent)] font-bold">${formatPrecip(precipMm)}</span>` : `<span class="text-[#5f6368]">0 mm</span>`;
 
                 const targetDateStr = data.daily.time[i];
                 let startHr = data.hourly.time.findIndex(t => t.startsWith(targetDateStr));
@@ -2071,35 +2171,35 @@
                 const humidity = hrCount > 0 ? Math.round(sumHum / hrCount) : 0;
 
                 dailyHTML += `
-                    <div class="daily-tab flex flex-col items-center min-w-[95px] p-3 flex-shrink-0 border border-transparent rounded-2xl cursor-pointer transition-colors focus:outline-none focus:ring-2 focus:ring-[#8ab4f8]" onclick="selectDay(${i}, true)" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')selectDay(${i}, true);">
-                        <span class="text-[12px] font-medium text-[#9aa0a6] day-name">${dayName}</span>
+                    <div class="daily-tab flex flex-col items-center min-w-[95px] p-3 flex-shrink-0 border border-transparent rounded-2xl cursor-pointer transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)]" onclick="selectDay(${i}, true)" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')selectDay(${i}, true);">
+                        <span class="text-[12px] font-medium text-[var(--c-text-muted)] day-name">${dayName}</span>
                         <div class="my-1 scale-75 h-8 flex items-center justify-center">${icon}</div>
-                        <span class="text-[10px] text-[#9aa0a6] font-medium leading-none mb-1">Feels ${feelsLikeDaily}°</span>
+                        <span class="text-[10px] text-[var(--c-text-muted)] font-medium leading-none mb-1">Feels ${feelsLikeDaily}°</span>
                         <div class="text-[12px] font-bold mb-2 flex gap-1">
                             <span class="text-white">${maxTemp}°</span><span class="text-[#5f6368]">${minTemp}°</span>
                         </div>
                         <!-- Compact Inline Stats -->
-                        <div class="w-full flex flex-col gap-1 text-[10px] text-[#9aa0a6] border-t border-[#334155] pt-2 px-1">
+                        <div class="w-full flex flex-col gap-1 text-[10px] text-[var(--c-text-muted)] border-t border-[var(--c-border)] pt-2 px-1">
                             <div class="flex flex-col w-full mb-1">
                                 <div class="flex justify-between items-center w-full">
-                                    <span class="text-[#8ab4f8]"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg></span>
-                                    <span class="text-[#8ab4f8] font-bold">${precipMm > 0 ? formatPrecip(precipMm) : '0 mm'}</span>
+                                    <span class="text-[var(--c-accent)]"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg></span>
+                                    <span class="text-[var(--c-accent)] font-bold">${precipMm > 0 ? formatPrecip(precipMm) : '0 mm'}</span>
                                 </div>
-                                ${getIntensityBar(precipBarHeight, 'bg-[#8ab4f8]')}
+                                ${getIntensityBar(precipBarHeight, 'bg-[var(--c-accent)]')}
                             </div>
                             <div class="flex flex-col w-full mb-1">
                                 <div class="flex justify-between items-center w-full">
                                     <span class="text-[#e8eaed]"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path></svg></span>
-                                    <div class="flex items-center gap-0.5 text-white font-bold">${Math.round(windRaw)} <span class="text-[#9aa0a6]">${windDirArrow}</span></div>
+                                    <div class="flex items-center gap-0.5 text-white font-bold">${Math.round(windRaw)} <span class="text-[var(--c-text-muted)]">${windDirArrow}</span></div>
                                 </div>
                                 ${getIntensityBar(hrWindPercent, 'bg-[#e8eaed]')}
                             </div>
                             <div class="flex flex-col w-full">
                                 <div class="flex justify-between items-center w-full">
-                                    <span class="text-[#9aa0a6]"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg></span>
+                                    <span class="text-[var(--c-text-muted)]"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg></span>
                                     <span class="text-white font-bold">${humidity}%</span>
                                 </div>
-                                ${getIntensityBar(humidity, 'bg-[#9aa0a6]')}
+                                ${getIntensityBar(humidity, 'bg-[var(--c-text-muted)]')}
                             </div>
                         </div>
                     </div>
@@ -2123,16 +2223,16 @@
                     const icon = getWeatherIcon(mapWmoCode(iconCode), 1); 
 
                     const precipMm = currentHistoryData.daily.precipitation_sum[i] || 0;
-                    const precipDisplay = precipMm > 0 ? `<span class="text-[#8ab4f8] font-bold">${formatPrecip(precipMm)}</span>` : `<span class="text-[#5f6368]">0 mm</span>`;
+                    const precipDisplay = precipMm > 0 ? `<span class="text-[var(--c-accent)] font-bold">${formatPrecip(precipMm)}</span>` : `<span class="text-[#5f6368]">0 mm</span>`;
 
                     historyHTML += `
-                        <div class="daily-tab flex flex-col items-center min-w-[95px] p-3 flex-shrink-0 border border-[#334155] rounded-2xl bg-[#0f172a] transition-colors focus:outline-none">
-                            <span class="text-[10px] font-medium text-[#9aa0a6] text-center w-full truncate mb-1">${dayName}</span>
+                        <div class="daily-tab flex flex-col items-center min-w-[95px] p-3 flex-shrink-0 border border-[var(--c-border)] rounded-2xl bg-[var(--c-input)] transition-colors focus:outline-none">
+                            <span class="text-[10px] font-medium text-[var(--c-text-muted)] text-center w-full truncate mb-1">${dayName}</span>
                             <div class="my-1 scale-75 h-8 flex items-center justify-center">${icon}</div>
                             <div class="text-[12px] font-bold mb-2 flex gap-1">
                                 <span class="text-white">${maxTemp}°</span><span class="text-[#5f6368]">${minTemp}°</span>
                             </div>
-                            <div class="w-full flex flex-col gap-1 text-[10px] text-[#9aa0a6] border-t border-[#334155] pt-2 px-1 text-center">
+                            <div class="w-full flex flex-col gap-1 text-[10px] text-[var(--c-text-muted)] border-t border-[var(--c-border)] pt-2 px-1 text-center">
                                 ${precipDisplay}
                             </div>
                         </div>
@@ -2197,16 +2297,13 @@
             
             const windValRaw = data.daily.wind_speed_10m_max[dayIndex];
             const precipVal = data.daily.precipitation_probability_max[dayIndex];
-            
-            // Update Dynamic Scene for this day
-            updateDynamicScene(dominantDayCode, isDayCode, windValRaw, precipVal, humVal);
 
             // Highlight Tab
             document.querySelectorAll('.daily-tab').forEach((tab, idx) => {
                 const dayName = tab.querySelector('.day-name');
                 if (idx === dayIndex) {
-                    tab.classList.add('bg-[#8ab4f8]/20', 'border-[#8ab4f8]/50');
-                    if(dayName) dayName.classList.replace('text-[#9aa0a6]', 'text-[#8ab4f8]');
+                    tab.classList.add('bg-[var(--c-accent)]/20', 'border-[var(--c-accent)]/50');
+                    if(dayName) dayName.classList.replace('text-[var(--c-text-muted)]', 'text-[var(--c-accent)]');
                     
                     const container = document.getElementById('daily-container');
                     if (container && tab.parentElement === container) {
@@ -2216,8 +2313,8 @@
                         }
                     }
                 } else {
-                    tab.classList.remove('bg-[#8ab4f8]/20', 'border-[#8ab4f8]/50');
-                    if(dayName) dayName.classList.replace('text-[#8ab4f8]', 'text-[#9aa0a6]');
+                    tab.classList.remove('bg-[var(--c-accent)]/20', 'border-[var(--c-accent)]/50');
+                    if(dayName) dayName.classList.replace('text-[var(--c-accent)]', 'text-[var(--c-text-muted)]');
                 }
             });
 
@@ -2285,22 +2382,26 @@
             document.getElementById('sunset-marker').setAttribute('transform', `translate(${setPt.x}, ${setPt.y})`);
 
             let dotHour; let isNight = false; let sunStatusText = '';
-
+            let isActuallyDay = false; // Precise boolean for daytime
+            
             if (dayIndex === 0) {
                 dotHour = nowHour;
-                if (nowHour < riseHour) {
+                isActuallyDay = (nowHour >= riseHour && nowHour < setHour) || (riseHour > setHour && (nowHour >= riseHour || nowHour < setHour));
+                
+                if (!isActuallyDay) {
                     isNight = true;
-                    const diff = riseHour - nowHour;
+                    // Simple calculation for diff
+                    let diff = riseHour - nowHour;
+                    if (diff < 0) diff += 24;
                     sunStatusText = `Rise in ${Math.floor(diff)}h ${Math.round((diff%1)*60)}m`;
-                } else if (nowHour > setHour) {
-                    isNight = true;
-                    sunStatusText = 'Set';
                 } else {
                     isNight = false;
-                    const diff = setHour - nowHour;
+                    let diff = setHour - nowHour;
+                    if (diff < 0) diff += 24;
                     sunStatusText = `Set in ${Math.floor(diff)}h ${Math.round((diff%1)*60)}m`;
                 }
             } else {
+                isActuallyDay = true; 
                 dotHour = riseHour + duration / 2;
                 if (dotHour >= 24) dotHour -= 24;
                 isNight = false;
@@ -2310,7 +2411,7 @@
             const dotPt = getCoord(dotHour);
             document.getElementById('sun-dot').setAttribute('cx', dotPt.x);
             document.getElementById('sun-dot').setAttribute('cy', dotPt.y);
-            document.getElementById('sun-dot').setAttribute('fill', isNight ? '#8ab4f8' : '#fbbc04');
+            document.getElementById('sun-dot').setAttribute('fill', isNight ? 'var(--c-accent)' : '#fbbc04');
 
             document.getElementById('sun-status-text').textContent = sunStatusText;
 
@@ -2388,6 +2489,16 @@
             document.getElementById('moon-dot').setAttribute('cx', mDotPt.x);
             document.getElementById('moon-dot').setAttribute('cy', mDotPt.y);
             document.getElementById('moon-status-text').textContent = `${phaseName} • ${mMoonStatusText}`;
+            
+            // --- Update Dynamic Scene for this day ---
+            let activeCelestialPt;
+            if (dayIndex === 0) {
+                activeCelestialPt = isActuallyDay ? dotPt : mDotPt;
+                updateDynamicScene(dominantDayCode, isActuallyDay ? 1 : 0, windValRaw, precipVal, humVal, activeCelestialPt);
+            } else {
+                // For future days, simulate noon for layout
+                updateDynamicScene(dominantDayCode, 1, windValRaw, precipVal, humVal, {x: 50, y: 5});
+            }
         }
 
         // ==========================================================
@@ -2413,19 +2524,19 @@
             const lowerDesc = desc.toLowerCase();
             
             if (!isDay && (lowerDesc === 'clear' || lowerDesc === 'mostly clear')) {
-                return `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#8ab4f8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
+                return `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--c-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
             }
 
             if (lowerDesc.includes('rain') || lowerDesc.includes('drizzle') || lowerDesc.includes('shower')) {
-                return `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#8ab4f8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"></path><path d="M16 20l-2-2"></path><path d="M12 22l-2-2"></path><path d="M8 20l-2-2"></path></svg>`;
+                return `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--c-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"></path><path d="M16 20l-2-2"></path><path d="M12 22l-2-2"></path><path d="M8 20l-2-2"></path></svg>`;
             } else if (lowerDesc.includes('cloud')) {
-                return `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#9aa0a6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path></svg>`;
+                return `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--c-text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path></svg>`;
             } else if (lowerDesc.includes('snow') || lowerDesc.includes('ice') || lowerDesc.includes('freezing')) {
                 return `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#e8eaed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"></path><path d="M8 15h.01"></path><path d="M8 19h.01"></path><path d="M12 17h.01"></path><path d="M12 21h.01"></path><path d="M16 15h.01"></path><path d="M16 19h.01"></path></svg>`;
             } else if (lowerDesc.includes('storm') || lowerDesc.includes('thunder') || lowerDesc.includes('hail')) {
                 return `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#fce8b2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"></path><path d="m13 11-4 6h6l-4 6"></path></svg>`;
             } else if (lowerDesc.includes('fog')) {
-                return `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#9aa0a6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14h16"></path><path d="M4 18h16"></path><path d="M4 10h16"></path></svg>`;
+                return `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--c-text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14h16"></path><path d="M4 18h16"></path><path d="M4 10h16"></path></svg>`;
             } else {
                 return `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#fbbc04" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
             }
