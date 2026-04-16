@@ -529,94 +529,63 @@
                 <div class="section-header flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[var(--c-accent)] rounded-xl p-1 -m-1" onclick="toggleSection('celestial-section')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleSection('celestial-section');">
                     <h4 class="text-[#9aa0a6] text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2v6m-4.24-.76l-2.83-2.83M16.24 7.24l2.83-2.83M2 18h20M12 18a6 6 0 0 0-6-6h12a6 6 0 0 0-6 6z"/></svg>
-                        Sun & Moon Details
+                        Sun & Moon Trackers
                     </h4>
                     <svg class="chevron text-[var(--c-text-muted)]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </div>
                 <div class="content-wrapper hidden flex-col mt-2">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        
-                        <!-- Sun Tracker -->
                         <div class="flex flex-col items-center">
                             <h5 class="text-white text-sm font-medium mb-3">Sun Tracker</h5>
                             <div class="relative w-full max-w-[150px] aspect-square flex items-center justify-center mb-2">
                                 <svg viewBox="-10 -10 120 120" class="absolute inset-0 w-full h-full overflow-visible">
                                     <circle cx="50" cy="50" r="45" fill="none" stroke="var(--c-border)" stroke-width="2" stroke-dasharray="2 4"/>
                                     <path id="sun-arc-fill" d="" fill="none" stroke="#fbbc04" stroke-width="3" stroke-linecap="round" />
-                                    
                                     <text x="50" y="103" font-size="6" fill="#5f6368" text-anchor="middle" font-weight="600">00:00</text>
                                     <text x="50" y="-1" font-size="6" fill="#5f6368" text-anchor="middle" font-weight="600">12:00</text>
                                     <text x="-2" y="52" font-size="6" fill="#5f6368" text-anchor="end" font-weight="600">06:00</text>
                                     <text x="102" y="52" font-size="6" fill="#5f6368" text-anchor="start" font-weight="600">18:00</text>
-
-                                    <g id="sunrise-marker">
-                                        <circle cx="0" cy="0" r="2.5" fill="var(--c-bg)" stroke="#fbbc04" stroke-width="1.5"/>
-                                        <text x="0" y="-5" font-size="8" fill="#fbbc04" text-anchor="middle">🌅</text>
-                                    </g>
-                                    <g id="sunset-marker">
-                                        <circle cx="0" cy="0" r="2.5" fill="var(--c-bg)" stroke="#fbbc04" stroke-width="1.5"/>
-                                        <text x="0" y="-5" font-size="8" fill="#fbbc04" text-anchor="middle">🌇</text>
-                                    </g>
+                                    <g id="sunrise-marker"><circle cx="0" cy="0" r="2.5" fill="var(--c-bg)" stroke="#fbbc04" stroke-width="1.5"/><text x="0" y="-5" font-size="8" fill="#fbbc04" text-anchor="middle">🌅</text></g>
+                                    <g id="sunset-marker"><circle cx="0" cy="0" r="2.5" fill="var(--c-bg)" stroke="#fbbc04" stroke-width="1.5"/><text x="0" y="-5" font-size="8" fill="#fbbc04" text-anchor="middle">🌇</text></g>
                                     <circle id="sun-dot" cx="50" cy="5" r="4.5" fill="#fbbc04" stroke="var(--c-bg)" stroke-width="1.5" style="transition: all 1s ease-in-out;"/>
                                 </svg>
                                 <div id="sun-status-text" class="absolute text-[10px] text-white font-bold tracking-wide z-10 bg-[var(--c-card)] px-2.5 py-1 rounded-full border border-[var(--c-border)] shadow-md pointer-events-none whitespace-nowrap -bottom-2"></div>
                             </div>
                             <div class="flex justify-between w-full max-w-[200px] text-xs text-[var(--c-text-muted)] font-medium px-2 mt-4">
-                                <div class="flex flex-col items-center">
-                                    <span class="text-[9px] uppercase tracking-wider mb-0.5 text-[#5f6368]">Sunrise</span>
-                                    <span id="det-sunrise" class="text-white">--:--</span>
-                                </div>
-                                <div class="flex flex-col items-center">
-                                    <span class="text-[9px] uppercase tracking-wider mb-0.5 text-[#5f6368]">Sunset</span>
-                                    <span id="det-sunset" class="text-white">--:--</span>
-                                </div>
+                                <div class="flex flex-col items-center"><span class="text-[9px] uppercase tracking-wider mb-0.5 text-[#5f6368]">Sunrise</span><span id="det-sunrise" class="text-white">--:--</span></div>
+                                <div class="flex flex-col items-center"><span class="text-[9px] uppercase tracking-wider mb-0.5 text-[#5f6368]">Sunset</span><span id="det-sunset" class="text-white">--:--</span></div>
                             </div>
                             <div id="sun-percentages" class="text-[10px] text-[var(--c-text-muted)] mt-4 font-medium tracking-wide uppercase text-center w-full"></div>
                         </div>
 
-                        <!-- Moon Tracker -->
                         <div class="flex flex-col items-center sm:border-l border-[var(--c-border)] sm:pl-6 pt-6 sm:pt-0 border-t sm:border-t-0 mt-2 sm:mt-0">
                             <h5 class="text-white text-sm font-medium mb-3">Moon Phase</h5>
                             <div class="relative w-full max-w-[150px] aspect-square flex items-center justify-center mb-2">
                                 <svg viewBox="-10 -10 120 120" class="absolute inset-0 w-full h-full overflow-visible drop-shadow-xl">
                                     <circle cx="50" cy="50" r="45" fill="none" stroke="var(--c-border)" stroke-width="2" stroke-dasharray="2 4"/>
                                     <path id="moon-arc-fill" d="" fill="none" stroke="var(--c-accent)" stroke-width="3" stroke-linecap="round" />
-                                    
                                     <text x="50" y="103" font-size="6" fill="#5f6368" text-anchor="middle" font-weight="600">00:00</text>
                                     <text x="50" y="-1" font-size="6" fill="#5f6368" text-anchor="middle" font-weight="600">12:00</text>
                                     <text x="-2" y="52" font-size="6" fill="#5f6368" text-anchor="end" font-weight="600">06:00</text>
                                     <text x="102" y="52" font-size="6" fill="#5f6368" text-anchor="start" font-weight="600">18:00</text>
-
-                                    <!-- Big Center Moon SVG -->
                                     <circle cx="50" cy="50" r="20" fill="var(--c-input)" stroke="#5f6368" stroke-width="1"></circle>
                                     <path id="moon-phase-shape" fill="#e8eaed" d="" transform="translate(30, 30) scale(0.4)"></path>
-
-                                    <g id="moonrise-marker">
-                                        <circle cx="0" cy="0" r="2.5" fill="var(--c-bg)" stroke="var(--c-accent)" stroke-width="1.5"/>
-                                    </g>
-                                    <g id="moonset-marker">
-                                        <circle cx="0" cy="0" r="2.5" fill="var(--c-bg)" stroke="var(--c-accent)" stroke-width="1.5"/>
-                                    </g>
+                                    <g id="moonrise-marker"><circle cx="0" cy="0" r="2.5" fill="var(--c-bg)" stroke="var(--c-accent)" stroke-width="1.5"/></g>
+                                    <g id="moonset-marker"><circle cx="0" cy="0" r="2.5" fill="var(--c-bg)" stroke="var(--c-accent)" stroke-width="1.5"/></g>
                                     <circle id="moon-dot" cx="50" cy="5" r="4.5" fill="#e8eaed" stroke="var(--c-bg)" stroke-width="1.5" style="transition: all 1s ease-in-out;"/>
                                 </svg>
                                 <div id="moon-status-text" class="absolute text-[10px] text-white font-bold tracking-wide z-10 bg-[var(--c-card)] px-2.5 py-1 rounded-full border border-[var(--c-border)] shadow-md pointer-events-none whitespace-nowrap -bottom-2"></div>
                             </div>
                             <div class="flex justify-between w-full max-w-[200px] text-xs text-[var(--c-text-muted)] font-medium px-2 mt-4">
-                                <div class="flex flex-col items-center">
-                                    <span class="text-[9px] uppercase tracking-wider mb-0.5 text-[#5f6368]">Rise</span>
-                                    <span id="det-moonrise" class="text-white">--:--</span>
-                                </div>
-                                <div class="flex flex-col items-center">
-                                    <span class="text-[9px] uppercase tracking-wider mb-0.5 text-[#5f6368]">Set</span>
-                                    <span id="det-moonset" class="text-white">--:--</span>
-                                </div>
+                                <div class="flex flex-col items-center"><span class="text-[9px] uppercase tracking-wider mb-0.5 text-[#5f6368]">Rise</span><span id="det-moonrise" class="text-white">--:--</span></div>
+                                <div class="flex flex-col items-center"><span class="text-[9px] uppercase tracking-wider mb-0.5 text-[#5f6368]">Set</span><span id="det-moonset" class="text-white">--:--</span></div>
                             </div>
                             <div id="moon-details" class="text-[10px] text-[var(--c-text-muted)] mt-4 font-medium tracking-wide uppercase text-center w-full"></div>
                         </div>
-
                     </div>
                 </div>
             </div>
+
 
             <!-- 7-Day Weather History -->
             <div id="history-section" class="g-card p-4 sm:p-5 flex flex-col gap-4 mt-2 transition-all collapsed">
